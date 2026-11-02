@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.094227+00:00",
+  "url": "https://crates.io/api/v1/crates/pdfium-render",
+  "crate": {
+    "name": "pdfium-render",
+    "max_stable_version": "0.9.5",
+    "downloads": 3624287,
+    "recent_downloads": 1794787,
+    "repository": "https://github.com/ajrcarey/pdfium-render",
+    "updated_at": "2026-11-01T03:34:13.064344Z"
+  },
+  "versions": [
+    {
+      "num": "0.9.5",
+      "created_at": "2026-11-01T03:34:13.064344Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.61",
+      "downloads": 3151,
+      "checksum": "296b1146652b486ea6eea0d316e85ab6837ff69e8d2b1568e6fa7bc38bd4c00e",
+      "yanked": false
+    }
+  ]
+}

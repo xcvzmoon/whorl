@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.070351+00:00",
+  "url": "https://crates.io/api/v1/crates/ocrs",
+  "crate": {
+    "name": "ocrs",
+    "max_stable_version": "0.13.1",
+    "downloads": 518792,
+    "recent_downloads": 317149,
+    "repository": "https://github.com/robertknight/ocrs",
+    "updated_at": "2026-09-13T10:36:04.016407Z"
+  },
+  "versions": [
+    {
+      "num": "0.13.1",
+      "created_at": "2026-09-13T10:36:04.016407Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": null,
+      "downloads": 125458,
+      "checksum": "2e4192a7dbc7570398ef97ab2606799703b6ea11da53f637d705d44546614435",
+      "yanked": false
+    }
+  ]
+}

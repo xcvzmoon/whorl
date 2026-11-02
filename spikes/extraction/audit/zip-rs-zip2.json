@@ -1,0 +1,281 @@
+{
+  "queried_at": "2026-11-02T20:45:52.082709+00:00",
+  "repository": {
+    "full_name": "zip-rs/zip2",
+    "html_url": "https://github.com/zip-rs/zip2",
+    "pushed_at": "2026-11-02T20:36:45Z",
+    "updated_at": "2026-11-02T19:58:17Z",
+    "open_issues_count": 44,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "commits": [
+    {
+      "sha": "f73f31157a88344c9a7e456ee719dd702631bd1a",
+      "html_url": "https://github.com/zip-rs/zip2/commit/f73f31157a88344c9a7e456ee719dd702631bd1a",
+      "commit": {
+        "author": {
+          "name": "Chris Hennick",
+          "email": "4961925+Pr0methean@users.noreply.github.com",
+          "date": "2026-11-02T19:58:10Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T19:58:10Z"
+        },
+        "message": "Merge commit from fork\n\n* Fix: validate same path structure, same ASCII path components, same ASCII extension or no extension\n\n* cargo clippy --fix\n\n* cargo fmt --all\n\n* Switch from Cow to generic type\n\n* Simplify HeaderConsistencyMetadata to use one type parameter\n\n* Move test to zip_archive.rs so it can run in Miri\n\n* Preallocate Vec\n\n* cargo fmt --all\n\n* Use core::mem::discriminant rather than std",
+        "tree": {
+          "sha": "adf5ce3bc9aba9bcbf5a03cdff12b65248cdd15b",
+          "url": "https://api.github.com/repos/zip-rs/zip2/git/trees/adf5ce3bc9aba9bcbf5a03cdff12b65248cdd15b"
+        },
+        "url": "https://api.github.com/repos/zip-rs/zip2/git/commits/f73f31157a88344c9a7e456ee719dd702631bd1a",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6OtTCRC1aQ7uu5UhlAAAzkAQAHnfe7OjvLwZoQhTcBF/TwZB\nkCUgjRknnj2AB8ApsN9cQyK7XhNFnHFFl1EovArFlkS6lAAFUwUrxgvm0wvVM4md\nzl8/nzmUgz+1TQcXv1pLxj5I4RecbP2yksN956WlYziQmQbGCH7XYDtnjtR5Ru8e\nJUuv74x/ZaMYN1BK7v2NVNyu7RgHEjv+I7uV+bUCIoFQHxvjwflRe2EuupPmamFy\n/ZbWMyA91ZMuF3s2kKlk+QjhWrUZ1zHZZTCtrNR6aGL4DkIinYmDT31VaGTrklew\ni+W8nOPkRWPl1nEbJFFz/OGKFHjJeE5+DUbjitMAsIcqxBlwn5MFD2rRqAaQqCRg\nwAOyCCsHhIk45BMyDnA9qBujqmF2+bGGITS98Emacl+go4Y6n5q/4QtNuxOFVmeF\n3hbPm2Ig1IBXNQNYb7UWNa6Du5S+mZ5Z1/ov9BTn02dugccubZj0Y5yqQx+Ora8Y\nfSWXd5y3ADsJ0xXE/7k1WDxT90Op++QRxJcKoF7lyn6DDm0myXChlSHI5CvjXLzp\nVHE5bvG/nZmB2QQ9mNT9gEb/j2MqVgnr1/KNRx6cYhsI/u9coiFJXuN3NTQhw4xx\n26WBnL5lc48N3dE2Dlmd48O+C+yd+/V7dEDvOau1neK0fntFYRmzja64LbUnL+yd\nOyuEAzQyC/0z6ywdPbQJ\n=WlI5\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree adf5ce3bc9aba9bcbf5a03cdff12b65248cdd15b\nparent eac649af57efdd26b3185a7a0d42991ffd5c8f68\nauthor Chris Hennick <4961925+Pr0methean@users.noreply.github.com> 1793649490 -0800\ncommitter GitHub <noreply@github.com> 1793649490 -0800\n\nMerge commit from fork\n\n* Fix: validate same path structure, same ASCII path components, same ASCII extension or no extension\n\n* cargo clippy --fix\n\n* cargo fmt --all\n\n* Switch from Cow to generic type\n\n* Simplify HeaderConsistencyMetadata to use one type parameter\n\n* Move test to zip_archive.rs so it can run in Miri\n\n* Preallocate Vec\n\n* cargo fmt --all\n\n* Use core::mem::discriminant rather than std",
+          "verified_at": "2026-11-02T19:58:15Z"
+        }
+      }
+    },
+    {
+      "sha": "eac649af57efdd26b3185a7a0d42991ffd5c8f68",
+      "html_url": "https://github.com/zip-rs/zip2/commit/eac649af57efdd26b3185a7a0d42991ffd5c8f68",
+      "commit": {
+        "author": {
+          "name": "dependabot[bot]",
+          "email": "49699333+dependabot[bot]@users.noreply.github.com",
+          "date": "2026-11-02T10:36:50Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T10:36:50Z"
+        },
+        "message": "chore(deps): update lzma-rust2 requirement from ^0.23.0 to ^0.24.0 (#1252)\n\nUpdates the requirements on [lzma-rust2](https://github.com/hasenbanck/lzma-rust2) to permit the latest version.\n- [Changelog](https://github.com/hasenbanck/lzma-rust2/blob/master/CHANGELOG.md)\n- [Commits](https://github.com/hasenbanck/lzma-rust2/compare/v0.23.0...v0.24.0)\n\n---\nupdated-dependencies:\n- dependency-name: lzma-rust2\n  dependency-version: 0.24.0\n  dependency-type: direct:production\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+        "tree": {
+          "sha": "40f9182194fc52b306ca657343cc799638a08593",
+          "url": "https://api.github.com/repos/zip-rs/zip2/git/trees/40f9182194fc52b306ca657343cc799638a08593"
+        },
+        "url": "https://api.github.com/repos/zip-rs/zip2/git/commits/eac649af57efdd26b3185a7a0d42991ffd5c8f68",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6GfTCRC1aQ7uu5UhlAAAIDcQAFufURedsElRbFaAvKuPIijm\nNLGF5bHve1sIzQtabH9cLmImdf4aX4wVzvflkXne2A6/4OPhPZ5HqHG7kKX03j4T\nt4ez2yFCOYU7Jwi4we+JxHtmp/vPqlH3UfMa31iDf24nqtvJin32LLDcPA2R3OD6\nWjD7xUpbL8P42NefpO6lKcYdDLYa7KhSAtq9C/ji27ncwyu7T/WVw0+cni+K2Ko1\nUTQuy9fdpFxUBkdABYjfUla4pvlNcDNdABj0q53c2KhKzFagqAQVX0RB/tcDFq+R\nJM50a/O+n0OPmLdZaNvL021+ppLBRwTFLX9hr2woum4QE+0C3ZOMJnZRuQ4Mqbpf\nGmTDJ8HCgBqmLec+ShEGrBFU7iGE1K42ascdS0Y2ZvK8sUDIlL0ZdU4pofaMFE7+\n6jn+GvuMLsJgjJyJR1C6W8wXmYnjxQhAyS5RfudfbceAXJVm5BfF1ikhhgJnLuBK\nPHzWjazmIwt6pGi0bEM4rC++al5h0AeYCrl8UrRwnsNpoAp3oPRl+gNaEglXP8x8\nP0RTEle+CkT2E4TwpANUfRUJvoWXK/G+N3Cs4teodiEQUoySz8I1fxQ4Vlnz9d9w\nvVb+u7IdEcUiXidErxVvVhR6ESgS9bBg6dbhgweyfl5vSOgMmOmIPEddZ9OYkHxm\n7BYZPswtsIITmkNfvfwl\n=yrYa\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 40f9182194fc52b306ca657343cc799638a08593\nparent 1b431f6e3abe8155eb5d03de0a18aed472f7cc99\nauthor dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com> 1793615810 +0000\ncommitter GitHub <noreply@github.com> 1793615810 +0000\n\nchore(deps): update lzma-rust2 requirement from ^0.23.0 to ^0.24.0 (#1252)\n\nUpdates the requirements on [lzma-rust2](https://github.com/hasenbanck/lzma-rust2) to permit the latest version.\n- [Changelog](https://github.com/hasenbanck/lzma-rust2/blob/master/CHANGELOG.md)\n- [Commits](https://github.com/hasenbanck/lzma-rust2/compare/v0.23.0...v0.24.0)\n\n---\nupdated-dependencies:\n- dependency-name: lzma-rust2\n  dependency-version: 0.24.0\n  dependency-type: direct:production\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "verified_at": "2026-11-02T10:37:07Z"
+        }
+      }
+    },
+    {
+      "sha": "1b431f6e3abe8155eb5d03de0a18aed472f7cc99",
+      "html_url": "https://github.com/zip-rs/zip2/commit/1b431f6e3abe8155eb5d03de0a18aed472f7cc99",
+      "commit": {
+        "author": {
+          "name": "Chris Hennick",
+          "email": "4961925+Pr0methean@users.noreply.github.com",
+          "date": "2026-11-02T03:13:24Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T03:13:24Z"
+        },
+        "message": "chore: Release 9.2.2 (#1250)",
+        "tree": {
+          "sha": "e15d118c608f3dfa5521c91b3a03a1aea47d4522",
+          "url": "https://api.github.com/repos/zip-rs/zip2/git/trees/e15d118c608f3dfa5521c91b3a03a1aea47d4522"
+        },
+        "url": "https://api.github.com/repos/zip-rs/zip2/git/commits/1b431f6e3abe8155eb5d03de0a18aed472f7cc99",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq5//jCRC1aQ7uu5UhlAAAIgQQAA50hyIUlRHByI5juAZHqN9D\ngv0pxSx6dYBM60RSbOvgWf9DKfbe9zpNYmPr+amDvi3wRlgkLzKEaCJeQ6FU/Ep0\nq+MKxREZChfdMJQGzEEXqwKcrKmwIobU3lzmy6ZiZoowOqglhj0bt6NKRI7k799T\nf9K5pJvtsKBzqHVeX4Q57zVWKrC5RY1ZIXDXfjwuM9TzG90uRx7OEiiagZ/HIh4B\nc47dNZajgQnZCd8FT6hOzpHWS908FNFfyfT598jehCID9wc0VNVYZNdj1XsBJJMX\nu9TCnx1yCMRqBVrww93gRR/J+LDSG42kpAPClu1rUTnFwvCkcuFrcnSpgblUTMQN\nE67lffv1e9eChakQ4CBz+vXOv8oxBJorC748a89abhyzQq+WCHbV42Djz5ISutpw\nXRgXRDVEJexAMKarGpWyjwJ5Azp5pAgFurwX0+1mdeFYlKF4M0PoCiZDkYc3p0Iy\nlmMG/qntGyVJEgvxa+th06ry8NwO3CMtlG1R69Ac2l/mWi+IQKpNCIbgDjsBhXnY\nuxqla3mr1YWgHKIY9WMujhvE3bPHRIBc+MoFEZPKzcgu1q66LU0/IEJsVNXA2BrT\n/oD8FyUue7SkGEm3ACZzj2d9/b/ybFO0hBgrTQ4alXg2hNX2iIqjRAilBxYMxS0y\n9Y/pPPgo9Rh2fMfqorm6\n=JJ7m\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree e15d118c608f3dfa5521c91b3a03a1aea47d4522\nparent 39930cb5369387abb8aeee55db2aa8955e84380b\nauthor Chris Hennick <4961925+Pr0methean@users.noreply.github.com> 1793589204 +0000\ncommitter GitHub <noreply@github.com> 1793589204 +0000\n\nchore: Release 9.2.2 (#1250)",
+          "verified_at": "2026-11-02T03:13:40Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 1254,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1254",
+      "title": "test: condition tempfile use on cfg(not(miri))",
+      "state": "open",
+      "created_at": "2026-11-02T20:17:48Z",
+      "updated_at": "2026-11-02T20:37:18Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1254",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1254",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1254.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1254.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1253,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1253",
+      "title": "refactor: Replace std:: with core:: where possible",
+      "state": "open",
+      "created_at": "2026-11-02T20:11:28Z",
+      "updated_at": "2026-11-02T20:13:19Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1253",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1253",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1253.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1253.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1252,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1252",
+      "title": "chore(deps): update lzma-rust2 requirement from ^0.23.0 to ^0.24.0",
+      "state": "closed",
+      "created_at": "2026-11-02T10:04:09Z",
+      "updated_at": "2026-11-02T10:56:04Z",
+      "closed_at": "2026-11-02T10:56:01Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1252",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1252",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1252.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1252.patch",
+        "merged_at": "2026-11-02T10:56:01Z"
+      }
+    },
+    {
+      "number": 1251,
+      "html_url": "https://github.com/zip-rs/zip2/issues/1251",
+      "title": "impl TryFrom<ZipFileBuilder> for PreparedZipFile",
+      "state": "open",
+      "created_at": "2026-11-02T07:26:07Z",
+      "updated_at": "2026-11-02T07:26:07Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 1250,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1250",
+      "title": "chore: Release 9.2.2",
+      "state": "closed",
+      "created_at": "2026-11-02T02:41:15Z",
+      "updated_at": "2026-11-02T03:43:27Z",
+      "closed_at": "2026-11-02T03:43:26Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1250",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1250",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1250.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1250.patch",
+        "merged_at": "2026-11-02T03:43:25Z"
+      }
+    },
+    {
+      "number": 1249,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1249",
+      "title": "ci: add security permissions to style_and_docs.yml for SARIF upload",
+      "state": "closed",
+      "created_at": "2026-11-02T00:01:03Z",
+      "updated_at": "2026-11-02T01:08:24Z",
+      "closed_at": "2026-11-02T01:08:22Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1249",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1249",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1249.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1249.patch",
+        "merged_at": "2026-11-02T01:08:22Z"
+      }
+    },
+    {
+      "number": 1248,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1248",
+      "title": "ci: remove job-level concurrency group from release-plz.yml",
+      "state": "closed",
+      "created_at": "2026-11-01T22:30:51Z",
+      "updated_at": "2026-11-01T23:06:21Z",
+      "closed_at": "2026-11-01T23:06:20Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1248",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1248",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1248.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1248.patch",
+        "merged_at": "2026-11-01T23:06:20Z"
+      }
+    },
+    {
+      "number": 1247,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1247",
+      "title": "ci: Remove redundant cache; consolidate style_and_docs into 3 jobs; configure release-plz concurrency",
+      "state": "closed",
+      "created_at": "2026-11-01T20:27:39Z",
+      "updated_at": "2026-11-01T22:22:07Z",
+      "closed_at": "2026-11-01T22:22:05Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1247",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1247",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1247.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1247.patch",
+        "merged_at": "2026-11-01T22:22:05Z"
+      }
+    },
+    {
+      "number": 1246,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1246",
+      "title": "ci: [StepSecurity] Apply security best practices (workflow-level permissions for style_and_docs)",
+      "state": "closed",
+      "created_at": "2026-11-01T20:23:48Z",
+      "updated_at": "2026-11-01T22:22:06Z",
+      "closed_at": "2026-11-01T22:22:05Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1246",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1246",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1246.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1246.patch",
+        "merged_at": "2026-11-01T22:22:05Z"
+      }
+    },
+    {
+      "number": 1245,
+      "html_url": "https://github.com/zip-rs/zip2/pull/1245",
+      "title": "ci: Prevent CI Complete from reaching Skipped state, which is considered passed when merging PRs",
+      "state": "closed",
+      "created_at": "2026-11-01T20:06:43Z",
+      "updated_at": "2026-11-01T21:31:23Z",
+      "closed_at": "2026-11-01T21:31:22Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/zip-rs/zip2/pulls/1245",
+        "html_url": "https://github.com/zip-rs/zip2/pull/1245",
+        "diff_url": "https://github.com/zip-rs/zip2/pull/1245.diff",
+        "patch_url": "https://github.com/zip-rs/zip2/pull/1245.patch",
+        "merged_at": "2026-11-01T21:31:22Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "v9.2.2",
+    "published_at": "2026-11-02T03:44:13Z",
+    "html_url": "https://github.com/zip-rs/zip2/releases/tag/v9.2.2"
+  }
+}

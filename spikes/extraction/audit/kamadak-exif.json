@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.075653+00:00",
+  "url": "https://crates.io/api/v1/crates/kamadak-exif",
+  "crate": {
+    "name": "kamadak-exif",
+    "max_stable_version": "0.6.1",
+    "downloads": 16399152,
+    "recent_downloads": 4373382,
+    "repository": "https://github.com/kamadak/exif-rs",
+    "updated_at": "2024-11-06T15:22:32.903392Z"
+  },
+  "versions": [
+    {
+      "num": "0.6.1",
+      "created_at": "2024-11-06T15:22:32.903392Z",
+      "license": "BSD-2-Clause",
+      "rust_version": "1.60",
+      "downloads": 6715095,
+      "checksum": "1130d80c7374efad55a117d715a3af9368f0fa7a2c54573afc15a188cd984837",
+      "yanked": false
+    }
+  ]
+}

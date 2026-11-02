@@ -1,0 +1,281 @@
+{
+  "queried_at": "2026-11-02T20:45:52.090325+00:00",
+  "repository": {
+    "full_name": "J-F-Liu/lopdf",
+    "html_url": "https://github.com/J-F-Liu/lopdf",
+    "pushed_at": "2026-11-02T04:07:29Z",
+    "updated_at": "2026-11-02T19:24:34Z",
+    "open_issues_count": 88,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "commits": [
+    {
+      "sha": "8d02dcb1a4547340ed7c34ea5a43f73d3dd34952",
+      "html_url": "https://github.com/J-F-Liu/lopdf/commit/8d02dcb1a4547340ed7c34ea5a43f73d3dd34952",
+      "commit": {
+        "author": {
+          "name": "Luis Figueroa",
+          "email": "62305361+LuisFigueroaG@users.noreply.github.com",
+          "date": "2026-11-02T04:07:29Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T04:07:29Z"
+        },
+        "message": "fix: follow referenced arrays in the named destinations tree (#657)\n\nget_named_destinations read /Kids and /Names of each name tree node\nwith as_array(), so a node that wrote either one as an indirect\nreference to an array failed the whole walk, and get_outlines and\nget_toc returned an ObjectType error instead of the bookmarks. A /D\nwritten as a reference didn't fail, but that destination was skipped\nand the bookmark using it was left out. Now these values are\ndereferenced before they are read as arrays.",
+        "tree": {
+          "sha": "efb0a9358efa223531dc58f0da6bfcbc6bf62b6f",
+          "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/trees/efb0a9358efa223531dc58f0da6bfcbc6bf62b6f"
+        },
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/commits/8d02dcb1a4547340ed7c34ea5a43f73d3dd34952",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6AyBCRC1aQ7uu5UhlAAAuZQQADdYX314K3fJntp6YGEa0sRr\nsvJ12yMl16C5kpwRd/edMuV7OqVpYkmabmgiiC1STMC+31ezfI+2ntt0Bdf4YCfb\nEc6S3zqMtK5mQq+uBBGV1drljayRQFN+OdiLMQZL4u6bhIFtpPVbWkoBQg/pOqWa\nlvCB29EOP84wNvDTXMSe4fsR2y6O2eC0iMLA8B+C62RhuY3EoNWSAZmXQ9WbRjrC\nQTLziQ97Le+tgekXrwXU905HiiwPTf/XbwV3xb3ghfnOH1tg/pTUzuG71929uppV\nlp10PxHj/9iXpbCYUIXp5Um79wjSttny7ut/boLsIadLqzXHVPd8xZ0xb/N3SjCo\n1taq2sD0qXTMqhbnOk5N4t768rLfeo9AQkJISrxQlWw/wfDICxNWGLXYY3lG7TqK\nt0YqeIyEjgNwbCkS8q9k2l+zNYyZJQgDABuJ8oIIGtyAvgdRibfLraNq037L593T\npZmd4G68sT/F4nBSBe+WvVntXB1gmW7IRPP9n4QgFzpoeYDR1tUhNnh+i2b4Oyva\nImwbjkWhPy9VlCfDSss+RG5ZMoedSVKIsk/Z9GmHVnv2A3MuPovY5BCsk7bbNH2u\ned/5rTFMLRSkXfwuMQk4J1zg31tQafO2mcwmyZkKY06XV6QW18UU8C/iQTzPbiLn\nCz8lDwE8zudKGpuPD4eX\n=3JKG\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree efb0a9358efa223531dc58f0da6bfcbc6bf62b6f\nparent 0bc0f879df09390d77d7ecdc9ac9c2bf1f721c39\nauthor Luis Figueroa <62305361+LuisFigueroaG@users.noreply.github.com> 1793592449 -0300\ncommitter GitHub <noreply@github.com> 1793592449 +0800\n\nfix: follow referenced arrays in the named destinations tree (#657)\n\nget_named_destinations read /Kids and /Names of each name tree node\nwith as_array(), so a node that wrote either one as an indirect\nreference to an array failed the whole walk, and get_outlines and\nget_toc returned an ObjectType error instead of the bookmarks. A /D\nwritten as a reference didn't fail, but that destination was skipped\nand the bookmark using it was left out. Now these values are\ndereferenced before they are read as arrays.",
+          "verified_at": "2026-11-02T04:07:29Z"
+        }
+      }
+    },
+    {
+      "sha": "0bc0f879df09390d77d7ecdc9ac9c2bf1f721c39",
+      "html_url": "https://github.com/J-F-Liu/lopdf/commit/0bc0f879df09390d77d7ecdc9ac9c2bf1f721c39",
+      "commit": {
+        "author": {
+          "name": "Luis Figueroa",
+          "email": "62305361+LuisFigueroaG@users.noreply.github.com",
+          "date": "2026-10-31T12:15:41Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-31T12:15:41Z"
+        },
+        "message": "fix: return an inherited /Resources dictionary from get_page_resources (#654)\n\nget_page_resources only returned a /Resources dictionary written into\nthe page itself, and on the ancestors it only followed references. A\npage inheriting a /Resources dictionary written directly into a /Pages\nnode got no resources at all, so get_page_fonts was empty and\nextract_text, replace_text and replace_partial_text could not decode\nits text. Now the nearest /Resources is returned when it is a\ndictionary, whether it is on the page or on an ancestor.",
+        "tree": {
+          "sha": "9a205268c2438cfa16592ac078ac3be84cfa827e",
+          "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/trees/9a205268c2438cfa16592ac078ac3be84cfa827e"
+        },
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/commits/0bc0f879df09390d77d7ecdc9ac9c2bf1f721c39",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq5dvtCRC1aQ7uu5UhlAAA2SMQAJmLoMnNNfkpSX4k9WMKSJaj\nKIK8ezLDO+2MLLl8tyZiJSt3V1uBP450nTwOpRxP+W/rUsoghTfYeMai/80E1A4N\nMwM6ZcssaHLieyp41edG+aLmNcr9ST1oNBJmypRJ2G3/ocPDVqzxXGvHR3EOZYSW\nAs29nj1JpQlYoY6w0hTOiVJpa6s4+/hN2UJYpZs5knVZDXmmyjpd40iLXAWgcJBF\nsxG9sVv5rl6Cj+4GpcozIBLMiBJGxVNHBcMKdP0gExEPu1foz4Xp1hNteE3vqTJ1\n608WA6drO6e7fgpjHNWAKogOvjKEffyK+nWiXeWxPemv2UhPNxEKwqP8rQ5j93jd\nH3JnoymoclCHp5MJhhtOSst1mvk2loprxowPaH/dpxMOn0WH0iabpGtBsZhakzNv\nhikplT6FARQZylyuBd86p8lKTLoKmdLRIVDO/G4M2LBvaA1jdkRbdKM5sSVrPVhl\nMqmAyHsBfP0tMvnpaBug2tfrVSrm5Rd/0BfTCcfHNR2hfBHUctHhGMshVhqG4fOY\ngLVIFdzxihQ9AYz56/IiNdv+jDofNZhW93nTVTaG2WsjeDEoJ6SR4LKTRvm46X2P\n8HgB3XC0zSITqwaamF4zFHW35W/+ZF/6uABWmhnmpxDKmDQ3cCr/VQRaysGUo3gx\nnLJozDUOQgc/qxOGsIp7\n=X+hh\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 9a205268c2438cfa16592ac078ac3be84cfa827e\nparent be05f10eed9f33343215bd4e0c3d965b77cc1955\nauthor Luis Figueroa <62305361+LuisFigueroaG@users.noreply.github.com> 1793448941 -0300\ncommitter GitHub <noreply@github.com> 1793448941 +0800\n\nfix: return an inherited /Resources dictionary from get_page_resources (#654)\n\nget_page_resources only returned a /Resources dictionary written into\nthe page itself, and on the ancestors it only followed references. A\npage inheriting a /Resources dictionary written directly into a /Pages\nnode got no resources at all, so get_page_fonts was empty and\nextract_text, replace_text and replace_partial_text could not decode\nits text. Now the nearest /Resources is returned when it is a\ndictionary, whether it is on the page or on an ancestor.",
+          "verified_at": "2026-10-31T12:15:41Z"
+        }
+      }
+    },
+    {
+      "sha": "be05f10eed9f33343215bd4e0c3d965b77cc1955",
+      "html_url": "https://github.com/J-F-Liu/lopdf/commit/be05f10eed9f33343215bd4e0c3d965b77cc1955",
+      "commit": {
+        "author": {
+          "name": "Ryan Duguid",
+          "email": "ryan@duguid.com.au",
+          "date": "2026-10-30T09:45:03Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-30T09:45:03Z"
+        },
+        "message": "fix: parse dates that leave out the UT offset (#652)\n\nA PDF date such as D:20240115123045 has a time of day but no UT offset.\nThe chrono, jiff and time conversions only accepted a time of day with an\noffset (or Z), so they all returned an error for it. Read such a date, with\nor without seconds, as GMT, as they already do for a date without a time\nof day.\n\nCo-authored-by: Ryan Duguid <ryanduguid@users.noreply.github.com>",
+        "tree": {
+          "sha": "edfa3afc98170b6a2f0edbc2967f760c9759dbbb",
+          "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/trees/edfa3afc98170b6a2f0edbc2967f760c9759dbbb"
+        },
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/git/commits/be05f10eed9f33343215bd4e0c3d965b77cc1955",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq5GcfCRC1aQ7uu5UhlAAAXPEQAJslXxLNBLvzcTN+GFocq0vT\neoJO23tgWYncPW5+bLtozispO5JYjJzQ37FH5gCUyLQ4XEjVLPb2DPxTTu/XiGxy\n5pllrM0//0kOIWO+aEvWuLVHZ9vw9RITgNzyti27XUHOFKgeDthv+30FMFgA6NRc\nFb4C4NAeFi2PmXXNW1/HcGNHBJNelMtDJzcVkgAMJ7R47FkYvPzIFL+C7tleo6Sf\nWB1ryoUcoOpPl69U9PBKbIanZ6/pdl87myCs1YMjDvJAKmpvbqgfSBXWVUMsJM9Y\nBGsiUkK77iDmOKjs59yZeustLOnrVl/PHqkxvxSpsooNxeliYEqXGXXNRj2taf5Y\nb6fy77myxWl9/gyokQ6BluTABpyEpx1DHy9o1iIPWHJMDdVCzIpT5R5CaqjtoAm3\nF5KyCMdRXxO6jz+5Hn/YFFRCSgulTy1VUQTUAXt9Bo2CzD8pr3eE0SCgCmrJqrBi\n52isw9Gm69YmxNt7D+33cwY7ABeGfVsgLnrNLlN38BVhh6yY6KYU8DrTDmtj6C3L\n1Yw3VR9wP9CVBGX9P26SNdeRzTZqQU6HjCOv/i0B3HBOvK43m62MTFgcI/XQVEzT\noF5P8x8I7IpuYclymVSF+bRY4MBrcaWZKvDRuSWzDpcHGYc0BIT4UwElKqdTTXmV\naXxoUaHNm62sT2EXZsRh\n=6Jhy\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree edfa3afc98170b6a2f0edbc2967f760c9759dbbb\nparent 5703b592275844985a468087d7c72f0191ecf4c5\nauthor Ryan Duguid <ryan@duguid.com.au> 1793353503 +1100\ncommitter GitHub <noreply@github.com> 1793353503 +0800\n\nfix: parse dates that leave out the UT offset (#652)\n\nA PDF date such as D:20240115123045 has a time of day but no UT offset.\nThe chrono, jiff and time conversions only accepted a time of day with an\noffset (or Z), so they all returned an error for it. Read such a date, with\nor without seconds, as GMT, as they already do for a date without a time\nof day.\n\nCo-authored-by: Ryan Duguid <ryanduguid@users.noreply.github.com>",
+          "verified_at": "2026-10-30T09:45:03Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 659,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/659",
+      "title": "fix: resolve a referenced /Title on outline items that use /Dest",
+      "state": "open",
+      "created_at": "2026-11-02T20:26:39Z",
+      "updated_at": "2026-11-02T20:26:39Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/659",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/659",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/659.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/659.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 658,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/658",
+      "title": "perf: build ToUnicode reverse map lazily; stop cloning objects when saving with object streams",
+      "state": "closed",
+      "created_at": "2026-11-02T10:19:38Z",
+      "updated_at": "2026-11-02T12:24:34Z",
+      "closed_at": "2026-11-02T12:24:34Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/658",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/658",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/658.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/658.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 657,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/657",
+      "title": "fix: follow referenced arrays in the named destinations tree",
+      "state": "closed",
+      "created_at": "2026-10-31T21:22:35Z",
+      "updated_at": "2026-11-02T04:07:29Z",
+      "closed_at": "2026-11-02T04:07:29Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/657",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/657",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/657.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/657.patch",
+        "merged_at": "2026-11-02T04:07:29Z"
+      }
+    },
+    {
+      "number": 656,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/656",
+      "title": "fix: bound stream decompression by default",
+      "state": "open",
+      "created_at": "2026-10-31T16:19:48Z",
+      "updated_at": "2026-10-31T16:19:48Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/656",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/656",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/656.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/656.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 655,
+      "html_url": "https://github.com/J-F-Liu/lopdf/issues/655",
+      "title": "Requesting a private channel for a security report",
+      "state": "open",
+      "created_at": "2026-10-30T14:34:42Z",
+      "updated_at": "2026-10-31T12:21:03Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 654,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/654",
+      "title": "fix: return an inherited /Resources dictionary from get_page_resources",
+      "state": "closed",
+      "created_at": "2026-10-30T12:53:40Z",
+      "updated_at": "2026-10-31T12:15:42Z",
+      "closed_at": "2026-10-31T12:15:41Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/654",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/654",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/654.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/654.patch",
+        "merged_at": "2026-10-31T12:15:41Z"
+      }
+    },
+    {
+      "number": 653,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/653",
+      "title": "fix: do not print the file encryption key and passwords in Debug output",
+      "state": "closed",
+      "created_at": "2026-10-30T06:55:16Z",
+      "updated_at": "2026-10-30T09:55:32Z",
+      "closed_at": "2026-10-30T09:25:12Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/653",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/653",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/653.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/653.patch",
+        "merged_at": "2026-10-30T09:25:12Z"
+      }
+    },
+    {
+      "number": 652,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/652",
+      "title": "fix: parse dates that leave out the UT offset",
+      "state": "closed",
+      "created_at": "2026-10-30T02:05:25Z",
+      "updated_at": "2026-11-02T20:38:03Z",
+      "closed_at": "2026-10-30T09:45:03Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/652",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/652",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/652.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/652.patch",
+        "merged_at": "2026-10-30T09:45:03Z"
+      }
+    },
+    {
+      "number": 651,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/651",
+      "title": "fix: copy a referenced /XObject in IncrementalDocument::add_xobject",
+      "state": "closed",
+      "created_at": "2026-10-29T23:55:00Z",
+      "updated_at": "2026-10-30T09:24:48Z",
+      "closed_at": "2026-10-30T09:24:47Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/651",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/651",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/651.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/651.patch",
+        "merged_at": "2026-10-30T09:24:47Z"
+      }
+    },
+    {
+      "number": 650,
+      "html_url": "https://github.com/J-F-Liu/lopdf/pull/650",
+      "title": "fix: follow a referenced /ExtGState in add_graphics_state",
+      "state": "closed",
+      "created_at": "2026-10-29T12:29:55Z",
+      "updated_at": "2026-10-29T13:04:49Z",
+      "closed_at": "2026-10-29T13:04:49Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/J-F-Liu/lopdf/pulls/650",
+        "html_url": "https://github.com/J-F-Liu/lopdf/pull/650",
+        "diff_url": "https://github.com/J-F-Liu/lopdf/pull/650.diff",
+        "patch_url": "https://github.com/J-F-Liu/lopdf/pull/650.patch",
+        "merged_at": "2026-10-29T13:04:49Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "v0.46.0",
+    "published_at": "2026-10-21T06:34:32Z",
+    "html_url": "https://github.com/J-F-Liu/lopdf/releases/tag/v0.46.0"
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "queried_at": "2026-11-02T20:45:52.057798+00:00",
+  "repository": {
+    "full_name": "bblanchon/pdfium-binaries",
+    "html_url": "https://github.com/bblanchon/pdfium-binaries",
+    "pushed_at": "2026-10-26T15:18:57Z",
+    "updated_at": "2026-11-02T07:46:55Z",
+    "open_issues_count": 33,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "commits": [
+    {
+      "sha": "4bdb7acd45b39ef6a7fc2a5b4c83f0398e45c9a6",
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/commit/4bdb7acd45b39ef6a7fc2a5b4c83f0398e45c9a6",
+      "commit": {
+        "author": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T11:07:02Z"
+        },
+        "committer": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T11:07:02Z"
+        },
+        "message": "Licenses: update location of `openjpeg.c`\n\nCaused by: https://pdfium.googlesource.com/pdfium/+/cd92f0efef622293bae83bc981b92374edd87f02",
+        "tree": {
+          "sha": "92363b1631aba142c2d865ac80403bbb162dab6e",
+          "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/trees/92363b1631aba142c2d865ac80403bbb162dab6e"
+        },
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/commits/4bdb7acd45b39ef6a7fc2a5b4c83f0398e45c9a6",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "246d87a84c134f57e5631cafbb17f0a739bc7c49",
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/commit/246d87a84c134f57e5631cafbb17f0a739bc7c49",
+      "commit": {
+        "author": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T11:06:14Z"
+        },
+        "committer": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T11:06:14Z"
+        },
+        "message": "Licenses: update location of `openjpeg.c`\n\nCaused by: https://pdfium.googlesource.com/pdfium/+/f023a9432c0c6d7fd5ac96286badae8bf884e6f7",
+        "tree": {
+          "sha": "ee98ad53eae204aef4ceb7060c6a9fdc4067bd07",
+          "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/trees/ee98ad53eae204aef4ceb7060c6a9fdc4067bd07"
+        },
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/commits/246d87a84c134f57e5631cafbb17f0a739bc7c49",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "71f3e600783088bc4e2fb2f1f238b4696d2873b8",
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/commit/71f3e600783088bc4e2fb2f1f238b4696d2873b8",
+      "commit": {
+        "author": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T10:47:00Z"
+        },
+        "committer": {
+          "name": "Benoit Blanchon",
+          "email": "git@benoitblanchon.fr",
+          "date": "2026-10-26T10:47:13Z"
+        },
+        "message": "Licenses: update location of `lcms2.h`\n\nCaused by: https://pdfium.googlesource.com/pdfium/+/01eee861c6485b30060140ed20b5a493e53fa00a",
+        "tree": {
+          "sha": "a3bface26e774c23842232fe903bf170376a1ce6",
+          "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/trees/a3bface26e774c23842232fe903bf170376a1ce6"
+        },
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/git/commits/71f3e600783088bc4e2fb2f1f238b4696d2873b8",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 247,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/issues/247",
+      "title": "Release 8076: Windows runtime version and redistribution documentation",
+      "state": "open",
+      "created_at": "2026-10-18T19:53:42Z",
+      "updated_at": "2026-11-01T02:31:06Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 246,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/246",
+      "title": "Musl: add ARM builds",
+      "state": "closed",
+      "created_at": "2026-10-08T20:42:46Z",
+      "updated_at": "2026-10-09T16:11:11Z",
+      "closed_at": "2026-10-09T09:07:48Z",
+      "comments": 4,
+      "pull_request": {
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/pulls/246",
+        "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/246",
+        "diff_url": "https://github.com/bblanchon/pdfium-binaries/pull/246.diff",
+        "patch_url": "https://github.com/bblanchon/pdfium-binaries/pull/246.patch",
+        "merged_at": "2026-10-09T09:07:48Z"
+      }
+    },
+    {
+      "number": 245,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/245",
+      "title": "iOS and Mac Catalyst: package PDFium as frameworks for App Store apps",
+      "state": "closed",
+      "created_at": "2026-10-05T07:38:58Z",
+      "updated_at": "2026-10-26T09:21:43Z",
+      "closed_at": "2026-10-26T09:19:09Z",
+      "comments": 12,
+      "pull_request": {
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/pulls/245",
+        "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/245",
+        "diff_url": "https://github.com/bblanchon/pdfium-binaries/pull/245.diff",
+        "patch_url": "https://github.com/bblanchon/pdfium-binaries/pull/245.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 244,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/issues/244",
+      "title": "licenses/ is missing HarfBuzz, dragonbox and libc++, and includes libpng/simdutf from test-only targets",
+      "state": "closed",
+      "created_at": "2026-10-03T04:22:25Z",
+      "updated_at": "2026-10-05T17:15:43Z",
+      "closed_at": "2026-10-05T13:56:06Z",
+      "comments": 2,
+      "pull_request": null
+    },
+    {
+      "number": 243,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/issues/243",
+      "title": "Request: publish a /MD (dynamic CRT) Windows static build in addition to the current /MT build",
+      "state": "closed",
+      "created_at": "2026-09-14T06:56:19Z",
+      "updated_at": "2026-10-26T11:36:43Z",
+      "closed_at": "2026-10-22T14:30:18Z",
+      "comments": 4,
+      "pull_request": null
+    },
+    {
+      "number": 242,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/issues/242",
+      "title": "Missing resolved build and licence records for chromium/7999 Windows x64",
+      "state": "open",
+      "created_at": "2026-09-08T20:53:09Z",
+      "updated_at": "2026-09-08T20:53:09Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 241,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/issues/241",
+      "title": "Publish PDFium to conda-forge",
+      "state": "open",
+      "created_at": "2026-08-28T03:30:07Z",
+      "updated_at": "2026-10-03T10:40:13Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 240,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/240",
+      "title": "Ship libpdfium.a and the C++ headers in the WebAssembly package",
+      "state": "open",
+      "created_at": "2026-08-24T00:57:23Z",
+      "updated_at": "2026-10-19T14:19:52Z",
+      "closed_at": null,
+      "comments": 4,
+      "pull_request": {
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/pulls/240",
+        "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/240",
+        "diff_url": "https://github.com/bblanchon/pdfium-binaries/pull/240.diff",
+        "patch_url": "https://github.com/bblanchon/pdfium-binaries/pull/240.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 239,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/239",
+      "title": "Publish static Apple packages",
+      "state": "closed",
+      "created_at": "2026-08-24T00:55:29Z",
+      "updated_at": "2026-08-25T15:40:43Z",
+      "closed_at": "2026-08-25T15:40:43Z",
+      "comments": 5,
+      "pull_request": {
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/pulls/239",
+        "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/239",
+        "diff_url": "https://github.com/bblanchon/pdfium-binaries/pull/239.diff",
+        "patch_url": "https://github.com/bblanchon/pdfium-binaries/pull/239.patch",
+        "merged_at": "2026-08-25T15:40:43Z"
+      }
+    },
+    {
+      "number": 238,
+      "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/238",
+      "title": "Fix static macOS/iOS builds: use system libc++ and link required Apple frameworks",
+      "state": "closed",
+      "created_at": "2026-08-24T00:22:22Z",
+      "updated_at": "2026-08-26T11:23:09Z",
+      "closed_at": "2026-08-26T11:23:09Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/bblanchon/pdfium-binaries/pulls/238",
+        "html_url": "https://github.com/bblanchon/pdfium-binaries/pull/238",
+        "diff_url": "https://github.com/bblanchon/pdfium-binaries/pull/238.diff",
+        "patch_url": "https://github.com/bblanchon/pdfium-binaries/pull/238.patch",
+        "merged_at": "2026-08-26T11:23:09Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "chromium/8125",
+    "published_at": "2026-10-26T15:18:57Z",
+    "html_url": "https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/8125"
+  }
+}

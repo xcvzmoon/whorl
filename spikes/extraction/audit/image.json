@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.106870+00:00",
+  "url": "https://crates.io/api/v1/crates/image",
+  "crate": {
+    "name": "image",
+    "max_stable_version": "0.25.10",
+    "downloads": 235812453,
+    "recent_downloads": 73390566,
+    "repository": "https://github.com/image-rs/image",
+    "updated_at": "2026-03-10T16:29:18.250581Z"
+  },
+  "versions": [
+    {
+      "num": "0.25.10",
+      "created_at": "2026-03-10T16:29:18.250581Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.88.0",
+      "downloads": 77602805,
+      "checksum": "85ab80394333c02fe689eaf900ab500fbd0c2213da414687ebf995a65d5a6104",
+      "yanked": false
+    }
+  ]
+}

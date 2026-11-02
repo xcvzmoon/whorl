@@ -1,0 +1,32 @@
+{
+  "queried_at": "2026-11-02T20:45:52.068906+00:00",
+  "url": "https://crates.io/api/v1/crates/rten",
+  "crate": {
+    "name": "rten",
+    "max_stable_version": "0.27.0",
+    "downloads": 2119903,
+    "recent_downloads": 1011824,
+    "repository": "https://github.com/robertknight/rten",
+    "updated_at": "2026-10-02T06:34:50.476157Z"
+  },
+  "versions": [
+    {
+      "num": "0.27.0",
+      "created_at": "2026-10-02T06:34:50.476157Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.94.0",
+      "downloads": 40929,
+      "checksum": "639c5d2ce961f3e154878d1d48c2ac3451e5a6ea5d9c0b0d5f0da362f4c57dab",
+      "yanked": false
+    },
+    {
+      "num": "0.26.0",
+      "created_at": "2026-08-29T10:02:40.175375Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.94.0",
+      "downloads": 144471,
+      "checksum": "bf7741649977427aa13009537ac9a8fe1a503b0aa58784069ce8f117e47eb6ab",
+      "yanked": false
+    }
+  ]
+}

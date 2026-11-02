@@ -1,0 +1,269 @@
+{
+  "queried_at": "2026-11-02T20:45:52.095198+00:00",
+  "repository": {
+    "full_name": "kamadak/exif-rs",
+    "html_url": "https://github.com/kamadak/exif-rs",
+    "pushed_at": "2025-10-21T14:42:29Z",
+    "updated_at": "2026-10-28T15:55:03Z",
+    "open_issues_count": 32,
+    "archived": false,
+    "license": {
+      "key": "bsd-2-clause",
+      "name": "BSD 2-Clause \"Simplified\" License",
+      "spdx_id": "BSD-2-Clause",
+      "url": "https://api.github.com/licenses/bsd-2-clause",
+      "node_id": "MDc6TGljZW5zZTQ="
+    }
+  },
+  "commits": [
+    {
+      "sha": "7cb491cd22aa4a586f37c0c0c3ef5c9ae207d337",
+      "html_url": "https://github.com/kamadak/exif-rs/commit/7cb491cd22aa4a586f37c0c0c3ef5c9ae207d337",
+      "commit": {
+        "author": {
+          "name": "Jinwoo Park",
+          "email": "pmnxis@gmail.com",
+          "date": "2025-10-06T19:01:42Z"
+        },
+        "committer": {
+          "name": "Jinwoo Park",
+          "email": "pmnxis@gmail.com",
+          "date": "2025-10-06T19:01:42Z"
+        },
+        "message": "Increasing MAX_EXIF_SIZE for latest HEIF mirrorless camera\n\n- Panasonic Lumix S1R2 has 102400 bytes for EXIF on HEIF.\n- Sony A7C2 has 94208 bytes for EXIF on HEIF.\n- Consider those and HEIF from latest mirrorless camera, need to increase MAX_EXIF_SIZE",
+        "tree": {
+          "sha": "650e62e290150f39c87309f54f1648106c0115f9",
+          "url": "https://api.github.com/repos/kamadak/exif-rs/git/trees/650e62e290150f39c87309f54f1648106c0115f9"
+        },
+        "url": "https://api.github.com/repos/kamadak/exif-rs/git/commits/7cb491cd22aa4a586f37c0c0c3ef5c9ae207d337",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "b709806e92df0ca62dfd7afc538865ee1ec9e01c",
+      "html_url": "https://github.com/kamadak/exif-rs/commit/b709806e92df0ca62dfd7afc538865ee1ec9e01c",
+      "commit": {
+        "author": {
+          "name": "KAMADA Ken'ichi",
+          "email": "kamada@nanohz.org",
+          "date": "2025-08-16T03:55:50Z"
+        },
+        "committer": {
+          "name": "KAMADA Ken'ichi",
+          "email": "kamada@nanohz.org",
+          "date": "2025-08-16T03:55:50Z"
+        },
+        "message": "Write elided lifetimes explicitly.\n\nThis change is suggested by the mismatched_lifetime_syntaxes lint,\nenabled by default in Rust 1.89.",
+        "tree": {
+          "sha": "cd0b197080889d0cd8f4f55b51fa69b23073e0fc",
+          "url": "https://api.github.com/repos/kamadak/exif-rs/git/trees/cd0b197080889d0cd8f4f55b51fa69b23073e0fc"
+        },
+        "url": "https://api.github.com/repos/kamadak/exif-rs/git/commits/b709806e92df0ca62dfd7afc538865ee1ec9e01c",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "aa74a75a7e182f41d4e6d2728f74a4485fb79c95",
+      "html_url": "https://github.com/kamadak/exif-rs/commit/aa74a75a7e182f41d4e6d2728f74a4485fb79c95",
+      "commit": {
+        "author": {
+          "name": "KAMADA Ken'ichi",
+          "email": "kamada@nanohz.org",
+          "date": "2025-01-01T14:58:42Z"
+        },
+        "committer": {
+          "name": "KAMADA Ken'ichi",
+          "email": "kamada@nanohz.org",
+          "date": "2025-01-01T14:58:42Z"
+        },
+        "message": "Fix a descriptive let binding of an unused return value.",
+        "tree": {
+          "sha": "435b6c913a64c68bc8a94e54cfdc2577dae4685d",
+          "url": "https://api.github.com/repos/kamadak/exif-rs/git/trees/435b6c913a64c68bc8a94e54cfdc2577dae4685d"
+        },
+        "url": "https://api.github.com/repos/kamadak/exif-rs/git/commits/aa74a75a7e182f41d4e6d2728f74a4485fb79c95",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 65,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/65",
+      "title": "Expose direct TIFF SubIFDs without flattening parent fields",
+      "state": "open",
+      "created_at": "2026-10-17T19:36:32Z",
+      "updated_at": "2026-10-17T20:11:09Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/65",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/65",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/65.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/65.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 64,
+      "html_url": "https://github.com/kamadak/exif-rs/issues/64",
+      "title": "Security: private channel for a DoS (unbounded allocation) report in EXIF parsing?",
+      "state": "open",
+      "created_at": "2026-10-14T15:02:50Z",
+      "updated_at": "2026-10-15T14:52:44Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 63,
+      "html_url": "https://github.com/kamadak/exif-rs/issues/63",
+      "title": "Support retrieving EXIF box from ISOBMFF (for JPEG XL)",
+      "state": "open",
+      "created_at": "2026-10-07T08:44:37Z",
+      "updated_at": "2026-10-07T08:44:37Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 62,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/62",
+      "title": "feat: Add Debug to struct",
+      "state": "open",
+      "created_at": "2026-07-14T12:37:42Z",
+      "updated_at": "2026-07-14T12:37:42Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/62",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/62",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/62.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/62.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 61,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/61",
+      "title": "feat: add exif parser to GeoJSON",
+      "state": "open",
+      "created_at": "2026-05-12T20:13:33Z",
+      "updated_at": "2026-05-12T20:13:33Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/61",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/61",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/61.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/61.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 60,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/60",
+      "title": "Handle Exif data in PNG zTXt chunks.",
+      "state": "open",
+      "created_at": "2026-05-12T17:35:01Z",
+      "updated_at": "2026-05-12T17:35:01Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/60",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/60",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/60.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/60.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 59,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/59",
+      "title": "Allow taking ownership of EXIF data.",
+      "state": "open",
+      "created_at": "2026-01-27T22:35:06Z",
+      "updated_at": "2026-01-27T22:35:06Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/59",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/59",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/59.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/59.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 58,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/58",
+      "title": "EmbeddedSubImage: Support Thumbnail, APP2, and MakerNote Images",
+      "state": "open",
+      "created_at": "2025-12-25T05:20:52Z",
+      "updated_at": "2025-12-25T12:39:00Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/58",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/58",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/58.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/58.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 57,
+      "html_url": "https://github.com/kamadak/exif-rs/pull/57",
+      "title": "Parsing MakeNote at outside",
+      "state": "open",
+      "created_at": "2025-12-14T09:45:19Z",
+      "updated_at": "2025-12-25T05:13:25Z",
+      "closed_at": null,
+      "comments": 2,
+      "pull_request": {
+        "url": "https://api.github.com/repos/kamadak/exif-rs/pulls/57",
+        "html_url": "https://github.com/kamadak/exif-rs/pull/57",
+        "diff_url": "https://github.com/kamadak/exif-rs/pull/57.diff",
+        "patch_url": "https://github.com/kamadak/exif-rs/pull/57.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 56,
+      "html_url": "https://github.com/kamadak/exif-rs/issues/56",
+      "title": "Add method to extract JPEG thumbnail/preview from 1st IFD in EXIF",
+      "state": "closed",
+      "created_at": "2025-11-29T13:16:59Z",
+      "updated_at": "2025-11-29T20:48:28Z",
+      "closed_at": "2025-11-29T20:48:28Z",
+      "comments": 1,
+      "pull_request": null
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

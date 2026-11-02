@@ -1,0 +1,275 @@
+{
+  "queried_at": "2026-11-02T20:45:52.056157+00:00",
+  "repository": {
+    "full_name": "robertknight/ocrs",
+    "html_url": "https://github.com/robertknight/ocrs",
+    "pushed_at": "2026-11-01T23:12:23Z",
+    "updated_at": "2026-10-31T11:49:00Z",
+    "open_issues_count": 25,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "0c826441362a701c55560fefc17bf356b6d1037e",
+      "html_url": "https://github.com/robertknight/ocrs/commit/0c826441362a701c55560fefc17bf356b6d1037e",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-27T09:13:11Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-27T09:13:11Z"
+        },
+        "message": "Merge pull request #283 from robertknight/add-url-stability-note\n\nAdd note about potential future changes to model URLs",
+        "tree": {
+          "sha": "0fafb0db200695b88e2edb6016adb052730476ac",
+          "url": "https://api.github.com/repos/robertknight/ocrs/git/trees/0fafb0db200695b88e2edb6016adb052730476ac"
+        },
+        "url": "https://api.github.com/repos/robertknight/ocrs/git/commits/0c826441362a701c55560fefc17bf356b6d1037e",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq4GsnCRC1aQ7uu5UhlAAA6FoQAEQn8FPeNnpb6gkBWoEHRAe7\nH/LH4lf5zcjFOJNVcDCXqQQYQe0kl9At7sBT3D1SU9ofwAWNxOqJ3vrjKMw8RqLc\nc9peRJ4aMVzwK5mbDcsDi5tiAvHxHmo9i2RDUJaVW5cGGH+pBUUJxfbI3xlkLPa5\nHZD7JYbJVQD2E5dLYafCcEtpUyNMNWqdjBdOJj8DJ+Dm7CDPUzYhkOXmEPFibSd4\nK3oAcBiExgxrRiV3fY149HbJMuVK1KGg5yadpT21XMrELMPSbGZMXPZMLHMhSqCf\n1kdqzcxILdTYKAuZoOdOV6vLE3IS7Vdex1cze8wf+/Sgjxn6qiZz9lF0PW6OqAQF\n2yNMjCijpnzbYabE+qq8XGI8uV+LuPufvgzUZ6VuNDvkmHSYQpE+UafqIbS0JD7V\nDHX/P2oCkihDXxr8mz4hDuJXT6wl0iyee0n29i+kMC7CiQ36/sElPbw697TFE9kI\nh6qwdt/36SyoVQ9/IUPHhBj+wVd45K4/ihRyeOfaiNBF6ntnhvI2KslrzY2e5qR7\n4gzpIXNu+HZP5zLjvWUuM1J9O0BsZgzCjx2oJYPoxNFdzqvZ/HkebWhddjWO1i/W\nIrgZhRP4+0brznYqUtle/+NZ0XweNEeDbElnQlj+RLi3praW8stQL9YHeKSJQIct\nhD+GX/O3WH0djf91ESls\n=kRJy\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 0fafb0db200695b88e2edb6016adb052730476ac\nparent f9cf8125e89136f633b2dfd7ea41a37d08add9c9\nparent 7740d750a45c8a965d72406af90266f757548fc8\nauthor Robert Knight <robertknight@gmail.com> 1793092391 +0000\ncommitter GitHub <noreply@github.com> 1793092391 +0000\n\nMerge pull request #283 from robertknight/add-url-stability-note\n\nAdd note about potential future changes to model URLs",
+          "verified_at": "2026-10-27T09:13:11Z"
+        }
+      }
+    },
+    {
+      "sha": "7740d750a45c8a965d72406af90266f757548fc8",
+      "html_url": "https://github.com/robertknight/ocrs/commit/7740d750a45c8a965d72406af90266f757548fc8",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-27T08:58:29Z"
+        },
+        "committer": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-27T08:58:29Z"
+        },
+        "message": "Add note about potential future changes to model URLs\n\nAdd a warning in `download-models.sh` that the model URLs may change in future,\nso consumers of the library should host (or bundle) their own copies.",
+        "tree": {
+          "sha": "0fafb0db200695b88e2edb6016adb052730476ac",
+          "url": "https://api.github.com/repos/robertknight/ocrs/git/trees/0fafb0db200695b88e2edb6016adb052730476ac"
+        },
+        "url": "https://api.github.com/repos/robertknight/ocrs/git/commits/7740d750a45c8a965d72406af90266f757548fc8",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "f9cf8125e89136f633b2dfd7ea41a37d08add9c9",
+      "html_url": "https://github.com/robertknight/ocrs/commit/f9cf8125e89136f633b2dfd7ea41a37d08add9c9",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-22T07:10:17Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-22T07:10:17Z"
+        },
+        "message": "Merge pull request #276 from robertknight/dependabot/cargo/wasm-bindgen-0.2.129\n\nBump wasm-bindgen from 0.2.100 to 0.2.129",
+        "tree": {
+          "sha": "35ba701082f18ad66a093bafc739c58d6ee02744",
+          "url": "https://api.github.com/repos/robertknight/ocrs/git/trees/35ba701082f18ad66a093bafc739c58d6ee02744"
+        },
+        "url": "https://api.github.com/repos/robertknight/ocrs/git/commits/f9cf8125e89136f633b2dfd7ea41a37d08add9c9",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq2bbZCRC1aQ7uu5UhlAAAWxwQAGDefNm6PnftK79+mAjFYvh1\nIFtTaZ1ABOFTTT6YDxkBpf7QlgLWTAwahRI06WYdxPeTuQ+Ff3SNJCwAyhyjXrp5\nHTLqutALwCYKhKYVpz5VPMblp20yldtIdXsWFwKGmHcMScG/2jvx8qPGM+FE4LKD\nZd0ZxFPJMCmAtQ8uF2WVSYeVBqVGSsTK2xfwfZr4TPCkIXI1G3hD/ryaAXwKb3vP\n1gbEhiOxNhM5BpI4pGjAtnITXbp9hpZix+z6mUoRPKMDNiN7eandNgfV4QV1lS08\nYEsL8ssAFwNBZNQEd6LL54tqYcMEX5OE9cFYsfdAORBLGHXM8Vz2YlVFraLi/DXt\n4Wgt3VmZWa+0Xzex1VbHv+8G0WPg7qLOSF8pSQzLh8j0vruZimTvUFys8ThO0LM/\nFbfdM4w/IaRnT6QJjg4fXeBrnGxxQfuQJx4EXXmkZ5JpX8AjscRb0RMOkNLM55rE\nbiDKhQzZCqmQDb02XcxnXjnBQchSfw4bWmVTi0SXdbJHGAzJfwvMkbzDQ1ugOPcC\nAmY9aOCHkgZWrXOT9ym1P5ompMopuadjpoMbL0Kb/ZByY/sm6rJw5NFdY899OuAZ\nxLOqMljv9qJeQfTVjpybS7gYhcgSBUieIBUwU0ChbbesfL5zNPrIm1IrvuiAk6Pw\n3rIt57LILwMpobjQydiJ\n=obfx\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 35ba701082f18ad66a093bafc739c58d6ee02744\nparent 84c8ab92c4b9753c791a45530ffe1c4c7ff44c06\nparent cb19e6410e07ebc7b3008083739a0df7f85e2547\nauthor Robert Knight <robertknight@gmail.com> 1792653017 +0100\ncommitter GitHub <noreply@github.com> 1792653017 +0100\n\nMerge pull request #276 from robertknight/dependabot/cargo/wasm-bindgen-0.2.129\n\nBump wasm-bindgen from 0.2.100 to 0.2.129",
+          "verified_at": "2026-10-22T07:10:18Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 286,
+      "html_url": "https://github.com/robertknight/ocrs/pull/286",
+      "title": "build(deps): bump serde_json from 1.0.151 to 1.0.154",
+      "state": "open",
+      "created_at": "2026-11-01T23:12:25Z",
+      "updated_at": "2026-11-01T23:12:28Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/286",
+        "html_url": "https://github.com/robertknight/ocrs/pull/286",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/286.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/286.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 285,
+      "html_url": "https://github.com/robertknight/ocrs/pull/285",
+      "title": "build(deps): bump arboard from 3.6.1 to 3.7.0",
+      "state": "open",
+      "created_at": "2026-11-01T23:12:19Z",
+      "updated_at": "2026-11-01T23:12:23Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/285",
+        "html_url": "https://github.com/robertknight/ocrs/pull/285",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/285.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/285.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 284,
+      "html_url": "https://github.com/robertknight/ocrs/pull/284",
+      "title": "build(deps): bump ureq from 3.4.2 to 3.5.0",
+      "state": "open",
+      "created_at": "2026-11-01T23:12:12Z",
+      "updated_at": "2026-11-01T23:12:16Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/284",
+        "html_url": "https://github.com/robertknight/ocrs/pull/284",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/284.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/284.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 283,
+      "html_url": "https://github.com/robertknight/ocrs/pull/283",
+      "title": "Add note about potential future changes to model URLs",
+      "state": "closed",
+      "created_at": "2026-10-27T08:59:59Z",
+      "updated_at": "2026-10-27T09:13:14Z",
+      "closed_at": "2026-10-27T09:13:11Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/283",
+        "html_url": "https://github.com/robertknight/ocrs/pull/283",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/283.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/283.patch",
+        "merged_at": "2026-10-27T09:13:11Z"
+      }
+    },
+    {
+      "number": 282,
+      "html_url": "https://github.com/robertknight/ocrs/issues/282",
+      "title": "Notice: The `.rten` variants of the models are no longer available",
+      "state": "open",
+      "created_at": "2026-10-27T08:55:30Z",
+      "updated_at": "2026-10-27T09:04:56Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 281,
+      "html_url": "https://github.com/robertknight/ocrs/pull/281",
+      "title": "Derive wasm-bindgen-cli version from Cargo.lock in CI",
+      "state": "closed",
+      "created_at": "2026-10-19T08:08:17Z",
+      "updated_at": "2026-10-19T08:19:20Z",
+      "closed_at": "2026-10-19T08:19:16Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/281",
+        "html_url": "https://github.com/robertknight/ocrs/pull/281",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/281.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/281.patch",
+        "merged_at": "2026-10-19T08:19:16Z"
+      }
+    },
+    {
+      "number": 280,
+      "html_url": "https://github.com/robertknight/ocrs/pull/280",
+      "title": "Fix image dimensions in CLI JSON output and debug message",
+      "state": "closed",
+      "created_at": "2026-10-05T07:22:24Z",
+      "updated_at": "2026-10-05T07:33:32Z",
+      "closed_at": "2026-10-05T07:33:29Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/280",
+        "html_url": "https://github.com/robertknight/ocrs/pull/280",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/280.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/280.patch",
+        "merged_at": "2026-10-05T07:33:29Z"
+      }
+    },
+    {
+      "number": 279,
+      "html_url": "https://github.com/robertknight/ocrs/issues/279",
+      "title": "Incorrect image dimensions in JSON output",
+      "state": "closed",
+      "created_at": "2026-10-05T00:10:28Z",
+      "updated_at": "2026-10-05T07:33:42Z",
+      "closed_at": "2026-10-05T07:33:30Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 278,
+      "html_url": "https://github.com/robertknight/ocrs/pull/278",
+      "title": "Update to RTen v0.27",
+      "state": "closed",
+      "created_at": "2026-10-02T06:47:29Z",
+      "updated_at": "2026-10-09T19:16:13Z",
+      "closed_at": "2026-10-09T19:16:09Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/278",
+        "html_url": "https://github.com/robertknight/ocrs/pull/278",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/278.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/278.patch",
+        "merged_at": "2026-10-09T19:16:09Z"
+      }
+    },
+    {
+      "number": 277,
+      "html_url": "https://github.com/robertknight/ocrs/pull/277",
+      "title": "Bump thiserror from 2.0.20 to 2.0.21",
+      "state": "closed",
+      "created_at": "2026-10-01T23:12:33Z",
+      "updated_at": "2026-10-22T07:09:41Z",
+      "closed_at": "2026-10-22T07:09:38Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/ocrs/pulls/277",
+        "html_url": "https://github.com/robertknight/ocrs/pull/277",
+        "diff_url": "https://github.com/robertknight/ocrs/pull/277.diff",
+        "patch_url": "https://github.com/robertknight/ocrs/pull/277.patch",
+        "merged_at": "2026-10-22T07:09:38Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

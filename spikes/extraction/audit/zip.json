@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.073052+00:00",
+  "url": "https://crates.io/api/v1/crates/zip",
+  "crate": {
+    "name": "zip",
+    "max_stable_version": "9.2.2",
+    "downloads": 327391193,
+    "recent_downloads": 96914313,
+    "repository": "https://github.com/zip-rs/zip2",
+    "updated_at": "2026-11-02T03:44:09.785014Z"
+  },
+  "versions": [
+    {
+      "num": "9.2.2",
+      "created_at": "2026-11-02T03:44:09.785014Z",
+      "license": "MIT",
+      "rust_version": "1.88",
+      "downloads": 41923,
+      "checksum": "e408c6cc4699dd017d53dc080cd51c2cea2b5354af57a1479bd265ed42911487",
+      "yanked": false
+    }
+  ]
+}

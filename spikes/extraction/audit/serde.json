@@ -1,0 +1,23 @@
+{
+  "queried_at": "2026-11-02T20:45:52.098749+00:00",
+  "url": "https://crates.io/api/v1/crates/serde",
+  "crate": {
+    "name": "serde",
+    "max_stable_version": "1.0.229",
+    "downloads": 1633530308,
+    "recent_downloads": 400731754,
+    "repository": "https://github.com/serde-rs/serde",
+    "updated_at": "2026-07-18T23:05:13.266456Z"
+  },
+  "versions": [
+    {
+      "num": "1.0.229",
+      "created_at": "2026-07-18T23:05:13.266456Z",
+      "license": "MIT OR Apache-2.0",
+      "rust_version": "1.56",
+      "downloads": 205927967,
+      "checksum": "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba",
+      "yanked": false
+    }
+  ]
+}

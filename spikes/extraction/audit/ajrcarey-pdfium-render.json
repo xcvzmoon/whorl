@@ -1,0 +1,257 @@
+{
+  "queried_at": "2026-11-02T20:45:52.102833+00:00",
+  "repository": {
+    "full_name": "ajrcarey/pdfium-render",
+    "html_url": "https://github.com/ajrcarey/pdfium-render",
+    "pushed_at": "2026-11-01T03:51:58Z",
+    "updated_at": "2026-11-01T03:52:02Z",
+    "open_issues_count": 12,
+    "archived": false,
+    "license": {
+      "key": "other",
+      "name": "Other",
+      "spdx_id": "NOASSERTION",
+      "url": null,
+      "node_id": "MDc6TGljZW5zZTA="
+    }
+  },
+  "commits": [
+    {
+      "sha": "f14b224961c9f02f63a3142d65810509ebc671e7",
+      "html_url": "https://github.com/ajrcarey/pdfium-render/commit/f14b224961c9f02f63a3142d65810509ebc671e7",
+      "commit": {
+        "author": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-11-01T03:51:56Z"
+        },
+        "committer": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-11-01T03:51:56Z"
+        },
+        "message": "Resolves #281",
+        "tree": {
+          "sha": "e948cadd46d378952ef3d0137cb2dbb4de402aab",
+          "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/trees/e948cadd46d378952ef3d0137cb2dbb4de402aab"
+        },
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/commits/f14b224961c9f02f63a3142d65810509ebc671e7",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "06952ffbca7d7c9336ac7f0313e84fa259712df6",
+      "html_url": "https://github.com/ajrcarey/pdfium-render/commit/06952ffbca7d7c9336ac7f0313e84fa259712df6",
+      "commit": {
+        "author": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-11-01T03:20:44Z"
+        },
+        "committer": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-11-01T03:20:44Z"
+        },
+        "message": "Resolves #284",
+        "tree": {
+          "sha": "36a7f2c34a810e8feefc2c81bc5932dafdba418f",
+          "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/trees/36a7f2c34a810e8feefc2c81bc5932dafdba418f"
+        },
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/commits/06952ffbca7d7c9336ac7f0313e84fa259712df6",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "61b02640c9ef8552ab059503fbd6bf24751b2831",
+      "html_url": "https://github.com/ajrcarey/pdfium-render/commit/61b02640c9ef8552ab059503fbd6bf24751b2831",
+      "commit": {
+        "author": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-10-31T18:11:20Z"
+        },
+        "committer": {
+          "name": "Alastair Carey",
+          "email": "alastair@alastaircarey.com",
+          "date": "2026-10-31T18:11:20Z"
+        },
+        "message": "Resolves #268",
+        "tree": {
+          "sha": "ae9e63f8c6ccc97265cbe2569e5ea01711805497",
+          "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/trees/ae9e63f8c6ccc97265cbe2569e5ea01711805497"
+        },
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/git/commits/61b02640c9ef8552ab059503fbd6bf24751b2831",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 284,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/issues/284",
+      "title": "Import Pdfium release 8125.",
+      "state": "closed",
+      "created_at": "2026-10-31T18:13:41Z",
+      "updated_at": "2026-11-01T03:20:49Z",
+      "closed_at": "2026-11-01T03:20:49Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 283,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/issues/283",
+      "title": "load_pdf_from_reader() is unavailable on wasm32, and minified Emscripten builds fail to bind",
+      "state": "open",
+      "created_at": "2026-10-18T09:39:40Z",
+      "updated_at": "2026-10-31T17:57:57Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 282,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/pull/282",
+      "title": "Support Pdfium::load_pdf_from_reader() when compiling to WASM",
+      "state": "open",
+      "created_at": "2026-10-16T09:29:28Z",
+      "updated_at": "2026-11-01T04:24:39Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/pulls/282",
+        "html_url": "https://github.com/ajrcarey/pdfium-render/pull/282",
+        "diff_url": "https://github.com/ajrcarey/pdfium-render/pull/282.diff",
+        "patch_url": "https://github.com/ajrcarey/pdfium-render/pull/282.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 281,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/issues/281",
+      "title": "Expose FPDFText_HasUnicodeMapError() on PdfPageTextChar",
+      "state": "closed",
+      "created_at": "2026-10-15T04:51:22Z",
+      "updated_at": "2026-11-01T03:58:08Z",
+      "closed_at": "2026-11-01T03:51:59Z",
+      "comments": 3,
+      "pull_request": null
+    },
+    {
+      "number": 280,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/issues/280",
+      "title": "PdfPage loads the structure tree of each page, which increases time and memory for tagged PDFs",
+      "state": "closed",
+      "created_at": "2026-10-14T21:12:36Z",
+      "updated_at": "2026-10-31T17:29:51Z",
+      "closed_at": "2026-10-31T17:29:51Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 279,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/issues/279",
+      "title": "PdfiumLibraryBindingsAccessor is pub(crate) again and bindings() is unavailable",
+      "state": "closed",
+      "created_at": "2026-10-13T08:28:41Z",
+      "updated_at": "2026-10-31T16:58:26Z",
+      "closed_at": "2026-10-31T16:58:26Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 278,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/pull/278",
+      "title": "Make PdfDocument::handle() public and add PdfPageAnnotationCommon::set_name()",
+      "state": "closed",
+      "created_at": "2026-10-13T05:51:28Z",
+      "updated_at": "2026-10-13T07:20:32Z",
+      "closed_at": "2026-10-13T07:20:24Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/pulls/278",
+        "html_url": "https://github.com/ajrcarey/pdfium-render/pull/278",
+        "diff_url": "https://github.com/ajrcarey/pdfium-render/pull/278.diff",
+        "patch_url": "https://github.com/ajrcarey/pdfium-render/pull/278.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 277,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/pull/277",
+      "title": "Add PdfiumLibraryBindings::get_handle_from_form()",
+      "state": "closed",
+      "created_at": "2026-10-07T19:51:47Z",
+      "updated_at": "2026-10-08T17:36:11Z",
+      "closed_at": "2026-10-08T17:35:58Z",
+      "comments": 3,
+      "pull_request": {
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/pulls/277",
+        "html_url": "https://github.com/ajrcarey/pdfium-render/pull/277",
+        "diff_url": "https://github.com/ajrcarey/pdfium-render/pull/277.diff",
+        "patch_url": "https://github.com/ajrcarey/pdfium-render/pull/277.patch",
+        "merged_at": "2026-10-08T17:35:58Z"
+      }
+    },
+    {
+      "number": 276,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/pull/276",
+      "title": "Read the document modification date from the ModDate key",
+      "state": "closed",
+      "created_at": "2026-10-07T19:50:24Z",
+      "updated_at": "2026-10-08T00:46:08Z",
+      "closed_at": "2026-10-08T00:46:08Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/pulls/276",
+        "html_url": "https://github.com/ajrcarey/pdfium-render/pull/276",
+        "diff_url": "https://github.com/ajrcarey/pdfium-render/pull/276.diff",
+        "patch_url": "https://github.com/ajrcarey/pdfium-render/pull/276.patch",
+        "merged_at": "2026-10-08T00:46:08Z"
+      }
+    },
+    {
+      "number": 275,
+      "html_url": "https://github.com/ajrcarey/pdfium-render/pull/275",
+      "title": "Compute bitmap buffer length in usize so large bitmaps do not overflow it",
+      "state": "closed",
+      "created_at": "2026-10-05T03:03:55Z",
+      "updated_at": "2026-10-31T17:42:11Z",
+      "closed_at": "2026-10-31T17:42:11Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/ajrcarey/pdfium-render/pulls/275",
+        "html_url": "https://github.com/ajrcarey/pdfium-render/pull/275",
+        "diff_url": "https://github.com/ajrcarey/pdfium-render/pull/275.diff",
+        "patch_url": "https://github.com/ajrcarey/pdfium-render/pull/275.patch",
+        "merged_at": "2026-10-31T17:42:11Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "assets": [
+    {
+      "name": "pdfium-linux-arm64.tgz",
+      "url": "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/8125/pdfium-linux-arm64.tgz",
+      "sha256": "8b8818f2ec57d1b213d952ca6d7f0ffeca9d0110487d0e20ad83ba918bc92efa",
+      "bytes": 3728574
+    },
+    {
+      "name": "text-detection.onnx",
+      "url": "https://ocrs-models.s3-accelerate.amazonaws.com/text-detection.onnx",
+      "sha256": "a917b23dbd9524b465df7e922641b3ff2981623df4ded5a0234004ef2fee7cfe",
+      "bytes": 2499479
+    },
+    {
+      "name": "text-recognition.onnx",
+      "url": "https://ocrs-models.s3-accelerate.amazonaws.com/text-recognition.onnx",
+      "sha256": "86c145c2edb96c8caed5b1ebb8f44d706408922211451c309c625157dd6061c5",
+      "bytes": 9713177
+    },
+    {
+      "name": "tesseract.tar.gz",
+      "url": "https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.4.tar.gz",
+      "sha256": "a8dbf8b8c8ee427ff6ad1d99116502feaf59440af1adb893caf60a6576826cf4",
+      "bytes": 1969431
+    },
+    {
+      "name": "eng.traineddata",
+      "url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/eng.traineddata",
+      "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "bytes": 4113088
+    }
+  ],
+  "tessdata_revision": "87416418657359cb625c412a48b6e1d6d41c29bd"
+}
