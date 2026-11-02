@@ -1,0 +1,907 @@
+{
+  "schema_version": 1,
+  "acquired_at": "2026-11-03",
+  "upload_limit_bytes": 20971520,
+  "generator": {
+    "python": "3.9.6",
+    "zlib": "1.2.12"
+  },
+  "cases": [
+    {
+      "id": "scan-pdf",
+      "path": "fixtures/scan.pdf",
+      "format": "pdf",
+      "category": "scan",
+      "origin": "upstream",
+      "bytes": 167938,
+      "sha256": "c2ff83af7d028c95209cc7eebdf80fd5bb4cd292973ed6601e4bab7d1929f201",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/ocrmypdf/OCRmyPDF/b457e9efa68c3a46be2470ffb222ed1bccc4dcbc/tests/resources/c03-29.pdf",
+        "repository": "ocrmypdf/OCRmyPDF",
+        "revision": "b457e9efa68c3a46be2470ffb222ed1bccc4dcbc",
+        "source_path": "tests/resources/c03-29.pdf",
+        "license": "LicenseRef-Public-Domain",
+        "attribution": "Public domain (Mark Twain, Adventures of Huckleberry Finn, page 29)",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/scan.txt",
+        "text_sha256": "f4209740c8fea39d7e76323d32b824b5518aafc4976f96d99dff0c75cc9222ad",
+        "comparison": "ocr-page",
+        "metadata": {
+          "pages": 1,
+          "producer": "Mac OS X 10.10.4 Quartz PDFContext"
+        }
+      }
+    },
+    {
+      "id": "map-png",
+      "path": "fixtures/map.png",
+      "format": "png",
+      "category": "illustration",
+      "origin": "upstream",
+      "bytes": 139794,
+      "sha256": "b51658d4f7feea0a3022af5bca74d2c98b674c889e17ed8a14d717d9ef66ea71",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/ocrmypdf/OCRmyPDF/b457e9efa68c3a46be2470ffb222ed1bccc4dcbc/tests/resources/baiona.png",
+        "repository": "ocrmypdf/OCRmyPDF",
+        "revision": "b457e9efa68c3a46be2470ffb222ed1bccc4dcbc",
+        "source_path": "tests/resources/baiona.png",
+        "license": "CC-BY-SA-4.0",
+        "attribution": "(C) 2014 Euskaldunaa",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/map.txt",
+        "text_sha256": "e2b20919f8cf17360ac54400a49453dc8e3fc3d5136ca9be446e4865941bb63f",
+        "comparison": "unordered-anchors",
+        "metadata": {
+          "width": 640,
+          "height": 682
+        }
+      }
+    },
+    {
+      "id": "table-docx",
+      "path": "fixtures/table.docx",
+      "format": "docx",
+      "category": "table",
+      "origin": "upstream",
+      "bytes": 36051,
+      "sha256": "dc01708a24c5e940c94b99b7ee496606e5f17152bc41cec211c9f8c72334cb22",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/python-openxml/python-docx/e45454602b53e8e572b179ccf1c91093ec9f4ed7/features/steps/test_files/tbl-cell-access.docx",
+        "repository": "python-openxml/python-docx",
+        "revision": "e45454602b53e8e572b179ccf1c91093ec9f4ed7",
+        "source_path": "features/steps/test_files/tbl-cell-access.docx",
+        "license": "MIT",
+        "attribution": "See licenses/docx-LICENSE",
+        "license_evidence": "licenses/docx-LICENSE"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/table.docx.txt",
+        "text_sha256": "5c17e0ca1fa27752a9121593269911270971137d73ad7985d0621ee67527696c",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "creator": "Steve Canny",
+          "lastModifiedBy": "Cisco Employee",
+          "revision": "6",
+          "created": "2014-11-01T07:19:00Z",
+          "modified": "2014-11-28T04:26:00Z"
+        }
+      }
+    },
+    {
+      "id": "images-docx",
+      "path": "fixtures/images.docx",
+      "format": "docx",
+      "category": "images",
+      "origin": "upstream",
+      "bytes": 132875,
+      "sha256": "72f40baa1b89e4849e817121dbbf148ed78e51be9bf04d8e6f4bc1494aa517b7",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/python-openxml/python-docx/e45454602b53e8e572b179ccf1c91093ec9f4ed7/tests/test_files/having-images.docx",
+        "repository": "python-openxml/python-docx",
+        "revision": "e45454602b53e8e572b179ccf1c91093ec9f4ed7",
+        "source_path": "tests/test_files/having-images.docx",
+        "license": "MIT",
+        "attribution": "See licenses/docx-LICENSE",
+        "license_evidence": "licenses/docx-LICENSE"
+      },
+      "expected": {
+        "outcome": "no_extractable_text",
+        "text_path": "expected/images.docx.txt",
+        "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "creator": "Steve Canny",
+          "lastModifiedBy": "Steve Canny",
+          "revision": "3",
+          "created": "2013-12-27T10:01:00Z",
+          "modified": "2013-12-27T10:36:00Z"
+        }
+      }
+    },
+    {
+      "id": "notes-pptx",
+      "path": "fixtures/notes.pptx",
+      "format": "pptx",
+      "category": "notes",
+      "origin": "upstream",
+      "bytes": 86792,
+      "sha256": "664dc13965c7ea24688256d1ecd869936ca51a2e94d2aefe0f614bb8554976ea",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/scanny/python-pptx/278b47b1dedd5b46ee84c286e77cdfb0bf4594be/features/steps/test_files/prs-notes.pptx",
+        "repository": "scanny/python-pptx",
+        "revision": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+        "source_path": "features/steps/test_files/prs-notes.pptx",
+        "license": "MIT",
+        "attribution": "See licenses/pptx-LICENSE",
+        "license_evidence": "licenses/pptx-LICENSE"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/notes.pptx.txt",
+        "text_sha256": "38732073f309589131fec63f417896537e63d27fc29fcf7c60d5f47379f0887a",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "title": "Presentation",
+          "creator": "python-pptx",
+          "lastModifiedBy": "Steve Canny",
+          "revision": "8",
+          "created": "2012-11-17T11:07:40Z",
+          "modified": "2016-10-20T00:27:57Z",
+          "notes_pages": 1
+        }
+      }
+    },
+    {
+      "id": "table-pptx",
+      "path": "fixtures/table.pptx",
+      "format": "pptx",
+      "category": "table",
+      "origin": "upstream",
+      "bytes": 28247,
+      "sha256": "02df45aad4927c4c471d76d4f638e82e14c42d4db773103cf8f950f73b0ae976",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/scanny/python-pptx/278b47b1dedd5b46ee84c286e77cdfb0bf4594be/features/steps/test_files/tbl-cell.pptx",
+        "repository": "scanny/python-pptx",
+        "revision": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+        "source_path": "features/steps/test_files/tbl-cell.pptx",
+        "license": "MIT",
+        "attribution": "See licenses/pptx-LICENSE",
+        "license_evidence": "licenses/pptx-LICENSE"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/table.pptx.txt",
+        "text_sha256": "4e142e7fadf02bfda39d0c555d27b20beeb673b5376ff1db2618d13f1107190c",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "title": "Presentation",
+          "creator": "python-pptx",
+          "lastModifiedBy": "Steve Canny",
+          "revision": "21",
+          "created": "2012-11-17T11:07:40Z",
+          "modified": "2018-09-21T21:17:47Z"
+        }
+      }
+    },
+    {
+      "id": "picture-pptx",
+      "path": "fixtures/picture.pptx",
+      "format": "pptx",
+      "category": "images",
+      "origin": "upstream",
+      "bytes": 91730,
+      "sha256": "20b6295563e217804af81f8b5fee5e5cef9e766ac401d825d536ffe6d674edd0",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/scanny/python-pptx/278b47b1dedd5b46ee84c286e77cdfb0bf4594be/features/steps/test_files/shp-picture.pptx",
+        "repository": "scanny/python-pptx",
+        "revision": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+        "source_path": "features/steps/test_files/shp-picture.pptx",
+        "license": "MIT",
+        "attribution": "See licenses/pptx-LICENSE",
+        "license_evidence": "licenses/pptx-LICENSE"
+      },
+      "expected": {
+        "outcome": "no_extractable_text",
+        "text_path": "expected/picture.pptx.txt",
+        "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "title": "Presentation",
+          "creator": "python-pptx",
+          "lastModifiedBy": "Steve Canny",
+          "revision": "13",
+          "created": "2012-11-17T11:07:40Z",
+          "modified": "2018-08-10T23:45:43Z"
+        }
+      }
+    },
+    {
+      "id": "workbook-xlsx",
+      "path": "fixtures/workbook.xlsx",
+      "format": "xlsx",
+      "category": "spreadsheet",
+      "origin": "upstream",
+      "bytes": 8250,
+      "sha256": "d02337df9dac39d8dd46a43db683cef65ac8395e8851480ff05ea1c668197ba4",
+      "provenance": {
+        "url": "https://raw.githubusercontent.com/scanny/python-pptx/278b47b1dedd5b46ee84c286e77cdfb0bf4594be/features/steps/test_files/shp-embedded-xlsx.xlsx",
+        "repository": "scanny/python-pptx",
+        "revision": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+        "source_path": "features/steps/test_files/shp-embedded-xlsx.xlsx",
+        "license": "MIT",
+        "attribution": "See licenses/pptx-LICENSE",
+        "license_evidence": "licenses/pptx-LICENSE"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/workbook.xlsx.txt",
+        "text_sha256": "14c5e74c4b96ccef41cd94db73a9ec3348038ac094feca4fd897cecffa07cdae",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "creator": "Steve Canny",
+          "lastModifiedBy": "Steve Canny",
+          "created": "2021-02-28T01:19:23Z",
+          "modified": "2021-02-28T01:20:06Z",
+          "sheet_names": [
+            "Sheet1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-pdf",
+      "path": "fixtures/digital.pdf",
+      "format": "pdf",
+      "category": "digital",
+      "origin": "upstream",
+      "bytes": 208845,
+      "sha256": "92444d8856ce55d9e25dca8b6d1420634fc68b11e1ab1f760916ea29ddd312b2",
+      "provenance": {
+        "url": "https://www.irs.gov/pub/irs-pdf/fw4.pdf",
+        "license": "LicenseRef-US-Government",
+        "attribution": "Internal Revenue Service, Form W-4",
+        "license_evidence": "https://www.irs.gov/about-irs/use-of-content-from-irsgov"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/digital.txt",
+        "text_sha256": "6507cb55766704029066d4b69ca53bb5f8076fed8e0ff9502c6061baca0233a2",
+        "comparison": "anchors",
+        "metadata": {
+          "title": "2026 Form W-4",
+          "author": "C:DC:TS:CAR:MP",
+          "subject": "Employee's Withholding Certificate",
+          "pages": 5
+        }
+      }
+    },
+    {
+      "id": "photo-jpeg",
+      "path": "fixtures/stop.jpg",
+      "format": "jpeg",
+      "category": "photo",
+      "origin": "upstream",
+      "bytes": 112412,
+      "sha256": "4ecae9ea88cc220611b66ccc6eae4a72e3a8e93953defa17fe780ff63a5e876c",
+      "provenance": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Stop_sign_us.jpg",
+        "license": "LicenseRef-Public-Domain",
+        "attribution": "Dori, Stop sign in the United States, 5 April 2004; retouched upstream",
+        "license_evidence": "https://commons.wikimedia.org/w/index.php?title=File:Stop_sign_us.jpg&oldid=1158875086"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/photo.txt",
+        "text_sha256": "2af183be253fd571e13dd3d310357f3a1ccc7b18502a83ed918e0b88a1e5355f",
+        "comparison": "ocr-page",
+        "metadata": {
+          "width": 788,
+          "height": 788
+        }
+      }
+    },
+    {
+      "id": "boundary-docx",
+      "path": "generated/boundary.docx",
+      "format": "docx",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "d6b3654c3c8fd3d7270b7f7f5792a5db8a07ae3858309bc8c9891a2e7c4b579f",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-docx",
+        "license": "MIT",
+        "license_evidence": "licenses/docx-LICENSE",
+        "attribution": "See licenses/docx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/table.docx.txt",
+        "text_sha256": "5c17e0ca1fa27752a9121593269911270971137d73ad7985d0621ee67527696c",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "creator": "Steve Canny",
+          "lastModifiedBy": "Cisco Employee",
+          "revision": "6",
+          "created": "2014-11-01T07:19:00Z",
+          "modified": "2014-11-28T04:26:00Z"
+        }
+      }
+    },
+    {
+      "id": "boundary-jpeg",
+      "path": "generated/boundary.jpeg",
+      "format": "jpeg",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "deddbf5510b6897070e86be84133f477d2831cb1ed043db57539f9302a604e59",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "photo-jpeg",
+        "license": "LicenseRef-Public-Domain",
+        "license_evidence": "https://commons.wikimedia.org/w/index.php?title=File:Stop_sign_us.jpg&oldid=1158875086",
+        "attribution": "Dori, Stop sign in the United States, 5 April 2004; retouched upstream",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/photo.txt",
+        "text_sha256": "2af183be253fd571e13dd3d310357f3a1ccc7b18502a83ed918e0b88a1e5355f",
+        "comparison": "ocr-page",
+        "metadata": {
+          "width": 788,
+          "height": 788
+        }
+      }
+    },
+    {
+      "id": "boundary-pdf",
+      "path": "generated/boundary.pdf",
+      "format": "pdf",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "397b4cd8b66ee033d72eb33c7ea9ba8088a1f2074466fb467e615d1cc13b1e92",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "digital-pdf",
+        "license": "LicenseRef-US-Government",
+        "license_evidence": "https://www.irs.gov/about-irs/use-of-content-from-irsgov",
+        "attribution": "Internal Revenue Service, Form W-4",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/digital.txt",
+        "text_sha256": "6507cb55766704029066d4b69ca53bb5f8076fed8e0ff9502c6061baca0233a2",
+        "comparison": "anchors",
+        "metadata": {
+          "title": "2026 Form W-4",
+          "author": "C:DC:TS:CAR:MP",
+          "subject": "Employee's Withholding Certificate",
+          "pages": 5
+        }
+      }
+    },
+    {
+      "id": "boundary-png",
+      "path": "generated/boundary.png",
+      "format": "png",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "4006cd73c8d3f9b6130a7a6986d6d61c18a0870e2e504b9b627c11ff7a7617e9",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "map-png",
+        "license": "CC-BY-SA-4.0",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml",
+        "attribution": "(C) 2014 Euskaldunaa",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/map.txt",
+        "text_sha256": "e2b20919f8cf17360ac54400a49453dc8e3fc3d5136ca9be446e4865941bb63f",
+        "comparison": "unordered-anchors",
+        "metadata": {
+          "width": 640,
+          "height": 682
+        }
+      }
+    },
+    {
+      "id": "boundary-pptx",
+      "path": "generated/boundary.pptx",
+      "format": "pptx",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "59691a91b6f49f94cc2bbe6fa223ffec3387834781e0765ba525b87fd11d53e9",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-pptx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/table.pptx.txt",
+        "text_sha256": "4e142e7fadf02bfda39d0c555d27b20beeb673b5376ff1db2618d13f1107190c",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "title": "Presentation",
+          "creator": "python-pptx",
+          "lastModifiedBy": "Steve Canny",
+          "revision": "21",
+          "created": "2012-11-17T11:07:40Z",
+          "modified": "2018-09-21T21:17:47Z"
+        }
+      }
+    },
+    {
+      "id": "boundary-xlsx",
+      "path": "generated/boundary.xlsx",
+      "format": "xlsx",
+      "category": "boundary",
+      "origin": "generated",
+      "bytes": 20971520,
+      "sha256": "6f689dd94bcc9cd67c3794ef7768441625fd1c91f4ee6c283fa3812a034c53d3",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "workbook-xlsx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "success",
+        "text_path": "expected/large-xlsx.txt",
+        "text_sha256": "454a9daa2455823bd86f7fe1686fd307b08b08680cbc42efc4b405b290e972bc",
+        "comparison": "ordered-tokens",
+        "metadata": {
+          "creator": "Steve Canny",
+          "lastModifiedBy": "Steve Canny",
+          "created": "2021-02-28T01:19:23Z",
+          "modified": "2021-02-28T01:20:06Z",
+          "sheet_names": [
+            "Sheet1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "empty-pdf",
+      "path": "generated/empty.pdf",
+      "format": "pdf",
+      "category": "empty",
+      "origin": "generated",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "license": "CC0-1.0",
+        "license_evidence": "licenses/generated.md",
+        "attribution": "Whorl corpus contributors, 2026",
+        "changes": "Original synthetic fixture"
+      },
+      "expected": {
+        "outcome": "empty_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "expansion-docx",
+      "path": "generated/expansion.docx",
+      "format": "docx",
+      "category": "expansion",
+      "origin": "generated",
+      "bytes": 89339,
+      "sha256": "8df4b9639fb13587d9471939046e9cebbe4fe2ef415e5b09ea1852494cd20f99",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-docx",
+        "license": "MIT",
+        "license_evidence": "licenses/docx-LICENSE",
+        "attribution": "See licenses/docx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "limit_probe",
+        "metadata": {},
+        "expanded_member_bytes": 67108877,
+        "text_parent": "table-docx"
+      }
+    },
+    {
+      "id": "expansion-pptx",
+      "path": "generated/expansion.pptx",
+      "format": "pptx",
+      "category": "expansion",
+      "origin": "generated",
+      "bytes": 87785,
+      "sha256": "6a7d361f0c4ac875ecea1eaca8bf7d471ac6e00c75f6f81c72990a92de787916",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-pptx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "limit_probe",
+        "metadata": {},
+        "expanded_member_bytes": 67108877,
+        "text_parent": "table-pptx"
+      }
+    },
+    {
+      "id": "expansion-xlsx",
+      "path": "generated/expansion.xlsx",
+      "format": "xlsx",
+      "category": "expansion",
+      "origin": "generated",
+      "bytes": 71448,
+      "sha256": "ca99eeb9d296543bd6c9fd83e62eb54c87a53f61a92ed3e8eda364061f4e3065",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "workbook-xlsx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "limit_probe",
+        "metadata": {},
+        "expanded_member_bytes": 67108877,
+        "text_parent": "workbook-xlsx"
+      }
+    },
+    {
+      "id": "huge-png",
+      "path": "generated/huge.png",
+      "format": "png",
+      "category": "huge-image",
+      "origin": "generated",
+      "bytes": 97276,
+      "sha256": "aded73ca07c469392fea89a2243019f0d2c1d1b9a50288d3945118ecf674c827",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "license": "CC0-1.0",
+        "license_evidence": "licenses/generated.md",
+        "attribution": "Whorl corpus contributors, 2026",
+        "changes": "Original synthetic fixture"
+      },
+      "expected": {
+        "outcome": "limit_probe",
+        "metadata": {
+          "width": 10000,
+          "height": 10000,
+          "decoded_grayscale_bytes": 100000000
+        }
+      }
+    },
+    {
+      "id": "malformed-docx",
+      "path": "generated/malformed.docx",
+      "format": "docx",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "ab2584fc01af28baace7aa2b1a24f1bc49780d83ca7790eb30211b70579a6ab6",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-docx",
+        "license": "MIT",
+        "license_evidence": "licenses/docx-LICENSE",
+        "attribution": "See licenses/docx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "malformed-jpeg",
+      "path": "generated/malformed.jpeg",
+      "format": "jpeg",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "f3d78a22d3b59b88aabe390efedc01f7e9746d600445c89c107709669c571d34",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "photo-jpeg",
+        "license": "LicenseRef-Public-Domain",
+        "license_evidence": "https://commons.wikimedia.org/w/index.php?title=File:Stop_sign_us.jpg&oldid=1158875086",
+        "attribution": "Dori, Stop sign in the United States, 5 April 2004; retouched upstream",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "malformed-pdf",
+      "path": "generated/malformed.pdf",
+      "format": "pdf",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "4afb7d93553b1454400a1835f093cab0713d6b627fea9d298bb880ecb0a20d1d",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "digital-pdf",
+        "license": "LicenseRef-US-Government",
+        "license_evidence": "https://www.irs.gov/about-irs/use-of-content-from-irsgov",
+        "attribution": "Internal Revenue Service, Form W-4",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "malformed-png",
+      "path": "generated/malformed.png",
+      "format": "png",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "97b4c45373edf99ea92973ced3b3fe2d0240504f545f940ec42b7d90e70341d1",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "map-png",
+        "license": "CC-BY-SA-4.0",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml",
+        "attribution": "(C) 2014 Euskaldunaa",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "malformed-pptx",
+      "path": "generated/malformed.pptx",
+      "format": "pptx",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "2551aa4e088042b827267f2cb3b7655512b596df4fe934f43c920beae0285d30",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-pptx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "malformed-xlsx",
+      "path": "generated/malformed.xlsx",
+      "format": "xlsx",
+      "category": "malformed",
+      "origin": "generated",
+      "bytes": 32,
+      "sha256": "6e5021bba214606b4e76ee97406f997357f4f5ed741058f3b8ead16325348912",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "workbook-xlsx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "malformed_file",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-docx",
+      "path": "generated/over-limit.docx",
+      "format": "docx",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "cc6063bd4e583bbd75e5c31afdb0a822d7d8bd01d9c4ceff0ce60c1e74812b7e",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-docx",
+        "license": "MIT",
+        "license_evidence": "licenses/docx-LICENSE",
+        "attribution": "See licenses/docx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-jpeg",
+      "path": "generated/over-limit.jpeg",
+      "format": "jpeg",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "3e142ef8df152db883cd27098e25be610290694d4ccb468b92d21e36700e80bf",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "photo-jpeg",
+        "license": "LicenseRef-Public-Domain",
+        "license_evidence": "https://commons.wikimedia.org/w/index.php?title=File:Stop_sign_us.jpg&oldid=1158875086",
+        "attribution": "Dori, Stop sign in the United States, 5 April 2004; retouched upstream",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-pdf",
+      "path": "generated/over-limit.pdf",
+      "format": "pdf",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "4b0e404c04a8be115784c6d65abee9eff5700b3ae94c7740fd42de3d290cee41",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "digital-pdf",
+        "license": "LicenseRef-US-Government",
+        "license_evidence": "https://www.irs.gov/about-irs/use-of-content-from-irsgov",
+        "attribution": "Internal Revenue Service, Form W-4",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-png",
+      "path": "generated/over-limit.png",
+      "format": "png",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "01e10f27bf033330ef4149d1080fd423f2df2645bbf0e5823eb5e7e5004f7a2d",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "map-png",
+        "license": "CC-BY-SA-4.0",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml",
+        "attribution": "(C) 2014 Euskaldunaa",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-pptx",
+      "path": "generated/over-limit.pptx",
+      "format": "pptx",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "8492e422e8c908f640be7aa3aeb1f6a1c46b6b4e6ca82a9884cfc669f9e3cf99",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "table-pptx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "over-limit-xlsx",
+      "path": "generated/over-limit.xlsx",
+      "format": "xlsx",
+      "category": "over-limit",
+      "origin": "generated",
+      "bytes": 20971521,
+      "sha256": "60da416bf009c006ea725714105eef1bd137412c0cf71084752bbd8ff7dfe607",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "workbook-xlsx",
+        "license": "MIT",
+        "license_evidence": "licenses/pptx-LICENSE",
+        "attribution": "See licenses/pptx-LICENSE",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "file_too_large",
+        "metadata": {}
+      }
+    },
+    {
+      "id": "spoofed-docx",
+      "path": "generated/spoofed.docx",
+      "format": "docx",
+      "category": "type-spoof",
+      "origin": "generated",
+      "bytes": 139794,
+      "sha256": "b51658d4f7feea0a3022af5bca74d2c98b674c889e17ed8a14d717d9ef66ea71",
+      "provenance": {
+        "recipe": "corpus.py:generate",
+        "parent_case": "map-png",
+        "license": "CC-BY-SA-4.0",
+        "license_evidence": "licenses/ocrmypdf-REUSE.toml",
+        "attribution": "(C) 2014 Euskaldunaa",
+        "changes": "See README generation recipes"
+      },
+      "expected": {
+        "outcome": "detect_png",
+        "metadata": {}
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "path": "licenses/docx-LICENSE",
+      "sha256": "7652f271e46d0d533e9dc463f3b5fcbdcacf4d6a9c8d6b554d15efd0f37f6132"
+    },
+    {
+      "path": "licenses/generated.md",
+      "sha256": "1e04cfede5f1b7ec7f2b42d68918c52e05d7bc6f6fa0a35763af570d5075c185"
+    },
+    {
+      "path": "licenses/ocrmypdf-LICENSES-CC-BY-SA-4.0.txt",
+      "sha256": "cde7883b9050a1104f4ac19a1572aafd6e5d7323b68351aaf51fbf4beba54966"
+    },
+    {
+      "path": "licenses/ocrmypdf-REUSE.toml",
+      "sha256": "1cd7fc8fe5201280287d92b02ee4b9a7b14991ae4629389c9253f8d4513a76ad"
+    },
+    {
+      "path": "licenses/ocrmypdf-tests-resources-README.rst",
+      "sha256": "6bdb93f6e44036a3cce7f2166b8a30bf825b18a9a14581ebb0d22dbd4418ca9b"
+    },
+    {
+      "path": "licenses/pptx-LICENSE",
+      "sha256": "7652f271e46d0d533e9dc463f3b5fcbdcacf4d6a9c8d6b554d15efd0f37f6132"
+    },
+    {
+      "path": "licenses/public-domain.md",
+      "sha256": "f5a672b14a12e1ad7db5f7357be02d74e946d39e358db234d8aa9907968e9e1e"
+    },
+    {
+      "path": "corpus.py",
+      "sha256": "26ce64e80eb49a881b277fabc2a6d34637c1aeb936132aff443d3acac78c96aa"
+    }
+  ]
+}

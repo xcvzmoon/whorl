@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "machines": [
+    {
+      "id": "corpus-host",
+      "os": "macOS-27.0-arm64-arm-64bit",
+      "architecture": "arm64",
+      "cpu": "Apple M1",
+      "logical_cpus": 8,
+      "memory_bytes": 8589934592,
+      "target": false
+    }
+  ],
+  "target": {
+    "cpu_cores": 2,
+    "memory_bytes": 4294967296
+  },
+  "trials": [],
+  "status": "not_run",
+  "reason": "Phase 3 benchmarks candidate extractors. Phase 2 validates fixtures only."
+}

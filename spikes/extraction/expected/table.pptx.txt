@@ -1,0 +1,20 @@
+having custom margins
+vert
+ anchor is inherited
+vert
+ anchor is top
+vert
+ anchor is bottom
+unladen
+ swallows
+merged cell
+merged cell
+a
+b
+c
+d
+e
+f
+g
+h
+i

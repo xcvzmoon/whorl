@@ -1,0 +1,5 @@
+# Public domain sources
+
+- IRS, Form W-4 (2026). Retrieved from https://www.irs.gov/pub/irs-pdf/fw4.pdf on 2026-11-03. IRS content produced by federal employees in their duties may be copied. Credit: Internal Revenue Service. Policy: https://www.irs.gov/about-irs/use-of-content-from-irsgov. This corpus implies no IRS endorsement.
+- Mark Twain, Adventures of Huckleberry Finn, page 29. OCRmyPDF identifies c03-29.pdf as a public domain Project Gutenberg scan in its pinned REUSE.toml and resources README, included here. Source: https://www.gutenberg.org/files/76/76-h/images/.
+- Dori, Stop sign in the United States, 5 April 2004. The photographer released this image into the public domain worldwide and grants unrestricted use where that release is unavailable. The upstream version was retouched to remove wires and trees; this corpus preserves it unchanged. License and revision history: https://commons.wikimedia.org/w/index.php?title=File:Stop_sign_us.jpg&oldid=1158875086. Original file revision: 2008-03-11 19:09 UTC.
