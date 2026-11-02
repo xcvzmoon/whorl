@@ -1,4 +1,5 @@
 use crate::{ExtractorTrial, OUTPUT_LIMIT, Result};
+use calamine::{Reader, Xlsx, open_workbook};
 use quick_xml::{Reader as XmlReader, events::Event};
 use serde_json::json;
 use std::{fs::File, io::Read, path::Path};
@@ -129,6 +130,30 @@ pub(crate) fn document(path: &Path, format: &str) -> Result<ExtractorTrial> {
     for name in names {
         for (_, value) in xml_text(&read_xml(&mut zip, &name)?, false)? {
             append(&mut trial, &value)?;
+        }
+    }
+    Ok(trial)
+}
+
+pub(crate) fn spreadsheet(path: &Path) -> Result<ExtractorTrial> {
+    let mut zip = archive(path)?;
+    let mut trial = ExtractorTrial::default();
+    properties(&mut zip, &mut trial)?;
+    let mut workbook: Xlsx<_> = open_workbook(path)?;
+    let names = workbook.sheet_names();
+    if names.len() > 256 {
+        return Err("extraction_limit".into());
+    }
+    trial.metadata.insert("sheet_names".into(), json!(names));
+    for name in workbook.sheet_names() {
+        let range = workbook.worksheet_range(&name)?;
+        if range.get_size().0.saturating_mul(range.get_size().1) > 1_000_000 {
+            return Err("extraction_limit".into());
+        }
+        for row in range.rows() {
+            for cell in row {
+                append(&mut trial, &cell.to_string())?;
+            }
         }
     }
     Ok(trial)

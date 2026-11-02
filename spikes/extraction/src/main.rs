@@ -28,6 +28,7 @@ fn extract(candidate: &str, format: &str, path: &Path) -> Result<ExtractorTrial>
         ("pdfium-ocrs", "pdf") => pdf::pdfium(path, Some("ocrs"))?,
         ("pdfium-tesseract", "pdf") => pdf::pdfium(path, Some("tesseract"))?,
         ("ooxml", "docx" | "pptx") => office::document(path, format)?,
+        ("calamine", "xlsx") => office::spreadsheet(path)?,
         ("image-ocrs", "png" | "jpeg") => picture::extract(path, "ocrs")?,
         ("image-ocrs-filtered", "png" | "jpeg") => picture::extract(path, "ocrs-filtered")?,
         ("image-tesseract-sparse", "png" | "jpeg") => picture::extract(path, "tesseract-sparse")?,
