@@ -7,7 +7,7 @@
 
 ## Status and scope
 
-- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer.
+- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Production OCR tool selection remains in the phase 3 approval gate.
 - Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction selection and policy approval remain pending; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
@@ -44,7 +44,7 @@
 - [ ] [[plans/01-document-similarity/phase-03-extraction-spike]]
 - [x] [[plans/01-document-similarity/phase-04-schema]]
 - [x] [[plans/01-document-similarity/phase-05-normalization]]
-- [ ] [[plans/01-document-similarity/phase-06-shingles]]
+- [x] [[plans/01-document-similarity/phase-06-shingles]]
 - [ ] [[plans/01-document-similarity/phase-07-signatures]]
 - [ ] [[plans/01-document-similarity/phase-08-verification]]
 - [ ] [[plans/01-document-similarity/phase-09-candidate-lookup]]
