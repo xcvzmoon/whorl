@@ -1,0 +1,10 @@
+*
+!Cargo.toml
+!Cargo.lock
+!src/
+!src/*.rs
+!assets/
+!assets/*.tgz
+!assets/*.tar.gz
+!assets/*.onnx
+!assets/*.traineddata
