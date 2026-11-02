@@ -20,9 +20,9 @@ Implement the similarity interface and metadata policy.
 
 - [ ] Expose a small CPU-only interface testable without HTTP/database.
 - [ ] Use strict score > configurable 0.75; standard error at threshold is sqrt(0.75*0.25/125), about 0.0387.
-- [ ] Propose a three-standard-error margin about 0.116 for near-threshold exact evaluation; explain in rustdoc and obtain approval for residual estimate error or verify every accepted candidate exactly.
+- [ ] Exactly verify every retrieved candidate as approved in phase 1; use estimates only to order work, never for acceptance or rejection.
 - [ ] Flatten metadata into deterministic key=value tokens; exclude creation/modification dates and size; define nested arrays/nulls and empty-set behavior.
-- [ ] Default text-only qualification; return metadata alongside; weighted policy needs approved weights and candidate completeness semantics.
+- [ ] Default text-only qualification; return metadata alongside. Implement the approved weighted formula and null handling in docs/decisions.md; validate and snapshot the configured weight.
 
 ## Verification
 

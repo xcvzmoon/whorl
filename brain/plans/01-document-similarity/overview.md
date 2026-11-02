@@ -3,23 +3,23 @@
 ## Source
 
 - [Original specification](../../../docs/original-specification.md), preserved verbatim before the planning request.
-- Later deployment and storage clarifications are recorded in [open decisions](../../../docs/decisions.md).
+- Later deployment and storage clarifications are recorded in [decisions and evidence gates](../../../docs/decisions.md).
 
 ## Status and scope
 
-- Planning only. The application is currently a dependency-free Hello World binary.
-- This change adds planning, README, and Rust GitHub automation; it does not implement the service.
+- Phase 1 is complete and its API/contract decisions are approved. The application is currently a dependency-free Hello World binary.
+- Phase 2 defines the extraction corpus; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
 - Target two CPU cores and 4 GiB RAM; two CPU workers maximum, with queue concurrency no greater than pool size.
 - Use latest stable PostgreSQL verified at implementation time, with an explicit tested major version recorded then.
-- Preserve 20 MiB/file and 100 MiB/request exact binary byte limits pending explicit decimal-unit clarification.
-- Corpus size/growth, peak submissions, instance count, provider, and representative real fixtures remain unknown.
+- Preserve 20 MiB/file and 100 MiB/request exact binary byte limits as approved.
+- MinIO and Docker-hosted PostgreSQL are confirmed. Corpus size/growth, peak submissions, instance count, and representative real fixtures remain unknown.
 
 ## Approval gates
 
-- Approve [API proposal](../../../docs/api-contract.md) before HTTP implementation.
-- Resolve [open decisions](../../../docs/decisions.md) before the affected core implementation.
+- [API contract](../../../docs/api-contract.md) approved November 3, 2026.
+- Resolve [decisions and evidence gates](../../../docs/decisions.md) before the affected core implementation.
 - Approve extraction recommendations after measured corpus trials; no quality/speed claims yet.
 - Complete graphile_worker spike before worker implementation; report before switching libraries.
 - Preserve the requested order: extraction spike, schema/core, queue spike/worker, HTTP, acceptance.
@@ -32,14 +32,14 @@
 - Separate check/ingest URLs share one pipeline; this makes writes explicit without duplicating processing.
 - Prefer S3 to a shared volume for cross-instance access, per user clarification; do not reuse sibling storage.
 - Use graphile_worker first; apalis-postgres is an evaluated fallback requiring approval, never an automatic switch.
-- Exact verification for all accepted candidates is the reliable alternative to estimator acceptance; decision remains open.
+- Exactly verify all retrieved candidates; MinHash estimates only order work. This deviation from estimator acceptance is approved.
 - LSH is probabilistic: the 25x5 layout has about 99.885% retrieval at Jaccard 0.75, not exhaustive recall.
 - Audit each dependency at implementation time using crates.io and repository evidence; add no runtime crates in this planning change.
 - Applicable skills: brain, todo, plan, unslop; testing/debugging/quality during implementation, k6 for load scripts.
 
 ## Phases
 
-- [ ] [[plans/01-document-similarity/phase-01-contract]]
+- [x] [[plans/01-document-similarity/phase-01-contract]]
 - [ ] [[plans/01-document-similarity/phase-02-extraction-corpus]]
 - [ ] [[plans/01-document-similarity/phase-03-extraction-spike]]
 - [ ] [[plans/01-document-similarity/phase-04-schema]]
