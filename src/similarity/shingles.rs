@@ -35,8 +35,8 @@ impl Error for NoExtractableText {}
 ///
 /// Owns the canonical text and word offsets; shingles borrow from that text when
 /// requested. Inputs shorter than k have no shingles and use full-text equality.
-/// Normalization, source profile, k, and the short-text rule belong in the future
-/// signature version. Run construction outside async executor threads.
+/// Normalization, source profile, k, and the short-text rule are included in
+/// [`super::signature::SignatureVersion`]. Run construction outside async executor threads.
 #[derive(Debug)]
 pub struct ShingleSet {
     text: String,
