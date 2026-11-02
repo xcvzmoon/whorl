@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Require an opening description
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: python
+        run: |
+          import json
+          import os
+          import re
+
+          with open(os.environ['GITHUB_EVENT_PATH'], encoding='utf-8') as event_file:
+              event = json.load(event_file)
+          body = re.sub(r'<!--.*?-->', '', event['pull_request'].get('body') or '', flags=re.S).strip()
+          opening = re.split(r'\n\s*\n', body, maxsplit=1)[0]
+          sentences = re.split(r'(?<=[.!?])\s+', opening)
+          if (
+              not opening
+              or re.search(r'^\s*(?:#|[-*+>] |\d+[.)] |\||```|~~~)', opening, flags=re.M)
+              or len(sentences) not in (2, 3)
+              or any(not re.search(r'[.!?][\"\'\u2019\u201d)]*$', sentence) for sentence in sentences)
+          ):
+              raise SystemExit('Start the PR description with a paragraph of 2-3 complete sentences before any headings or lists.')
+
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup project
+        uses: ./.github/actions/setup-project
+
+      - name: Run static gates
+        run: |
+          cargo fmt --all -- --check
+          cargo clippy --locked --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        run: cargo test --locked --all-targets --all-features
+
+      - name: Check documentation
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: cargo doc --locked --no-deps --all-features
+
+      - name: Audit dependencies and licenses
+        run: cargo deny check advisories licenses sources
+
+      - name: Build server
+        run: cargo build --locked --release
+
+  ci:
+    name: CI
+    if: ${{ always() }}
+    needs: [checks]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every gate to pass
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+        run: |
+          test "$CHECKS_RESULT" = success

@@ -1,0 +1,20 @@
+name: Setup project
+description: Install stable Rust with formatting, lint, and dependency audit tools. Requires checkout first.
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+
+    - name: Install prebuilt dependency auditor
+      uses: taiki-e/install-action@v2.89.1
+      with:
+        tool: cargo-deny@0.20.2
+        fallback: none
+
+    - name: Fetch locked dependencies
+      shell: bash
+      run: cargo fetch --locked
