@@ -2,3 +2,4 @@
 
 pub mod normalize;
 pub mod shingles;
+pub mod signature;
