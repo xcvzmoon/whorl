@@ -1,33 +1,52 @@
-# Decisions requiring approval or evidence
+# Decisions and evidence gates
+
+## Phase 1 approval
+
+Approved by the user on November 3, 2026: the [API contract](api-contract.md) and the recommendations below. The user confirmed continuation after clarification that these resolve the original plan's open decisions, including exact verification replacing estimator-based acceptance/rejection. The [original specification](original-specification.md) remains unchanged as the source record.
 
 ## Confirmed deployment constraints
 
-- Two CPU cores, 4 GiB RAM; latest stable PostgreSQL selected and pinned when implementation begins.
-- Direct S3-compatible storage; do not use the sibling upload service.
-- One through five files; preserve specified exact limits of 20,971,520 bytes/file and 104,857,600 bytes/request. The later use of "mb" is treated as shorthand; decimal limits require explicit confirmation.
-- No real extraction corpus supplied. Corpus scale/growth and peak concurrency remain open.
+- Two CPU cores, 4 GiB RAM; at most two CPU workers, with queue handler concurrency no greater than the CPU pool size.
+- Direct MinIO S3-compatible storage; do not use the sibling upload service.
+- PostgreSQL runs in Docker. Select, pin, and test the latest stable major version when database implementation begins.
+- One through five files; default exact limits are 20,971,520 bytes/file and 104,857,600 content bytes/request.
 
-## Mathematical constraints
+## Approved contract decisions
 
-- At true Jaccard 0.75, 25x5 LSH candidate probability is 1-(1-0.75^5)^25, approximately 0.99885. At 0.3 it is approximately 0.059. LSH cannot guarantee returning every match. Approve probabilistic recall or revise the exhaustive-result requirement.
-- Mixing band index into a 32-bit value prevents identical bands at different positions from systematically producing identical hashes. It cannot guarantee cross-band collision freedom in a finite hash space. Preserve the required representation, treat collisions as candidates, and verify them, subject to approval of this interpretation.
-- MinHash agreement has standard error sqrt(p*(1-p)/125), about 0.0387 at p=0.75. A three-SE boundary window is about 0.116. Accepting outside that window still has nonzero threshold error. Recommendation: use estimates to order candidates and verify all returned matches exactly; this deviates from the requested fast accept/reject policy and needs approval. Alternatively retain that policy and explicitly accept residual classification error.
-- Short-document fallback changes the shingle space. Proposed one/two-word exact matching and effective k=min(3, words) needs a defined cross-length comparison policy, versioning, and candidate lookup for short inputs. Empty extraction should be a per-file failure, not an empty-set duplicate.
-- Weighted metadata can qualify text-dissimilar documents that text LSH will never retrieve. Approve text-gated weighting/tie-breaking or design an additional metadata candidate strategy before enabling weights. Default remains text-only threshold.
-- Content-hash identity deduplicates normalized text across source types/metadata; per-upload metadata and provenance must survive separately. Define whether multiple external document ids for identical content are required.
+| Topic | Approved decision | Consequence |
+| --- | --- | --- |
+| Retrieval | Keep 125-value signatures and 25x5 LSH; accept probabilistic recall | Return every qualifying retrieved candidate, but cannot promise every qualifying corpus document. |
+| Verification | Exactly verify every retrieved candidate; use MinHash only to order work | Removes estimator threshold errors, at additional CPU cost. Deviates from the requested fast acceptance/rejection. |
+| Band collisions | Keep indexed 32-bit band hashes and verify collisions | Band index mixing reduces systematic collisions; it cannot guarantee collision freedom. |
+| Short documents | For fewer than configured k words, use normalized full-text equality only; retrieve through content hash | Identical short texts match with score 1; unequal short texts and short/long pairs have text similarity zero (metadata may still qualify them under weighted mode). Record this rule in the signature version. |
+| Empty text | Fail with `no_extractable_text` | Empty extraction never becomes an exact duplicate. |
+| Weighted policy | Keep default text-only; weighted mode uses the union of text LSH and all same-client, same-version documents with a nonempty metadata token intersection | Any positive metadata Jaccard has a shared token. This adds a metadata-token candidate index and may be expensive for common tokens. Text-only contribution still has probabilistic recall. |
+| Weighted score | `text_weight * text_similarity + (1 - text_weight) * metadata_similarity`, with weight in [0,1]; undefined metadata contributes zero | Validate configuration before admission and snapshot the weight. Exactly verify both component scores for the candidate union. No text threshold gate in weighted mode. |
+| Content identity | One canonical document per client and normalized text, with separate upload provenance | Repeated ingests reuse its id; canonical metadata comes from its first successful ingest. |
+| Identity and visibility | Trusted proxy identity, client-scoped corpus and batches | Requires stripping/replacing the identity header and preventing direct API access. |
+| Submission and polling | Use the linked API contract, including all-invalid 202, no request replay, per-file corpus visibility, and expiration | An ambiguous submission retry may create another batch. |
+| Upload recovery | Stop storing an oversized part, continue bounded draining/counting; abort on whole-request limit | Preserves valid siblings while counting all received file content. |
+| Body allowance | 1,048,576 bytes beyond content cap | Default raw cap is 105,906,176 bytes; proxy cap must exceed it. |
+| Retention | Results expire 24 hours after terminal completion; owner-visible tombstones last another 24 hours | Corpus retention is independent. |
 
-## Resource and operational choices
+Weighted candidate retrieval must use canonical metadata tokens consistent with scoring. Zero-weight components need no candidate source. An empty/empty metadata score is null in responses and contributes zero in weighted scoring. This policy preserves weighted qualification without inventing a text gate; its index and query cost must be evaluated before enabling weighted mode.
 
-- Proposed HTTP overhead allowance: 1 MiB; raw body cap 105,906,176 bytes. Reverse proxy limit must exceed it. Per-file/total streaming counters remain authoritative.
-- A running Rust thread cannot be forcibly terminated safely. Hard extraction timeouts need cooperative cancellation or subprocess isolation with process/resource limits; a timed-out future alone is insufficient.
-- Per-file oversize recovery needs draining the rejected part, while whole-request overflow aborts immediately. Confirm this necessary reading of the two upload requirements.
-- S3 objects and PostgreSQL commits are not atomic. Admission leases and orphan cleanup must cover disconnects/crashes without exceeding stored-byte caps.
-- Queue execution must be idempotent; do not claim exactly-once execution from job keys. The queue spike must establish protection against concurrent reclaim of live long jobs.
-- Worker pool waiting slots, queue depth/bytes quotas, per-client quotas, deadlines, retry/backoff, image/archive/XML/page/sheet limits, and extraction timeouts need measured defaults before production implementation.
-- API proposal needs approval, including all-invalid 202 batches, cross-client access, check/ingest visibility, expiration, metadata defaults, and request replay semantics.
+## Mathematical limits
 
-## Evidence still required
+- LSH candidate probability is `1 - (1 - p^5)^25`: approximately 0.99885 at Jaccard 0.75 and 0.059 at 0.3. Probabilistic retrieval can miss qualifying corpus documents; exact verification prevents threshold false positives among retrieved candidates.
+- Mixing band position into a 32-bit hash cannot guarantee collision freedom. Hash collisions add candidates that exact verification filters.
+- MinHash standard error at 0.75 with 125 values is about 0.0387. Estimates may order work but must never accept or discard candidates at the threshold. The estimator margin is no longer a classification policy.
 
-- Extraction quality/speed/RSS across real files, native versus external tool choices, OCR shingle choice.
-- graphile_worker queue guarantees and maintenance health; fallback requires a separate report before switching.
-- Each runtime dependency's current release, repository activity, downloads, issue responsiveness, license, MSRV, and deliberate version pinning.
+## Later implementation and deployment gates
+
+These unknowns are recorded rather than invented. They do not prevent contract approval.
+
+- Corpus count, typical extracted text size, growth, peak batch submissions, and instance count: establish the measured workload in phase 21 before making capacity claims; calibrate admission quotas in phase 16.
+- MinIO endpoint, bucket ownership, and secret delivery method: resolve in phase 12 before storage deployment. Never put credentials in this repository or queue payloads.
+- Docker PostgreSQL persistent storage, connection/TLS requirements, and migration privileges: resolve in phase 4 before database deployment.
+- Real extraction fixtures, extraction quality/speed/RSS, native versus external tool choices, OCR shingle policy, expansion limits, and timeouts: measure in phases 2 and 3 before adapters are built.
+- A running Rust thread cannot be forcibly terminated safely. Hard extraction timeouts require cooperative cancellation or subprocess isolation with process/resource limits.
+- S3 objects and PostgreSQL commits are not atomic. Admission leases and orphan cleanup must cover disconnects/crashes while retaining stored-byte accounting (phases 12 and 16).
+- Queue retries, live-job reclaim protection, migration ownership, shutdown, and retention: establish in the phase 10 graphile_worker spike. Evaluate apalis-postgres only after reporting a failed requirement and obtaining approval to switch. Do not claim exactly-once execution from job keys.
+- Worker waiting slots, queue depth/byte quotas, per-client quotas, deadlines, and retry/backoff values require measured defaults before production use.
+- Audit runtime dependencies at their implementation phase for releases, activity, downloads, issue responsiveness, license, MSRV, and deliberate version pinning.
