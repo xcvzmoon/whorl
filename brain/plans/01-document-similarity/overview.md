@@ -7,7 +7,7 @@
 
 ## Status and scope
 
-- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Production OCR tool selection remains in the phase 3 approval gate.
+- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Phase 8 completed exact candidate verification, validated policy snapshots, deterministic metadata tokens, and weighted scoring. Production OCR tool selection remains in the phase 3 approval gate.
 - Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction selection and policy approval remain pending; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
@@ -46,7 +46,7 @@
 - [x] [[plans/01-document-similarity/phase-05-normalization]]
 - [x] [[plans/01-document-similarity/phase-06-shingles]]
 - [x] [[plans/01-document-similarity/phase-07-signatures]]
-- [ ] [[plans/01-document-similarity/phase-08-verification]]
+- [x] [[plans/01-document-similarity/phase-08-verification]]
 - [ ] [[plans/01-document-similarity/phase-09-candidate-lookup]]
 - [ ] [[plans/01-document-similarity/phase-10-queue-spike]]
 - [ ] [[plans/01-document-similarity/phase-11-cpu-pool]]
