@@ -1,0 +1,269 @@
+{
+  "queried_at": "2026-11-02T20:45:52.101674+00:00",
+  "repository": {
+    "full_name": "tesseract-ocr/tesseract",
+    "html_url": "https://github.com/tesseract-ocr/tesseract",
+    "pushed_at": "2026-11-02T18:20:18Z",
+    "updated_at": "2026-11-02T20:27:29Z",
+    "open_issues_count": 488,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "c21194d06998e244754d65329d6c9f1e14fe392e",
+      "html_url": "https://github.com/tesseract-ocr/tesseract/commit/c21194d06998e244754d65329d6c9f1e14fe392e",
+      "commit": {
+        "author": {
+          "name": "m00dy",
+          "email": "professor.moody@pm.me",
+          "date": "2026-11-02T18:20:18Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T18:20:18Z"
+        },
+        "message": "Validate the LSTM softmax child runtime type during deserialization (#4670)\n\nNetwork::CreateFromFile can return a network subclass other than\nFullyConnected. Verify the runtime type before storing the child, delete\nrejected networks, and leave softmax_ null on failure.\n\nAdd tests for rejected Input children and valid FullyConnected children\nacross both softmax LSTM variants.\n\nAssisted-by: AI tooling (static audit and test drafting)\nSigned-off-by: Nathan Keys <professor.moody@pm.me>",
+        "tree": {
+          "sha": "afc71d726d726280b1d443711310f425717f0d5a",
+          "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/trees/afc71d726d726280b1d443711310f425717f0d5a"
+        },
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/commits/c21194d06998e244754d65329d6c9f1e14fe392e",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6NRiCRC1aQ7uu5UhlAAAUG8QAFZfPzMQyXMx88tzqm3SLAFS\nQyKtpz+8cWztTdHDOeeIUK/7qgj3Mab6eW3KhBepJ2fpDao0Zz84rjkyeNdEA5st\niRUDkV3+gn+akTAGlGeUIou65oYtOzECI5eWmc9gXIH5JzSDbXPWisfwiYGZVECW\n8KUE2x4897cReAOnpaj8xiJ7LGBnzNUmhJHpZN13whz6Jp3vx78yAl+yh93QkkzS\nrvWSVP4XD8UvMhnlT8Vgd0/yjX9u0k5L0U0GYX5MwZXNqPX6EY3bm7dbyIy8UF/C\n9jfHIcqnXWd5BpNQIsjfBuCg5WTdCpUiD7UkRELwtDG50rYmSxHwHSb7pez2PqEM\nI4rd1oVbcnJr2B9QDZ+oHR+Ccqtg0u2wdOsHvdgbIV/Xyt/NH56qPtb/GeIPllFh\nZjMJHgyV7A8zP87Tk5ePlpdu2HeZHdT+StIXWKILeGSk3S5Kk40PqkNqvTLGqoic\nadhHFGrhQByGewvYpznWTTwpaYB+05siAlQyiOOC0sEcei5ufoLYr3+C6NEm8X2Q\nC9rAu+fc+MrlXl9002RE/e7WWBj+CVmFnV7aKWDtKqceusLSf/oDI4/Yt3dObc0u\nJB6/6Z9DUj2djls5vBIuJ8DbuCtwHGW27Bc5Npv4qT4fs46pbVL9vbh2yKnX8ZS9\nuN8mV71B/5jZvMO8ylzX\n=jI2w\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree afc71d726d726280b1d443711310f425717f0d5a\nparent 0860367e4ddb92df0c0d27c5c3d4100e1e385808\nauthor m00dy <professor.moody@pm.me> 1793643618 -0600\ncommitter GitHub <noreply@github.com> 1793643618 +0100\n\nValidate the LSTM softmax child runtime type during deserialization (#4670)\n\nNetwork::CreateFromFile can return a network subclass other than\nFullyConnected. Verify the runtime type before storing the child, delete\nrejected networks, and leave softmax_ null on failure.\n\nAdd tests for rejected Input children and valid FullyConnected children\nacross both softmax LSTM variants.\n\nAssisted-by: AI tooling (static audit and test drafting)\nSigned-off-by: Nathan Keys <professor.moody@pm.me>",
+          "verified_at": "2026-11-02T18:20:18Z"
+        }
+      }
+    },
+    {
+      "sha": "0860367e4ddb92df0c0d27c5c3d4100e1e385808",
+      "html_url": "https://github.com/tesseract-ocr/tesseract/commit/0860367e4ddb92df0c0d27c5c3d4100e1e385808",
+      "commit": {
+        "author": {
+          "name": "Brad Smith",
+          "email": "brad@comstyle.com",
+          "date": "2026-11-02T12:57:14Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T12:57:14Z"
+        },
+        "message": "Add error checking for elf_aux_info() (#4637)\n\nExplicitly initialize hardware capabilities to zero if the auxiliary vector lookup fails.\n\nCo-authored-by: Stefan Weil <sw@weilnetz.de>",
+        "tree": {
+          "sha": "1658fda2636cf3b17615d85dc8f354d31fd043f5",
+          "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/trees/1658fda2636cf3b17615d85dc8f354d31fd043f5"
+        },
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/commits/0860367e4ddb92df0c0d27c5c3d4100e1e385808",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6IiqCRC1aQ7uu5UhlAAAzgUQAB1TpIzvTNFpqRpTWlizpwhq\nPakEewkniKGU8l10HvFNUplwsuu8GZDPHDFG1fNWRwsHUfq9HwzmBBWAAuzI2qL5\nJd0MzWXDbL9hlI0wsHTphP/jZEzPjDF8r5PDF83EcNbHHXwCENNMhzlGLlpc+q8o\nCMKCNx1wSAnonT3UOeaFxdggi2tkdU0XQcOBIr7OjkQoXhleiKrk8Uh+lKtqJx0U\n95u8u0chTDB4XkfzgyDnwlzQg5MChZIXQx2UJb7MdKVPqf3M7yLhSOfobdbDaTE9\n+jRgks3/BPPz0vBtNc5IghOkNJkfleUmQojzuDITT/QTt3ft5ybYYa+vCQ2V70JL\nu5pau/E+wM6sbgFuUApoQmZnFcFQTQbE3GlvPtbNIjzLVDN7s67Ofy8DqFsn0L1l\nlxLBbANyp94p4xIL/xPmgw18sgIkrZ65Gmx+s6vYsPaJkEIQZZJ9fvjsgZ/6db+S\n+THjcZjGHrNFe7QDOKnwqw86firuwzIqW/CTlfGXPNWAkTIEizjlmxNChh9nWdPA\nExL5ts3DMZ+soAbwtCAFzF2gGWGDg/gJMi/WXixfQgiaVSv47qlwfq0oRw5oaUy2\nv2pVgHu8nfwbzcKZhlCGsE2La+62sD7+84M63cB7YXG4Ld5oVvj0uFKWLblGOZKO\nbyBd1HekjwlFDSvGFOxf\n=Izf4\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 1658fda2636cf3b17615d85dc8f354d31fd043f5\nparent 4d8565029174d6d70385795eebefd876533e9b97\nauthor Brad Smith <brad@comstyle.com> 1793624234 -0500\ncommitter GitHub <noreply@github.com> 1793624234 +0100\n\nAdd error checking for elf_aux_info() (#4637)\n\nExplicitly initialize hardware capabilities to zero if the auxiliary vector lookup fails.\n\nCo-authored-by: Stefan Weil <sw@weilnetz.de>",
+          "verified_at": "2026-11-02T12:57:14Z"
+        }
+      }
+    },
+    {
+      "sha": "4d8565029174d6d70385795eebefd876533e9b97",
+      "html_url": "https://github.com/tesseract-ocr/tesseract/commit/4d8565029174d6d70385795eebefd876533e9b97",
+      "commit": {
+        "author": {
+          "name": "Vishnu Srivatsava",
+          "email": "49309611+VishnuSrivatsava@users.noreply.github.com",
+          "date": "2026-11-02T12:35:47Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T12:35:47Z"
+        },
+        "message": "Fix exit code when no renderers could be created (#4669)\n\nWhen renderer initialization fails for every requested output format\n(e.g. the output file cannot be created), PreloadRenderers leaves the\nrenderer vector empty and main1() falls through with ret_val set to\nEXIT_SUCCESS, so tesseract exits 0 after printing an error. Scripts\ncalling the CLI cannot detect the failure without parsing stderr.\n\nSet EXIT_FAILURE when outputbase was requested but no renderers could\nbe created. Plain text output and stdout mode are unaffected because\nthey always produce a renderer; training mode pushes a null renderer.\n\nFixes #4668",
+        "tree": {
+          "sha": "fec1f66c0247f5c9a7148262bc323443389fb48d",
+          "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/trees/fec1f66c0247f5c9a7148262bc323443389fb48d"
+        },
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/git/commits/4d8565029174d6d70385795eebefd876533e9b97",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6IOjCRC1aQ7uu5UhlAAAQwkQAH6mNw6UM5dv+4at/EZ1AeF+\nh4a+ZsHtle3QxC4mLgj8Fvb8Ahj3oMhtsJLNhHeFgJwKjv+LWRB6Fbo9c/+Jx3Uf\nP8ewAwy1GTeVMif0p8puB2CQ3dwq1lhpJfvjmjBtcgWquiYnm2pgJDHrqRFOUdF9\nxsew8UfBBSUkxUQ4H1qIiMSggMvyWVY99JUWBn5DeXHmirAzp2uev8Tm9/VS5Lxx\nu9c++ENM68jhWm59Ebc3WuEtfWCDem0CIAzjiWN6pl/wDXgVU9PElZDZ7VHarBjv\nDTuJDuJPEIsXn4bt/Byo5qGB7a0TyDievC1Lk3abviLKE5rdgGkcj/enMtoEzdrk\npKNYtTVdpohtsvuG01C1793c+5Ea/JbE1vr4jU16IHJLuM79xCNuW6ZQ1rQ1HLZ7\nI0avcD0fLZZx8Ao+TCS3o4Cd/ALpHkifi0NiXhfz9vC5wDFkg5MUNqIwKFKlzUen\ncJWkFWexknGxmJf5rFd3Uv3DbMPCpDbOX5UvYGYrgPPR255fiIrXqd3qpioh7TQK\nn0L72I35w0lCixIOO7x4WYhkmEbSMoMxiB3HisXJ2aWcw4AHN7CLxMJDzgv0U6Ql\n+yriJ3sGEda3CCQ9jOS2PeM8Ceiwtnqbp1dqME5GuWmw/qVGpImb4JqkelLKeKvO\ng9o61upzVwx5mbi8diNK\n=ppTl\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree fec1f66c0247f5c9a7148262bc323443389fb48d\nparent 8a2cc748331b18579e763ecb9517f93a1fab803f\nauthor Vishnu Srivatsava <49309611+VishnuSrivatsava@users.noreply.github.com> 1793622947 +0530\ncommitter GitHub <noreply@github.com> 1793622947 +0100\n\nFix exit code when no renderers could be created (#4669)\n\nWhen renderer initialization fails for every requested output format\n(e.g. the output file cannot be created), PreloadRenderers leaves the\nrenderer vector empty and main1() falls through with ret_val set to\nEXIT_SUCCESS, so tesseract exits 0 after printing an error. Scripts\ncalling the CLI cannot detect the failure without parsing stderr.\n\nSet EXIT_FAILURE when outputbase was requested but no renderers could\nbe created. Plain text output and stdout mode are unaffected because\nthey always produce a renderer; training mode pushes a null renderer.\n\nFixes #4668",
+          "verified_at": "2026-11-02T12:35:48Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 4675,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4675",
+      "title": "serialis: require declared sizes to be backed by remaining bytes",
+      "state": "closed",
+      "created_at": "2026-10-31T16:18:45Z",
+      "updated_at": "2026-11-02T08:00:12Z",
+      "closed_at": "2026-11-02T08:00:08Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4675",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4675",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4675.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4675.patch",
+        "merged_at": "2026-11-02T08:00:08Z"
+      }
+    },
+    {
+      "number": 4674,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4674",
+      "title": "lstm: don't cap legitimate inference buffers in ResizeNoInit",
+      "state": "closed",
+      "created_at": "2026-10-31T16:18:38Z",
+      "updated_at": "2026-11-02T11:46:51Z",
+      "closed_at": "2026-11-02T11:46:45Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4674",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4674",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4674.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4674.patch",
+        "merged_at": "2026-11-02T11:46:45Z"
+      }
+    },
+    {
+      "number": 4673,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/issues/4673",
+      "title": "Feature request : Read several files at once with wildcard *",
+      "state": "open",
+      "created_at": "2026-10-30T15:31:41Z",
+      "updated_at": "2026-11-02T05:10:56Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 4672,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/issues/4672",
+      "title": "The Elephant in the Room : PDF as input",
+      "state": "closed",
+      "created_at": "2026-10-30T15:25:08Z",
+      "updated_at": "2026-11-02T04:51:48Z",
+      "closed_at": "2026-11-02T04:51:14Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 4671,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4671",
+      "title": "Validate Plumbing child dimensions during deserialization",
+      "state": "closed",
+      "created_at": "2026-10-28T23:15:29Z",
+      "updated_at": "2026-11-02T11:43:32Z",
+      "closed_at": "2026-11-02T11:43:32Z",
+      "comments": 3,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4671",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4671",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4671.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4671.patch",
+        "merged_at": "2026-11-02T11:43:32Z"
+      }
+    },
+    {
+      "number": 4670,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4670",
+      "title": "Validate the LSTM softmax child runtime type during deserialization",
+      "state": "closed",
+      "created_at": "2026-10-28T21:37:11Z",
+      "updated_at": "2026-11-02T18:20:19Z",
+      "closed_at": "2026-11-02T18:20:19Z",
+      "comments": 3,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4670",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4670",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4670.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4670.patch",
+        "merged_at": "2026-11-02T18:20:18Z"
+      }
+    },
+    {
+      "number": 4669,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4669",
+      "title": "Fix exit code when no renderers could be created",
+      "state": "closed",
+      "created_at": "2026-10-28T15:50:27Z",
+      "updated_at": "2026-11-02T12:35:48Z",
+      "closed_at": "2026-11-02T12:35:48Z",
+      "comments": 3,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4669",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4669",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4669.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4669.patch",
+        "merged_at": "2026-11-02T12:35:48Z"
+      }
+    },
+    {
+      "number": 4668,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/issues/4668",
+      "title": "Tesseract CLI returns exit code 0 when all renderers fail",
+      "state": "closed",
+      "created_at": "2026-10-27T20:37:47Z",
+      "updated_at": "2026-11-02T12:35:50Z",
+      "closed_at": "2026-11-02T12:35:50Z",
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 4667,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4667",
+      "title": "Fix use-after-free in ReplaceCurrentWord with several languages",
+      "state": "closed",
+      "created_at": "2026-10-27T09:31:16Z",
+      "updated_at": "2026-10-28T11:21:52Z",
+      "closed_at": "2026-10-27T14:27:00Z",
+      "comments": 6,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4667",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4667",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4667.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4667.patch",
+        "merged_at": "2026-10-27T14:27:00Z"
+      }
+    },
+    {
+      "number": 4666,
+      "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4666",
+      "title": "Feature/vegeocr platform",
+      "state": "closed",
+      "created_at": "2026-10-27T01:59:09Z",
+      "updated_at": "2026-10-30T18:30:25Z",
+      "closed_at": "2026-10-30T18:30:25Z",
+      "comments": 2,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tesseract-ocr/tesseract/pulls/4666",
+        "html_url": "https://github.com/tesseract-ocr/tesseract/pull/4666",
+        "diff_url": "https://github.com/tesseract-ocr/tesseract/pull/4666.diff",
+        "patch_url": "https://github.com/tesseract-ocr/tesseract/pull/4666.patch",
+        "merged_at": null
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "5.5.4",
+    "published_at": "2026-10-28T11:19:43Z",
+    "html_url": "https://github.com/tesseract-ocr/tesseract/releases/tag/5.5.4"
+  }
+}

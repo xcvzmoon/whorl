@@ -1,0 +1,278 @@
+{
+  "normalization": "corpus normalization then lowercase, retain Unicode alphanumerics/whitespace, collapse whitespace; character shingles include spaces",
+  "short_policy": "fewer than k units: normalized full-text equality token; empty gives empty set",
+  "symmetry": "same normalization and shingle function for reference/ingest and OCR/query, with no source-dependent configuration",
+  "scope": "Real scan page and STOP photo only; map anchor list has no valid reading order/full transcription. Unrelated controls: other reference plus complete DOCX/PPTX/XLSX references. Descriptive evidence, not recall calibration.",
+  "rows": [
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-ocrs",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 0.8926174496644296,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.018404907975460124
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-ocrs",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 0.726962457337884,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-ocrs",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.6176470588235294,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-ocrs",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.9234875444839857,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.05573770491803279
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-ocrs",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 0.8286778398510242,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.0009149130832570906
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-tesseract",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 0.9375,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.01875
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-tesseract",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 0.9216417910447762,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-tesseract",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.8996655518394648,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-tesseract",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.9584086799276673,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.05555555555555555
+    },
+    {
+      "case_id": "scan-pdf",
+      "candidate": "pdfium-tesseract",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 0.9503968253968254,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.0009132420091324201
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 0.25,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0.08333333333333333
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.25,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0.03571428571428571
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs-filtered",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 1.0,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs-filtered",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 1.0,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs-filtered",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 1.0,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs-filtered",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 1.0,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0.0196078431372549
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-ocrs-filtered",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 1.0,
+      "exceeds_075": true,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract-sparse",
+      "unit": "word",
+      "k": 1,
+      "ocr_vs_reference_jaccard": 0.5,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract-sparse",
+      "unit": "word",
+      "k": 2,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract-sparse",
+      "unit": "word",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract-sparse",
+      "unit": "character",
+      "k": 3,
+      "ocr_vs_reference_jaccard": 0.25,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0.018518518518518517
+    },
+    {
+      "case_id": "photo-jpeg",
+      "candidate": "image-tesseract-sparse",
+      "unit": "character",
+      "k": 5,
+      "ocr_vs_reference_jaccard": 0.0,
+      "exceeds_075": false,
+      "max_unrelated_reference_jaccard": 0.0010162601626016261
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "queried_at": "2026-11-02T20:45:52.074594+00:00",
+  "url": "https://crates.io/api/v1/crates/quick-xml",
+  "crate": {
+    "name": "quick-xml",
+    "max_stable_version": "0.42.0",
+    "downloads": 516004791,
+    "recent_downloads": 159461676,
+    "repository": "https://github.com/tafia/quick-xml",
+    "updated_at": "2026-08-22T19:22:01.795943Z"
+  },
+  "versions": [
+    {
+      "num": "0.42.0",
+      "created_at": "2026-08-22T19:22:01.795943Z",
+      "license": "MIT",
+      "rust_version": "1.86",
+      "downloads": 13917985,
+      "checksum": "41b1177fdf999d2321d3fb46ff47159d9c1fb9ad66a4879f8c50a0b504615e9b",
+      "yanked": false
+    },
+    {
+      "num": "0.26.0",
+      "created_at": "2022-10-23T11:02:03.246895Z",
+      "license": "MIT",
+      "rust_version": "1.46",
+      "downloads": 46888330,
+      "checksum": "7f50b1c63b38611e7d4d7f68b82d3ad0cc71a2ad2e7f61fc10f1328d917c93cd",
+      "yanked": false
+    }
+  ]
+}

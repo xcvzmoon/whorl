@@ -1,0 +1,275 @@
+{
+  "queried_at": "2026-11-02T20:45:52.048180+00:00",
+  "repository": {
+    "full_name": "tafia/calamine",
+    "html_url": "https://github.com/tafia/calamine",
+    "pushed_at": "2026-11-02T08:43:02Z",
+    "updated_at": "2026-11-02T15:10:25Z",
+    "open_issues_count": 42,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "commits": [
+    {
+      "sha": "5e06a8b1ed72bbf08b7a10e8c28f72668c51adf7",
+      "html_url": "https://github.com/tafia/calamine/commit/5e06a8b1ed72bbf08b7a10e8c28f72668c51adf7",
+      "commit": {
+        "author": {
+          "name": "John McNamara",
+          "email": "jmcnamara@cpan.org",
+          "date": "2026-11-02T08:42:47Z"
+        },
+        "committer": {
+          "name": "John McNamara",
+          "email": "jmcnamara@cpan.org",
+          "date": "2026-11-02T08:42:47Z"
+        },
+        "message": "docs: update contributing guide",
+        "tree": {
+          "sha": "462a0424cab5345c4f6af868265ded6e9c17f1f9",
+          "url": "https://api.github.com/repos/tafia/calamine/git/trees/462a0424cab5345c4f6af868265ded6e9c17f1f9"
+        },
+        "url": "https://api.github.com/repos/tafia/calamine/git/commits/5e06a8b1ed72bbf08b7a10e8c28f72668c51adf7",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "a4dba3b5309d81b2774018a13be39e68d938c3c7",
+      "html_url": "https://github.com/tafia/calamine/commit/a4dba3b5309d81b2774018a13be39e68d938c3c7",
+      "commit": {
+        "author": {
+          "name": "John McNamara",
+          "email": "jmcnamara@cpan.org",
+          "date": "2026-11-02T01:21:48Z"
+        },
+        "committer": {
+          "name": "John McNamara",
+          "email": "jmcnamara@cpan.org",
+          "date": "2026-11-02T01:21:48Z"
+        },
+        "message": "release: 0.38.0",
+        "tree": {
+          "sha": "a2eea971136297760058df38d186fd4b726f9d31",
+          "url": "https://api.github.com/repos/tafia/calamine/git/trees/a2eea971136297760058df38d186fd4b726f9d31"
+        },
+        "url": "https://api.github.com/repos/tafia/calamine/git/commits/a4dba3b5309d81b2774018a13be39e68d938c3c7",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "4c11648704d85aae22c7f9cfe8e589596cc91ef3",
+      "html_url": "https://github.com/tafia/calamine/commit/4c11648704d85aae22c7f9cfe8e589596cc91ef3",
+      "commit": {
+        "author": {
+          "name": "John McNamara",
+          "email": "jmcnamara13@gmail.com",
+          "date": "2026-11-02T01:03:51Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T01:03:51Z"
+        },
+        "message": "tests: rename tests and fixtures to describe what they test (#771)",
+        "tree": {
+          "sha": "64c165e35733360bef9d98d132974abcaa9fe0dd",
+          "url": "https://api.github.com/repos/tafia/calamine/git/trees/64c165e35733360bef9d98d132974abcaa9fe0dd"
+        },
+        "url": "https://api.github.com/repos/tafia/calamine/git/commits/4c11648704d85aae22c7f9cfe8e589596cc91ef3",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq5+F3CRC1aQ7uu5UhlAAARCwQAKtIh7XLQe8bcL+A3e8iIUoN\nUwvqV41uo3cqZfkt1r3iIB71FEt+/Wj6BrBV/VUqJVZc25OgwuZK7c1paN7kBJiv\nuyQ9i1mYYkf0xK1LZGhN0SRTov+MkyLeNneF78/CPT3DxeRCQv1a9q1SnPXp+c5I\nfGiLlatqnl3JmCmmMAZLqgrK/r91dRuG9DFP+xcoQY1GZNet3MSvzK7JxYygPfpq\n1EAvb3AizkXrnxd7iF8QGjMJLl5biLKXQ29lcHClprVKZ0IT4tk9wMA8JMoxih+8\n5vkLvssPTDDQkcvBCl8gAteTlx9/eP4tFoMD/PXWWI6JHiPh8F1OJVMLf+CAl85L\nJuviHI5XlAozmT+RrT+z77lCix4gw+BCskM01Mhv+VSUnJ5rAqUofYxYk6REyZNk\n2I4H+5CjuyIex9Luq73a4d8AokZ7qoregBpu6qerDgG+Z+QUxff29x+YMMdnTsCw\n9aAv12EGrzVbTZo8Vuwk89J5eNekUqgUTqIpj6Byvb8d3GMU8OIFaIJkU86UZJ/J\nFbyD6ruco3SaLap4GphWgv8eNaOgM6+uxh3YRZRq9Pwp4ZvqPmahjNM/HkbtmoXD\nWBeqyv/7WUVdSqAt/eRZpzNRMxxWdloD6wEHxXoL/lOoYcOf0R2wC5wohn0G6tAn\ngITVT5Q5GjIIjTKs2Phr\n=An42\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 64c165e35733360bef9d98d132974abcaa9fe0dd\nparent 966295cc3f0cc12600662eea230b69dc3e50fad1\nauthor John McNamara <jmcnamara13@gmail.com> 1793581431 +0000\ncommitter GitHub <noreply@github.com> 1793581431 +0000\n\ntests: rename tests and fixtures to describe what they test (#771)",
+          "verified_at": "2026-11-02T01:03:52Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 774,
+      "html_url": "https://github.com/tafia/calamine/pull/774",
+      "title": "ods: return an error instead of looping forever on an unclosed table",
+      "state": "open",
+      "created_at": "2026-11-02T18:55:05Z",
+      "updated_at": "2026-11-02T18:58:33Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/774",
+        "html_url": "https://github.com/tafia/calamine/pull/774",
+        "diff_url": "https://github.com/tafia/calamine/pull/774.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/774.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 773,
+      "html_url": "https://github.com/tafia/calamine/issues/773",
+      "title": "ods: infinite busy loop in read_table when </table:table> is missing or ill-formed (Event::Eof is swallowed)",
+      "state": "open",
+      "created_at": "2026-11-02T12:42:39Z",
+      "updated_at": "2026-11-02T18:57:51Z",
+      "closed_at": null,
+      "comments": 2,
+      "pull_request": null
+    },
+    {
+      "number": 772,
+      "html_url": "https://github.com/tafia/calamine/pull/772",
+      "title": "xlsx/xlsb/ods: skip zip entries whose name can't be decoded",
+      "state": "open",
+      "created_at": "2026-11-02T04:12:07Z",
+      "updated_at": "2026-11-02T08:59:55Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/772",
+        "html_url": "https://github.com/tafia/calamine/pull/772",
+        "diff_url": "https://github.com/tafia/calamine/pull/772.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/772.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 771,
+      "html_url": "https://github.com/tafia/calamine/pull/771",
+      "title": "tests: rename tests and fixtures to describe what they test",
+      "state": "closed",
+      "created_at": "2026-11-02T00:58:39Z",
+      "updated_at": "2026-11-02T01:03:52Z",
+      "closed_at": "2026-11-02T01:03:52Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/771",
+        "html_url": "https://github.com/tafia/calamine/pull/771",
+        "diff_url": "https://github.com/tafia/calamine/pull/771.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/771.patch",
+        "merged_at": "2026-11-02T01:03:52Z"
+      }
+    },
+    {
+      "number": 770,
+      "html_url": "https://github.com/tafia/calamine/pull/770",
+      "title": "ci: add contributing guide and PR template",
+      "state": "closed",
+      "created_at": "2026-11-01T17:46:53Z",
+      "updated_at": "2026-11-02T01:03:28Z",
+      "closed_at": "2026-11-02T01:03:28Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/770",
+        "html_url": "https://github.com/tafia/calamine/pull/770",
+        "diff_url": "https://github.com/tafia/calamine/pull/770.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/770.patch",
+        "merged_at": "2026-11-02T01:03:28Z"
+      }
+    },
+    {
+      "number": 769,
+      "html_url": "https://github.com/tafia/calamine/issues/769",
+      "title": "Help wanted: refactoring or replacement of the cfb.rs library in Calamine",
+      "state": "closed",
+      "created_at": "2026-11-01T13:34:30Z",
+      "updated_at": "2026-11-01T20:09:05Z",
+      "closed_at": "2026-11-01T20:09:05Z",
+      "comments": 3,
+      "pull_request": null
+    },
+    {
+      "number": 768,
+      "html_url": "https://github.com/tafia/calamine/pull/768",
+      "title": "xlsb: read merged cells",
+      "state": "open",
+      "created_at": "2026-11-01T13:20:35Z",
+      "updated_at": "2026-11-02T14:11:15Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/768",
+        "html_url": "https://github.com/tafia/calamine/pull/768",
+        "diff_url": "https://github.com/tafia/calamine/pull/768.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/768.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 767,
+      "html_url": "https://github.com/tafia/calamine/pull/767",
+      "title": "xlsx: decode all _xHHHH_ escapes as UTF-16 code units",
+      "state": "closed",
+      "created_at": "2026-10-31T20:14:38Z",
+      "updated_at": "2026-11-01T11:06:25Z",
+      "closed_at": "2026-11-01T11:06:15Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/767",
+        "html_url": "https://github.com/tafia/calamine/pull/767",
+        "diff_url": "https://github.com/tafia/calamine/pull/767.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/767.patch",
+        "merged_at": "2026-11-01T11:06:15Z"
+      }
+    },
+    {
+      "number": 766,
+      "html_url": "https://github.com/tafia/calamine/pull/766",
+      "title": "Fix Clippy test-module ordering in XLSX reader",
+      "state": "open",
+      "created_at": "2026-10-31T17:08:13Z",
+      "updated_at": "2026-10-31T22:44:59Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/766",
+        "html_url": "https://github.com/tafia/calamine/pull/766",
+        "diff_url": "https://github.com/tafia/calamine/pull/766.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/766.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 765,
+      "html_url": "https://github.com/tafia/calamine/pull/765",
+      "title": "Fix BIFF5 multibyte string decoding",
+      "state": "closed",
+      "created_at": "2026-10-31T16:57:43Z",
+      "updated_at": "2026-10-31T20:27:30Z",
+      "closed_at": "2026-10-31T20:27:22Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/calamine/pulls/765",
+        "html_url": "https://github.com/tafia/calamine/pull/765",
+        "diff_url": "https://github.com/tafia/calamine/pull/765.diff",
+        "patch_url": "https://github.com/tafia/calamine/pull/765.patch",
+        "merged_at": "2026-10-31T20:27:22Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "v0.38.0",
+    "published_at": "2026-11-02T01:28:02Z",
+    "html_url": "https://github.com/tafia/calamine/releases/tag/v0.38.0"
+  }
+}

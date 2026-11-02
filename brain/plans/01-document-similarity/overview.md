@@ -8,7 +8,7 @@
 ## Status and scope
 
 - Phase 1 is complete and its API/contract decisions are approved. The application is currently a dependency-free Hello World binary.
-- Phase 2 is complete: 34 reproducible extraction cases and a measurement protocol are available in `spikes/extraction/`. Phase 3 benchmarks candidates; no service endpoints are implemented yet.
+- Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction selection and policy approval remain pending; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
 - Target two CPU cores and 4 GiB RAM; two CPU workers maximum, with queue concurrency no greater than pool size.

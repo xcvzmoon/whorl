@@ -1,0 +1,287 @@
+{
+  "queried_at": "2026-11-02T20:45:52.061730+00:00",
+  "repository": {
+    "full_name": "tafia/quick-xml",
+    "html_url": "https://github.com/tafia/quick-xml",
+    "pushed_at": "2026-11-02T18:26:57Z",
+    "updated_at": "2026-11-02T18:27:04Z",
+    "open_issues_count": 91,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "commits": [
+    {
+      "sha": "250824b3f7c1bfa986177083b89263d7103b5e62",
+      "html_url": "https://github.com/tafia/quick-xml/commit/250824b3f7c1bfa986177083b89263d7103b5e62",
+      "commit": {
+        "author": {
+          "name": "Mingun",
+          "email": "Alexander_Sergey@mail.ru",
+          "date": "2026-11-02T18:26:57Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T18:26:57Z"
+        },
+        "message": "Merge pull request #1017 from youdie006/fix-multi-byte-indent-char\n\nFix indentation when the indent character is not ASCII",
+        "tree": {
+          "sha": "4224ee574d3fa258a0c9a4d71dd499652ec7b9db",
+          "url": "https://api.github.com/repos/tafia/quick-xml/git/trees/4224ee574d3fa258a0c9a4d71dd499652ec7b9db"
+        },
+        "url": "https://api.github.com/repos/tafia/quick-xml/git/commits/250824b3f7c1bfa986177083b89263d7103b5e62",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6NXxCRC1aQ7uu5UhlAAAA70QABNwf03HxgRRF5FyVFjhyKRv\nVF3C5VxG+hFYewgI8mKO7/8iyvvN95Tt5XTt/P3a9EgL8M+PddtUVEiaDqoWZWAG\nay2Z9olbHTeyX2J9n59hY+mcD5tlcyH8b31yw99LUgjqsmYa8WuJzeXImDkkYQtD\nO4PxlKv/94+E1t6b8XzHuPMIH574h82VNsjna6EczWCQVwbspRueTkMWIym1j299\nIXRkADHHurty2mh5DZB90j65JMU/rLhjvFCfX1VBB6JV4BOYga+N3/ujCzv7rMjX\nB9MFEVXP/5/XWsi0I2cSEIXr6oGR1MBMSvOZ3n2dHyPZxdYnioIuCtONtZfrvKqJ\nToDsGh/7ARa4vVWZ3ztfZNx9ekKhoqtuPfkpQRhU/xzSto29LCFYwn+ity6Bsvuz\nmdSllIrY33EyNvk3YefIYeWgAQnpZFxKxJcNKAm3EcY+xmgMwrfOZywulWdLwP+t\nSM3IAoOIFXNvOhlA6u2+2xtJLTalbFZeTAqFpaTXDKRZYynqH5b9UH+YZI3OM/xW\nK7ceZUOpp6HmYapgcrCMH2jJwCfxwnGY1wUnTu41QpcpEIGyImrm/vCJZvM3CO9W\nktb18hf3o0XAIYuElu8gDp8e/7h4uBQtGiP/phFScmxBzCgPu3K8Zf+6guIwlaIp\nVS13miNI+rV6aQRRY0BZ\n=aFuA\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 4224ee574d3fa258a0c9a4d71dd499652ec7b9db\nparent 41f1ad60f49c581c437a4afb6a0e0b7360c64249\nparent 76db56fcdc1e1bcd21ef31b8dd6304df05a2c916\nauthor Mingun <Alexander_Sergey@mail.ru> 1793644017 +0500\ncommitter GitHub <noreply@github.com> 1793644017 +0500\n\nMerge pull request #1017 from youdie006/fix-multi-byte-indent-char\n\nFix indentation when the indent character is not ASCII",
+          "verified_at": "2026-11-02T18:26:57Z"
+        }
+      }
+    },
+    {
+      "sha": "76db56fcdc1e1bcd21ef31b8dd6304df05a2c916",
+      "html_url": "https://github.com/tafia/quick-xml/commit/76db56fcdc1e1bcd21ef31b8dd6304df05a2c916",
+      "commit": {
+        "author": {
+          "name": "youdie006",
+          "email": "xncb135@korea.ac.kr",
+          "date": "2026-09-09T04:05:40Z"
+        },
+        "committer": {
+          "name": "Mingun",
+          "email": "Alexander_Sergey@mail.ru",
+          "date": "2026-11-02T18:07:50Z"
+        },
+        "message": "Fix indentation when the indent character is not ASCII\n\nIndentation tracks current_indent_len as a byte index into its indents\ncache, but grew and shrank it by indent_size, a count of characters.\nWriter::new_with_indent takes a u8 and char::from turns any byte above\n0x7F into a two byte character, so the index landed inside a character\nand the slice in current() panicked, or one level of indent came out\nhalf as wide as asked for.\n\nSerializer::indent takes a char and passed it on as `indent_char as u8`,\nwhich truncated every non-ASCII character to a byte and emitted control\ncharacters instead.",
+        "tree": {
+          "sha": "4224ee574d3fa258a0c9a4d71dd499652ec7b9db",
+          "url": "https://api.github.com/repos/tafia/quick-xml/git/trees/4224ee574d3fa258a0c9a4d71dd499652ec7b9db"
+        },
+        "url": "https://api.github.com/repos/tafia/quick-xml/git/commits/76db56fcdc1e1bcd21ef31b8dd6304df05a2c916",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "41f1ad60f49c581c437a4afb6a0e0b7360c64249",
+      "html_url": "https://github.com/tafia/quick-xml/commit/41f1ad60f49c581c437a4afb6a0e0b7360c64249",
+      "commit": {
+        "author": {
+          "name": "Mingun",
+          "email": "Alexander_Sergey@mail.ru",
+          "date": "2026-11-02T17:44:16Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-11-02T17:44:16Z"
+        },
+        "message": "Merge pull request #1031 from Mingun/improve-errors\n\nImprove `Display` implementation of errors + some other supporting refactoring",
+        "tree": {
+          "sha": "ae65b1d7abd1dc540f807d410697e88029dd121c",
+          "url": "https://api.github.com/repos/tafia/quick-xml/git/trees/ae65b1d7abd1dc540f807d410697e88029dd121c"
+        },
+        "url": "https://api.github.com/repos/tafia/quick-xml/git/commits/41f1ad60f49c581c437a4afb6a0e0b7360c64249",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6MvwCRC1aQ7uu5UhlAAAsvEQAGS0JquD4YhEWrdolw40jc4i\nMItQDn6uMKg9ZzFHQBn+eIn6Jt+fuB2yvuquiPKcI2B+YE1pqvvm6+cJIukbJgfb\nzGWTe1IHTwMc6zzjp35DXXS9YVH2lMFU434YUWw/j/7c1n+8FpfSyfXxcGUw6Kap\nfSR/HOBDMweyBZqIVrrrQD2J2hVtNLJCz1yC5a9nIbeg0uY70ltVh6fHVN3RicSA\nbbMCgmXVIQVROQrNbEN/Q34O1506ThfnLkJ3LylgvuMiqrlAli5H43by21WxwJKt\n6+wrWZkVE87Bq/yjWrHi4HavehWo/8WanBV4lkFRq4Ru1zsgztwffOB8RVSxqRSG\nJa1Bxe6l+puu8aeN+GBra3sGoyU5aVwFGuOB72oKmZBFzGSoMZgz6Vc0EeWfUkQy\n9IBPZubuSsb9/2v+FeAvsa25X5QTWzPiQSGhx7vQDFmNLHfcBDVU6rukB47WBano\nIcav33qxzz7N3gYg6XT196Ytz6VGr9us26ps6eKcY93+UMRxx2mwlTYjW2IzYkNY\n0iP7On1J6xL1n+tIE8DlHO+u9d2CZZIoX0rdnTomCeUQaULcB7Q9prMyxnpSt7FR\nu+GQ7z4zImLXcNR+xKDTZ7y1T5wDAxOicrLMd7TZEmcyYORRMyD/TQ3Fq0sEWwmA\nZICwNdDmC8lfG0RMqpUi\n=WxoL\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree ae65b1d7abd1dc540f807d410697e88029dd121c\nparent 1b51b972a26846082db26fc1a95d15c9b0763aae\nparent 29e0b879cdcdca9764e3f023ab484296fe57c980\nauthor Mingun <Alexander_Sergey@mail.ru> 1793641456 +0500\ncommitter GitHub <noreply@github.com> 1793641456 +0500\n\nMerge pull request #1031 from Mingun/improve-errors\n\nImprove `Display` implementation of errors + some other supporting refactoring",
+          "verified_at": "2026-11-02T17:44:16Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 1032,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1032",
+      "title": "Escape `\"` in attribute values written by BytesStart::push_attribute",
+      "state": "closed",
+      "created_at": "2026-11-02T11:46:23Z",
+      "updated_at": "2026-11-02T16:35:46Z",
+      "closed_at": "2026-11-02T16:34:51Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1032",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1032",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1032.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1032.patch",
+        "merged_at": "2026-11-02T16:34:51Z"
+      }
+    },
+    {
+      "number": 1031,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1031",
+      "title": "Improve `Display` implementation of errors + some other supporting refactoring",
+      "state": "closed",
+      "created_at": "2026-10-31T20:45:27Z",
+      "updated_at": "2026-11-02T17:44:21Z",
+      "closed_at": "2026-11-02T17:44:17Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1031",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1031",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1031.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1031.patch",
+        "merged_at": "2026-11-02T17:44:17Z"
+      }
+    },
+    {
+      "number": 1030,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1030",
+      "title": "Escape `>` of `]]>` in text with minimal escaping",
+      "state": "closed",
+      "created_at": "2026-10-28T16:06:01Z",
+      "updated_at": "2026-10-30T18:02:28Z",
+      "closed_at": "2026-10-30T16:41:48Z",
+      "comments": 2,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1030",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1030",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1030.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1030.patch",
+        "merged_at": "2026-10-30T16:41:48Z"
+      }
+    },
+    {
+      "number": 1029,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1029",
+      "title": "Limit total entity expansion during attribute value normalization",
+      "state": "open",
+      "created_at": "2026-10-27T06:57:21Z",
+      "updated_at": "2026-10-31T11:47:29Z",
+      "closed_at": null,
+      "comments": 2,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1029",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1029",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1029.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1029.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1028,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1028",
+      "title": "Check XML element completion after Serde map visitors",
+      "state": "open",
+      "created_at": "2026-10-27T04:07:38Z",
+      "updated_at": "2026-10-27T07:16:57Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1028",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1028",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1028.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1028.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1027,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1027",
+      "title": "Reject duplicated namespace declarations in NamespaceResolver::push",
+      "state": "closed",
+      "created_at": "2026-10-26T13:42:13Z",
+      "updated_at": "2026-10-31T16:17:01Z",
+      "closed_at": "2026-10-31T16:17:01Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1027",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1027",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1027.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1027.patch",
+        "merged_at": "2026-10-31T16:17:01Z"
+      }
+    },
+    {
+      "number": 1026,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1026",
+      "title": "Reject empty prefix in xmlns: namespace declarations",
+      "state": "closed",
+      "created_at": "2026-10-25T17:16:26Z",
+      "updated_at": "2026-10-25T18:57:38Z",
+      "closed_at": "2026-10-25T18:57:32Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1026",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1026",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1026.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1026.patch",
+        "merged_at": "2026-10-25T18:57:32Z"
+      }
+    },
+    {
+      "number": 1025,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1025",
+      "title": "Reject character references to U+FFFE and U+FFFF",
+      "state": "closed",
+      "created_at": "2026-10-24T13:33:20Z",
+      "updated_at": "2026-10-25T17:31:08Z",
+      "closed_at": "2026-10-25T14:28:48Z",
+      "comments": 4,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1025",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1025",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1025.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1025.patch",
+        "merged_at": "2026-10-25T14:28:48Z"
+      }
+    },
+    {
+      "number": 1024,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1024",
+      "title": "Reject reserved namespaces as the default namespace in NamespaceResolver",
+      "state": "closed",
+      "created_at": "2026-10-20T12:04:11Z",
+      "updated_at": "2026-10-23T08:41:33Z",
+      "closed_at": "2026-10-23T08:41:33Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1024",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1024",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1024.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1024.patch",
+        "merged_at": "2026-10-23T08:41:33Z"
+      }
+    },
+    {
+      "number": 1023,
+      "html_url": "https://github.com/tafia/quick-xml/pull/1023",
+      "title": "Fix DecodingReader mis-decoding content within the detection prefix",
+      "state": "closed",
+      "created_at": "2026-10-18T20:41:48Z",
+      "updated_at": "2026-10-23T07:51:47Z",
+      "closed_at": "2026-10-23T07:51:46Z",
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/tafia/quick-xml/pulls/1023",
+        "html_url": "https://github.com/tafia/quick-xml/pull/1023",
+        "diff_url": "https://github.com/tafia/quick-xml/pull/1023.diff",
+        "patch_url": "https://github.com/tafia/quick-xml/pull/1023.patch",
+        "merged_at": "2026-10-23T07:51:46Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": "v0.42.0",
+    "published_at": "2026-08-22T19:29:59Z",
+    "html_url": "https://github.com/tafia/quick-xml/releases/tag/v0.42.0"
+  }
+}

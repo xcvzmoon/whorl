@@ -1,0 +1,269 @@
+{
+  "queried_at": "2026-11-02T20:45:52.062823+00:00",
+  "repository": {
+    "full_name": "image-rs/image",
+    "html_url": "https://github.com/image-rs/image",
+    "pushed_at": "2026-09-15T18:09:16Z",
+    "updated_at": "2026-11-02T20:16:26Z",
+    "open_issues_count": 244,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "075e65d618a323e5cb48c1d8710a2eca25d690c6",
+      "html_url": "https://github.com/image-rs/image/commit/075e65d618a323e5cb48c1d8710a2eca25d690c6",
+      "commit": {
+        "author": {
+          "name": "Aurelia Molzer",
+          "email": "5550310+197g@users.noreply.github.com",
+          "date": "2026-09-15T18:09:16Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-09-15T18:09:16Z"
+        },
+        "message": "Merge pull request #3116 from telecos/ci/cargo-deny-miniz-oxide\n\nci: Allow duplicate miniz_oxide 0.8",
+        "tree": {
+          "sha": "036aa33d5783e83fecd3530fd1fa4ddf9689e1ed",
+          "url": "https://api.github.com/repos/image-rs/image/git/trees/036aa33d5783e83fecd3530fd1fa4ddf9689e1ed"
+        },
+        "url": "https://api.github.com/repos/image-rs/image/git/commits/075e65d618a323e5cb48c1d8710a2eca25d690c6",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqqYnMCRC1aQ7uu5UhlAAAqTIQACntgUkYJqJHm6aCvda/nE/S\nuCYej9lFaGWq1fyLrJBQNIGK72H8rHTfa49/3gt0lMvWqKaHFYxIbmCL/Oc6vgyH\nvpmiFp2VnCDaYNCcdmZ2KFGfxvuJFGgEnnBkBnv+JRvZ9A8Qrbb3keWm8PBScwSz\njgv8c/+KdclDfYGWFXEeSrT/abmhXj9lxWvKf3kd+b1F4AgeB1h1hIG25HcnWaLz\n32niaUQnSjvuVdjFJHg61j+WxEJDaXNwwYP1zCAjAw+ZReBi0TsawHnZ4OLhcWr+\n2K3zkPk+2a1AmBcOVUkAP1PlNCuQ665YOuzb2lDwtfyqAbSO1OAZQ7kSNJm+6EQU\nTBtQc5rAV5msfZwf1qGi+PBniRhEdMdE47o1nuRvIjvsOulGDQBMOQlJ5UToWwfh\n1Nb6Crs9AnQSCEmqX335UAjdvhjglpsc0vxC3On6kMVV6+F2fgDxulXBfuOsGfTh\npEF9qR4GcDXyFzC1HTbMTiX6WJvusWohRoKmODnKMZXUe0r99Yz5Hvvz4POF+jxY\nDHw6vuMxh/vm8lU3dryHmiaOyzrzcyJABzs+utl1ycmO1CCIrF/EdD5g/T69GJ3F\npSHZQ4BZNk8vz1b+wAsOrZr7RtuFALX14PMFKb8DmjdR72E2IqadZI8DlsI0X8Z1\na7PS77wdJNqZxDjl5Mmt\n=KOES\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 036aa33d5783e83fecd3530fd1fa4ddf9689e1ed\nparent 6812e732343b0eaaeeef90ca751dd0e73430fb15\nparent 9880b50512b3624c91b5b042118514dc7f8dc583\nauthor Aurelia Molzer <5550310+197g@users.noreply.github.com> 1789495756 +0000\ncommitter GitHub <noreply@github.com> 1789495756 +0000\n\nMerge pull request #3116 from telecos/ci/cargo-deny-miniz-oxide\n\nci: Allow duplicate miniz_oxide 0.8",
+          "verified_at": "2026-09-15T18:09:16Z"
+        }
+      }
+    },
+    {
+      "sha": "9880b50512b3624c91b5b042118514dc7f8dc583",
+      "html_url": "https://github.com/image-rs/image/commit/9880b50512b3624c91b5b042118514dc7f8dc583",
+      "commit": {
+        "author": {
+          "name": "telecos",
+          "email": "sergiog@microsoft.com",
+          "date": "2026-09-15T14:05:09Z"
+        },
+        "committer": {
+          "name": "telecos",
+          "email": "sergiog@microsoft.com",
+          "date": "2026-09-15T14:05:09Z"
+        },
+        "message": "ci: Allow duplicate miniz_oxide 0.8",
+        "tree": {
+          "sha": "036aa33d5783e83fecd3530fd1fa4ddf9689e1ed",
+          "url": "https://api.github.com/repos/image-rs/image/git/trees/036aa33d5783e83fecd3530fd1fa4ddf9689e1ed"
+        },
+        "url": "https://api.github.com/repos/image-rs/image/git/commits/9880b50512b3624c91b5b042118514dc7f8dc583",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "6812e732343b0eaaeeef90ca751dd0e73430fb15",
+      "html_url": "https://github.com/image-rs/image/commit/6812e732343b0eaaeeef90ca751dd0e73430fb15",
+      "commit": {
+        "author": {
+          "name": "Aurelia Molzer",
+          "email": "5550310+197g@users.noreply.github.com",
+          "date": "2026-08-28T07:49:37Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-08-28T07:49:37Z"
+        },
+        "message": "Merge pull request #3105 from image-rs/generic-image-pixels-iterator\n\nBound Pixel iterator for empty images",
+        "tree": {
+          "sha": "d8c1da7ff709dea987e0cbb6455cc09c32a360b1",
+          "url": "https://api.github.com/repos/image-rs/image/git/trees/d8c1da7ff709dea987e0cbb6455cc09c32a360b1"
+        },
+        "url": "https://api.github.com/repos/image-rs/image/git/commits/6812e732343b0eaaeeef90ca751dd0e73430fb15",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqkT2RCRC1aQ7uu5UhlAAAyVEQALIO/bJ49xuu7IUOfJB2T7S0\nJmsDDKx1tzgXNuD/VADBHA46JgSv//GKsKCGvqu9vZ4bAdNTh5I3dP9t5k/ktwWB\ngn1xWU6bRer4WMMd40cFOJOqld+fdEpr6gOe9+cGzR9YJCQIvV1JTAy8CH0cpRLN\nigu+jiFOrB0GFwOUKBJSgxtcCJgfsBk+gTDz+yLDNm6rHXLTAS7bGooX+U6iSNaD\nRctjnAn10n1fxrgxwHrBkyVpygpo/Hoj6gDG4NZfYd6A0zKkaXe0znGWfifzld2q\nga8uR+Azsw4DCffCEN8KQW6wS7C3+t0ruirB4dzROKnbKt4mE0VgQfCPj/jFyN2O\nycEUATF50pdmlcBYXUoMMQ23aFYacEyF4wRdIbct1UMh50D9e0MciWihEeeuev1G\npO+fyiuNnRB/0UXNGS1GS5osDD0CB5St4I3hh1Fe4dvSiOhlhQui6IktxwP3DY7N\nXrvTh095z6YgMWhJeFU6j8Nih9R5MwniR3yNJe9FJEQ7kqE/PtNdNk4/w7FtnU0s\nqKIeQtpkEZQBfT+Bns0ZXUIvCT78IuDWz+zQKFRYrzr7xwilMHxvD5WYCasp0Bas\nu3gIhIkYi+MHWxoeqi3goCdTWI0u7odbqUgX25ufKguYZgnrW5IY03r7WYsNPhHv\nXvWwF530pt9qZDD3Xu98\n=fDoK\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree d8c1da7ff709dea987e0cbb6455cc09c32a360b1\nparent a20d0bb34bd4f3d8090331702e7f0063b52878dd\nparent 43b3d2649588590a5b33d33e54ced53212950424\nauthor Aurelia Molzer <5550310+197g@users.noreply.github.com> 1787903377 +0000\ncommitter GitHub <noreply@github.com> 1787903377 +0000\n\nMerge pull request #3105 from image-rs/generic-image-pixels-iterator\n\nBound Pixel iterator for empty images",
+          "verified_at": "2026-08-28T07:49:37Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 3138,
+      "html_url": "https://github.com/image-rs/image/issues/3138",
+      "title": "`gamma_value()` returns `Ok(None)` for all gAMA PNGs under png 0.18.x",
+      "state": "closed",
+      "created_at": "2026-11-01T10:01:15Z",
+      "updated_at": "2026-11-01T21:10:36Z",
+      "closed_at": "2026-11-01T21:10:36Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 3137,
+      "html_url": "https://github.com/image-rs/image/pull/3137",
+      "title": "Parallelize the separable gaussian blur with rayon",
+      "state": "open",
+      "created_at": "2026-10-29T14:33:57Z",
+      "updated_at": "2026-10-29T14:33:57Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3137",
+        "html_url": "https://github.com/image-rs/image/pull/3137",
+        "diff_url": "https://github.com/image-rs/image/pull/3137.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3137.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3136,
+      "html_url": "https://github.com/image-rs/image/pull/3136",
+      "title": "Add `has_format` method to `ImageReaderOptions`",
+      "state": "open",
+      "created_at": "2026-10-29T10:57:04Z",
+      "updated_at": "2026-10-29T10:57:04Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3136",
+        "html_url": "https://github.com/image-rs/image/pull/3136",
+        "diff_url": "https://github.com/image-rs/image/pull/3136.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3136.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3135,
+      "html_url": "https://github.com/image-rs/image/pull/3135",
+      "title": "webp: forward max_alloc to image-webp memory limit",
+      "state": "open",
+      "created_at": "2026-10-28T14:58:47Z",
+      "updated_at": "2026-10-28T14:58:47Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3135",
+        "html_url": "https://github.com/image-rs/image/pull/3135",
+        "diff_url": "https://github.com/image-rs/image/pull/3135.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3135.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3134,
+      "html_url": "https://github.com/image-rs/image/issues/3134",
+      "title": "imageops::resize adds 1 to every channel on main (regression from 20a23082)",
+      "state": "open",
+      "created_at": "2026-10-28T05:39:06Z",
+      "updated_at": "2026-10-28T05:39:06Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 3133,
+      "html_url": "https://github.com/image-rs/image/pull/3133",
+      "title": "Enforce dimension limits in TiffDecoder and AvifDecoder set_limits",
+      "state": "open",
+      "created_at": "2026-10-27T18:48:40Z",
+      "updated_at": "2026-10-27T18:48:40Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3133",
+        "html_url": "https://github.com/image-rs/image/pull/3133",
+        "diff_url": "https://github.com/image-rs/image/pull/3133.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3133.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3132,
+      "html_url": "https://github.com/image-rs/image/pull/3132",
+      "title": "BMP: read pixels after the palette and bitmasks when data_offset points into the headers",
+      "state": "open",
+      "created_at": "2026-10-27T09:40:57Z",
+      "updated_at": "2026-10-27T09:50:14Z",
+      "closed_at": null,
+      "comments": 2,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3132",
+        "html_url": "https://github.com/image-rs/image/pull/3132",
+        "diff_url": "https://github.com/image-rs/image/pull/3132.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3132.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3131,
+      "html_url": "https://github.com/image-rs/image/issues/3131",
+      "title": "BMP: bfOffBits = 0 makes the decoder read pixel rows from the start of the file",
+      "state": "open",
+      "created_at": "2026-10-27T08:52:02Z",
+      "updated_at": "2026-10-27T08:52:02Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 3130,
+      "html_url": "https://github.com/image-rs/image/pull/3130",
+      "title": "codecs/pnm: fix unbounded resource consumption and Limits bypass in PAM header parser",
+      "state": "open",
+      "created_at": "2026-10-21T21:42:16Z",
+      "updated_at": "2026-10-21T21:42:16Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3130",
+        "html_url": "https://github.com/image-rs/image/pull/3130",
+        "diff_url": "https://github.com/image-rs/image/pull/3130.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3130.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3129,
+      "html_url": "https://github.com/image-rs/image/pull/3129",
+      "title": "Pull Request: Fix copy_within Bounds Validation Logic",
+      "state": "closed",
+      "created_at": "2026-10-18T14:09:39Z",
+      "updated_at": "2026-10-20T04:55:51Z",
+      "closed_at": "2026-10-20T04:55:51Z",
+      "comments": 3,
+      "pull_request": {
+        "url": "https://api.github.com/repos/image-rs/image/pulls/3129",
+        "html_url": "https://github.com/image-rs/image/pull/3129",
+        "diff_url": "https://github.com/image-rs/image/pull/3129.diff",
+        "patch_url": "https://github.com/image-rs/image/pull/3129.patch",
+        "merged_at": null
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

@@ -1,0 +1,281 @@
+{
+  "queried_at": "2026-11-02T20:45:52.099502+00:00",
+  "repository": {
+    "full_name": "serde-rs/json",
+    "html_url": "https://github.com/serde-rs/json",
+    "pushed_at": "2026-10-16T04:04:36Z",
+    "updated_at": "2026-11-02T19:06:50Z",
+    "open_issues_count": 252,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "8c535a260ce561eaab4111aafc29038eb9f77ff3",
+      "html_url": "https://github.com/serde-rs/json/commit/8c535a260ce561eaab4111aafc29038eb9f77ff3",
+      "commit": {
+        "author": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:52:21Z"
+        },
+        "committer": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T04:00:54Z"
+        },
+        "message": "Move test-only API of Number to extension trait",
+        "tree": {
+          "sha": "d0c2d891838c3c188f084bdafa0442e063b04d62",
+          "url": "https://api.github.com/repos/serde-rs/json/git/trees/d0c2d891838c3c188f084bdafa0442e063b04d62"
+        },
+        "url": "https://api.github.com/repos/serde-rs/json/git/commits/8c535a260ce561eaab4111aafc29038eb9f77ff3",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEERijF2Cz/ZdaBZKeK+boUO5X/bYIFAmrRoXYACgkQ+boUO5X/\nbYIQcxAAwjOrBAfRacKOOPzozrXXsrtYPqoV4Di5vxOCo2rKFtbF06+zKVxS89vl\nTowq3u+Wodx5v9udNf74FRGIjbOtfFfT79DmD4FXeO8GzrOo5D0I1OijgXYG38l3\nRXUsXLIrshuFaLsvIhn75da4P42j525NppDHcxwwV/h1H7UnX6qhSdx3paKDRA5y\njt9LLm87PdX0tIMXCe0DnVZ/3JuLrtvKeFlGJarYA8pN8fRytHI1TK+Pab0dfhao\npoYb4Rd1jbRA553kaGhb4+k+XpLFuPcrvCWKhjGp2qDSxYC1U5XMbxSadc2Usc+n\n+nwzhZUcvZJTwl+l6LSEnUZ/i1g9ENp2pMWqoew8ZWSkmv8PJecYlt8lhbdQzjus\ngnpqWZS8EKHlRMlBZqbgG0qry0o5seAghE6wyfUIIjZKUptdAnGXuhS9zzThG3PC\nbbMFNcboSd3sD7ZcM5g9U6XRawVOj0Isj9n7il+leUzAH7Oof+0UNmRvrCpeNEz1\nHsrOy9AntK83Ih+c41i+dSlzUlMAKPuUc5sdATc7EkJLJztGU9xpEfC7/INEAEZN\n2MF/jEfsMYttYtsMShGSU7vbdunJntLZFkhiw8DKVHyJlyQ+bRMS3iY+h7B2lp7v\nRuA5vnzeZ8+mEj7twLyNfgp+U2aGAnQ//nwJuAgFPV4YgNZdObI=\n=s+bN\n-----END PGP SIGNATURE-----",
+          "payload": "tree d0c2d891838c3c188f084bdafa0442e063b04d62\nparent 738afebc1a1b8d7cd9d4ce4a4696a89f9772816b\nauthor David Tolnay <dtolnay@gmail.com> 1792122741 -0400\ncommitter David Tolnay <dtolnay@gmail.com> 1792123254 -0400\npredecessor 3daa6bbc7d509d8268a73b575f97012a7d85328a\npredecessor-op amend\n\nMove test-only API of Number to extension trait\n",
+          "verified_at": "2026-10-16T04:01:02Z"
+        }
+      }
+    },
+    {
+      "sha": "738afebc1a1b8d7cd9d4ce4a4696a89f9772816b",
+      "html_url": "https://github.com/serde-rs/json/commit/738afebc1a1b8d7cd9d4ce4a4696a89f9772816b",
+      "commit": {
+        "author": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:46:10Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-16T03:46:10Z"
+        },
+        "message": "Merge pull request #1355 from vera-rubin/fix/number-precision\n\nPreserve arbitrary precision in Number deserialization",
+        "tree": {
+          "sha": "20d8e27dd201222e2675b8ab5799fa908a12c2c7",
+          "url": "https://api.github.com/repos/serde-rs/json/git/trees/20d8e27dd201222e2675b8ab5799fa908a12c2c7"
+        },
+        "url": "https://api.github.com/repos/serde-rs/json/git/commits/738afebc1a1b8d7cd9d4ce4a4696a89f9772816b",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq0Z4CCRC1aQ7uu5UhlAAAo9QQAGZKEnk2WqXw2P3Mkvzegnvw\nIFctdZrtJNBC+sU+nzlr3Qky+byPi6dILLogA09QsQNdBkPnzc6woRhfEQgQZk/B\nawnWsYyOFfU3mLSZokWEhdwVL4OjzrNTBDHDpI7X9NWjnsWrV4iXRwgI7iJShyOj\nxOAJuRl4IMF0f5HJE7gfzboUDjrheBHycJxKecfGEp68+T4TaPooQopWJADmhV6/\nI5J0c7NfswM9LhDUHeyGcoE0Zs+PcldnMjZ4RNq8fN/VZInyJxwq/g2sJw/tuM1S\n1SkqikM/zFaktGKPIHrgCrow1W5drL74Z2Vt6kJ03LVmdh3ddHt7DmafOhJmNG8L\np/i7XAkVkTKmNqQZ/C9nqkHn24+TUjlNPP4HFpgDTHLUN7AQ9Ufxw2NFKbf+krOx\nVnEI+cmH66/UiaPPXNqedQnbOoiBcBJw3qTovchMDGqRrqBVuqzIRfYo1K88rxgH\nZKYEhXktvzof/UD8XW5/cZ5x4Ghwdia+0CK9KypFrpyJvtFdBMnbndAqNQ7o7KE6\nWriz7p/vyf6420zQHph6iJPObOPAI+f43O2f9ceZ3s5XLMnY4QTXHu4QhhplFatP\nrRTrDzN/bYeq6q+t80HH9NiZ8UwceE/h6LPx2A5a9ybAqXzefz/OJICciHZx0piF\nBsrfhz9qogWv94VGGssX\n=58h7\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 20d8e27dd201222e2675b8ab5799fa908a12c2c7\nparent 20572a6d066958542d79cdd6cf1a7cd9f0c8e1f8\nparent 4db7fd645b7403b8137d2ea5b27ee2330c6b26db\nauthor David Tolnay <dtolnay@gmail.com> 1792122370 -0400\ncommitter GitHub <noreply@github.com> 1792122370 -0400\n\nMerge pull request #1355 from vera-rubin/fix/number-precision\n\nPreserve arbitrary precision in Number deserialization",
+          "verified_at": "2026-10-16T03:46:11Z"
+        }
+      }
+    },
+    {
+      "sha": "4db7fd645b7403b8137d2ea5b27ee2330c6b26db",
+      "html_url": "https://github.com/serde-rs/json/commit/4db7fd645b7403b8137d2ea5b27ee2330c6b26db",
+      "commit": {
+        "author": {
+          "name": "vera-rubin",
+          "email": "322284620+vera-rubin@users.noreply.github.com",
+          "date": "2026-10-15T06:23:51Z"
+        },
+        "committer": {
+          "name": "vera-rubin",
+          "email": "322284620+vera-rubin@users.noreply.github.com",
+          "date": "2026-10-16T03:16:30Z"
+        },
+        "message": "Preserve arbitrary precision in Number deserialization",
+        "tree": {
+          "sha": "20d8e27dd201222e2675b8ab5799fa908a12c2c7",
+          "url": "https://api.github.com/repos/serde-rs/json/git/trees/20d8e27dd201222e2675b8ab5799fa908a12c2c7"
+        },
+        "url": "https://api.github.com/repos/serde-rs/json/git/commits/4db7fd645b7403b8137d2ea5b27ee2330c6b26db",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgut9KHU/PggjkJlKBA+t/8O0e0Z\nca/1ZF45YG+pTiCicAAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQF3IoihuOZwDCtAL+L96XnkJ6YED1hHhGDfkJ2C6ZhDpfZ3UGfiz8zVWrPPosqFT9A\nSBMLnHX81AfE+9+/YrWQc=\n-----END SSH SIGNATURE-----",
+          "payload": "tree 20d8e27dd201222e2675b8ab5799fa908a12c2c7\nparent 20572a6d066958542d79cdd6cf1a7cd9f0c8e1f8\nauthor vera-rubin <322284620+vera-rubin@users.noreply.github.com> 1792045431 +0000\ncommitter vera-rubin <322284620+vera-rubin@users.noreply.github.com> 1792120590 -0400\n\nPreserve arbitrary precision in Number deserialization\n",
+          "verified_at": "2026-10-16T03:16:38Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 1367,
+      "html_url": "https://github.com/serde-rs/json/pull/1367",
+      "title": "Fix MapKey::deserialize_bool invalid UTF-8 on malformed boolean keys",
+      "state": "open",
+      "created_at": "2026-11-02T14:38:54Z",
+      "updated_at": "2026-11-02T14:38:54Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1367",
+        "html_url": "https://github.com/serde-rs/json/pull/1367",
+        "diff_url": "https://github.com/serde-rs/json/pull/1367.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1367.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1366,
+      "html_url": "https://github.com/serde-rs/json/pull/1366",
+      "title": "Speed up scan for characters that need to be escaped (Round 2)",
+      "state": "open",
+      "created_at": "2026-11-02T06:54:19Z",
+      "updated_at": "2026-11-02T07:01:30Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1366",
+        "html_url": "https://github.com/serde-rs/json/pull/1366",
+        "diff_url": "https://github.com/serde-rs/json/pull/1366.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1366.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1365,
+      "html_url": "https://github.com/serde-rs/json/pull/1365",
+      "title": "Add opt-in wiping of library-owned temporary buffers",
+      "state": "open",
+      "created_at": "2026-11-01T17:09:31Z",
+      "updated_at": "2026-11-01T17:40:46Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1365",
+        "html_url": "https://github.com/serde-rs/json/pull/1365",
+        "diff_url": "https://github.com/serde-rs/json/pull/1365.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1365.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1364,
+      "html_url": "https://github.com/serde-rs/json/issues/1364",
+      "title": "MapKey::deserialize_bool parses a key from a UTF-8 continuation byte, building an invalid &str in safe code",
+      "state": "open",
+      "created_at": "2026-10-29T23:51:39Z",
+      "updated_at": "2026-11-02T08:41:16Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 1363,
+      "html_url": "https://github.com/serde-rs/json/pull/1363",
+      "title": "Improve speed of Json escaping",
+      "state": "open",
+      "created_at": "2026-10-29T23:48:40Z",
+      "updated_at": "2026-10-29T23:48:40Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1363",
+        "html_url": "https://github.com/serde-rs/json/pull/1363",
+        "diff_url": "https://github.com/serde-rs/json/pull/1363.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1363.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1362,
+      "html_url": "https://github.com/serde-rs/json/pull/1362",
+      "title": "Write pretty printer indentation in a single call",
+      "state": "open",
+      "created_at": "2026-10-27T22:10:39Z",
+      "updated_at": "2026-10-27T22:15:50Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1362",
+        "html_url": "https://github.com/serde-rs/json/pull/1362",
+        "diff_url": "https://github.com/serde-rs/json/pull/1362.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1362.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1361,
+      "html_url": "https://github.com/serde-rs/json/pull/1361",
+      "title": "Buffer small writes in Display for Value",
+      "state": "open",
+      "created_at": "2026-10-27T22:10:36Z",
+      "updated_at": "2026-10-27T22:15:38Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1361",
+        "html_url": "https://github.com/serde-rs/json/pull/1361",
+        "diff_url": "https://github.com/serde-rs/json/pull/1361.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1361.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1360,
+      "html_url": "https://github.com/serde-rs/json/pull/1360",
+      "title": "Scan strings for escapes a word at a time when serializing",
+      "state": "open",
+      "created_at": "2026-10-27T22:10:20Z",
+      "updated_at": "2026-11-02T07:04:01Z",
+      "closed_at": null,
+      "comments": 5,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1360",
+        "html_url": "https://github.com/serde-rs/json/pull/1360",
+        "diff_url": "https://github.com/serde-rs/json/pull/1360.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1360.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1359,
+      "html_url": "https://github.com/serde-rs/json/pull/1359",
+      "title": "Test JSON Pointer escape decoding order",
+      "state": "open",
+      "created_at": "2026-10-22T20:56:50Z",
+      "updated_at": "2026-10-22T22:46:25Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1359",
+        "html_url": "https://github.com/serde-rs/json/pull/1359",
+        "diff_url": "https://github.com/serde-rs/json/pull/1359.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1359.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 1358,
+      "html_url": "https://github.com/serde-rs/json/pull/1358",
+      "title": "Decode escaped boolean map keys before matching their value",
+      "state": "open",
+      "created_at": "2026-10-18T14:04:30Z",
+      "updated_at": "2026-10-19T15:01:31Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/json/pulls/1358",
+        "html_url": "https://github.com/serde-rs/json/pull/1358",
+        "diff_url": "https://github.com/serde-rs/json/pull/1358.diff",
+        "patch_url": "https://github.com/serde-rs/json/pull/1358.patch",
+        "merged_at": null
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

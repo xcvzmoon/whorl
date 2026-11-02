@@ -1,6 +1,6 @@
 # Extraction corpus
 
-Phase 2 supplies 34 checksum-pinned cases for the phase 3 extraction spike. No extractor has been selected or benchmarked. `measurements.json` records the preparation host and leaves extraction trials empty.
+Phase 2 supplies 34 checksum-pinned cases for the phase 3 extraction spike. Phase 3 records 414 trials and per-format recommendations; production selection is awaiting approval. `measurements.json` retains the preparation host alongside the bounded Linux benchmark machine.
 
 Run from the repository root with Python 3.9 or later:
 
@@ -83,3 +83,50 @@ Use a monotonic clock for wall time and process-tree peak memory, including exte
 ## Phase 2 verification
 
 Verified all 34 fixture hashes, reference hashes, license evidence hashes, and required coverage. Regeneration produced identical bytes on the recorded Python/zlib host. Poppler opened the 20 MiB PDF with the same five pages, metadata, and extracted text as the source. macOS ImageIO read both boundary image dimensions unchanged. All boundary office ZIP CRCs and XML parsed; the large workbook contains 100,000 rows. Negative checks rejected altered reference text and missing format coverage. These are corpus checks, not candidate performance or quality results.
+
+## Phase 3 benchmark
+
+The standalone Rust package compares candidate libraries without adding dependencies to the application. See [the report](../../docs/extraction-spike.md), [candidate audit](audit/README.md), [raw measurement records](measurements.json), and [all case summaries](results/summary.md). The report distinguishes completed experiments from recommendations awaiting approval.
+
+Reproduce on Linux ARM64 or Docker Desktop with an ARM64 Linux VM. From the repository root:
+
+```sh
+python3 spikes/extraction/corpus.py generate
+python3 spikes/extraction/corpus.py verify
+python3 spikes/extraction/fetch_assets.py
+cargo fmt --manifest-path spikes/extraction/Cargo.toml --check
+cargo clippy --manifest-path spikes/extraction/Cargo.toml --all-targets -- -D warnings
+cargo test --manifest-path spikes/extraction/Cargo.toml
+RUSTDOCFLAGS='-D warnings' cargo doc --manifest-path spikes/extraction/Cargo.toml --no-deps
+docker build -t whorl-extraction-spike spikes/extraction
+mkdir -p /tmp/whorl-extraction-results
+docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 \
+  --network=none --cap-drop=ALL --security-opt=no-new-privileges \
+  --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m \
+  -v "$PWD/spikes/extraction:/corpus:ro" \
+  -v /tmp/whorl-extraction-results:/out whorl-extraction-spike /out
+```
+
+Use a fresh output directory for every run. Existing trial directories cause an error instead of overwriting evidence. Container CPU quota is two cores and the cgroup memory cap is 4 GiB with swap disabled. The parent runs one candidate at a time. Engines are allowed up to two threads each, with the quota bounding their combined CPU time. The recorded Docker VM has slightly less than 4 GiB available; the report states that limit. This is a quota-limited Apple M1 experiment, not a hardware-independent capacity claim.
+
+`fetch_assets.py` verifies each download against `audit/assets.json`. Model URLs without immutable revisions may stop reproducing if the upstream bytes change; a hash mismatch stops the script. It never updates pins. PDFium and Tesseract archives, models, and build outputs are ignored. Keep their upstream license notices when redistributing a built image. The Ocrs models are CC BY-SA 4.0 with attribution to Ocrs and Google Research's HierText dataset; see `audit/ocrs-models-LICENSE.md`.
+
+Run the collector's Linux isolation tests in the same sandbox (without another benchmark running):
+
+```sh
+docker run --rm --cpus=2 --memory=4g --memory-swap=4g --pids-limit=128 \
+  --network=none --cap-drop=ALL --security-opt=no-new-privileges \
+  --read-only --tmpfs /tmp:rw,nosuid,nodev,size=128m \
+  -v "$PWD/spikes/extraction:/corpus:ro" --entrypoint python3 \
+  whorl-extraction-spike -m unittest discover -s /corpus -p 'test_*.py'
+```
+
+Raw stdout, stderr, text, metadata, and GNU time reports are stored in `results/raw-results.tar.gz`. Their archive-relative paths and SHA-256 hashes are in `measurements.json`. Recompute summaries and verify every artifact without extracting the archive:
+
+```sh
+python3 spikes/extraction/summarize.py spikes/extraction/results --measurements spikes/extraction/measurements.json
+```
+
+Reproduction runs produce a measurement file in their own output directory. To summarize a new run, first archive its raw directory with `tar -czf /tmp/whorl-extraction-results/raw-results.tar.gz -C /tmp/whorl-extraction-results raw`, then pass that directory to `summarize.py`.
+
+Both Rust packages are binary-only and expose no public library API or doctests. `cargo doc` is checked with warnings denied; `cargo test --doc` has no library target to run. The spike's format adapters intentionally cover this experiment. Production adapters, API error mapping, OOXML relationship traversal and complete text-run handling belong to phase 13 after approval.

@@ -1,0 +1,275 @@
+{
+  "queried_at": "2026-11-02T20:45:52.107638+00:00",
+  "repository": {
+    "full_name": "serde-rs/serde",
+    "html_url": "https://github.com/serde-rs/serde",
+    "pushed_at": "2026-10-16T03:31:38Z",
+    "updated_at": "2026-11-02T19:06:50Z",
+    "open_issues_count": 412,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "0db9b3b504bcb0a7fa9cf001429869519afd3e9a",
+      "html_url": "https://github.com/serde-rs/serde/commit/0db9b3b504bcb0a7fa9cf001429869519afd3e9a",
+      "commit": {
+        "author": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:31:33Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-16T03:31:33Z"
+        },
+        "message": "Merge pull request #3113 from serde-rs/deprecatedsince\n\nResolve deprecated_attributes_without_since pedantic clippy lint",
+        "tree": {
+          "sha": "fd4c82a08d5b51c97b9b735ae4561dfbb87cab45",
+          "url": "https://api.github.com/repos/serde-rs/serde/git/trees/fd4c82a08d5b51c97b9b735ae4561dfbb87cab45"
+        },
+        "url": "https://api.github.com/repos/serde-rs/serde/git/commits/0db9b3b504bcb0a7fa9cf001429869519afd3e9a",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq0ZqVCRC1aQ7uu5UhlAAAwzoQACsTVl6+GHiWjPZTVgknLqFv\n2ftukK6Ji97J87Fe3OPF6oM5RTixFLsQGpZhY2/VEDHRNIWbz09LQ6hCIuMnEhnO\nbde5Rq+zGSMRiPqkoAfX8B4t1T9XdED+3BVS/BWKBoex35oj40F6rIv/72xYkH+r\n789z/GT3elOmQODjL9m1EKWTk6DQQogh/N4lWpwu0KinHbFF6EDBjQILfsqCDUmZ\ndzU6UKEPFHRH88RGWSm6LtZDteA5c6B83V+zElV2NEpwUjGhl94Qht9JKQyWfwIA\ny8y9PVTVoD6OLBiXLlJlAqEljSZPeQGHe1utZecfbmmTssSG1NxHZQVgFoVxKr3v\nkkrSoI+JO9LW/EcgdBZ2Vd46yi3OLh0NLeMwGmwmC+/B450hUNmKXsxynoA3Xgc5\nx2GQbv7eB17eEKfK7XYUrwZLKwBgkt/Gyc9PkKw+aAQp2mYxpb+3RfNIJ79ZLmfQ\n72eAaKS7EleQ8F6QLaF4LtpugyEiwPfGPQzU1wkvld+w7MSk1M9tXwoAdsewUTSk\nji4ATMB0RvZiNCB5L+30s2kMfFd6SBql/ezajFlNT1/DgCmHrr/DSVqTcLK7fr1j\nIbOlyr8BxC9KRZ5jXxt+XnGbFAF+FvYPKIvc+pS61WcQhQqQiqX9YQoQJGZ316kh\nGrgY8nhlTWeNUeBQAUXk\n=DHE0\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree fd4c82a08d5b51c97b9b735ae4561dfbb87cab45\nparent 6693a89cca77e0151437da1c7f890090b9ebf04c\nparent 1ff498d57e13975127b93b83b7a08a2e552c9cac\nauthor David Tolnay <dtolnay@gmail.com> 1792121493 -0400\ncommitter GitHub <noreply@github.com> 1792121493 -0400\n\nMerge pull request #3113 from serde-rs/deprecatedsince\n\nResolve deprecated_attributes_without_since pedantic clippy lint",
+          "verified_at": "2026-10-16T03:31:34Z"
+        }
+      }
+    },
+    {
+      "sha": "1ff498d57e13975127b93b83b7a08a2e552c9cac",
+      "html_url": "https://github.com/serde-rs/serde/commit/1ff498d57e13975127b93b83b7a08a2e552c9cac",
+      "commit": {
+        "author": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:27:55Z"
+        },
+        "committer": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:28:29Z"
+        },
+        "message": "Ignore deprecated_attributes_without_since pedantic clippy lint in test\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n     --> test_suite/tests/test_deprecated.rs:7:1\n      |\n    7 | #[deprecated]\n      | ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n      |\n      = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n      = note: `-W clippy::deprecated-attributes-without-since` implied by `-W clippy::pedantic`\n      = help: to override `-W clippy::pedantic` add `#[allow(clippy::deprecated_attributes_without_since)]`\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:14:1\n       |\n    14 | #[deprecated]\n       | ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:22:5\n       |\n    22 |     #[deprecated]\n       |     ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:28:5\n       |\n    28 |     #[deprecated]\n       |     ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since",
+        "tree": {
+          "sha": "fd4c82a08d5b51c97b9b735ae4561dfbb87cab45",
+          "url": "https://api.github.com/repos/serde-rs/serde/git/trees/fd4c82a08d5b51c97b9b735ae4561dfbb87cab45"
+        },
+        "url": "https://api.github.com/repos/serde-rs/serde/git/commits/1ff498d57e13975127b93b83b7a08a2e552c9cac",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEERijF2Cz/ZdaBZKeK+boUO5X/bYIFAmrRmeQACgkQ+boUO5X/\nbYJhkxAAubTY/nPCjYxI4kdVKcp4ltmwnbdKLJI4W9TwCVypLQrAWx8XaD1UIxvU\nmPD8N3dpzGkoAsfFreNxFt7x5k2WLlnNFUD3Jxk4yPdfHzTFT/4ItfCVaJoXSgUt\nntqoc1WiAMZRastombEp7ujhxsCPzfwxla0Pxnq69uB3Vxq4/8YfKXyWikkKnPeW\nV1+9wt2piVmGe30y9Du56QWpreY+OMb6SniZIcaw4FFtVtZb8HO1AjjpBH+viJ7p\nhkOXrxH2vGwWdVdtOpXJZ5WBCqirhmWFa4vLG61ztXyMP3pSwxc/A6f0E5cfjng8\nFw6horcjBdhRloa5a8CWP+jQsqQ232EtDZMf17W0xjAd0H6jYMLPv61ynemIFYH4\nv+GfcCn0W+xpcbKQst01zbivm/FnPf8yt4v3OG5gRCsBmR1aihJDmA8xIoHKpLxJ\nfzYD6QQX241foNjc3FPLxLyxgEriheb4gDd2vW44NyG92ZKUXVvy2/DxvXb6e7WP\ntOsEgo/XtoVxXa0yJz4OhI2z7OZ10SYA09PDhVgCQaLQw1dGPdkoZJVW0fDsbmar\n1WpPqR9719ohmHKx4qV7RkDu88vY8f5qYhPx/h0q/wcr/cS1FdzNAbYevPzsJHHC\nvYsnkV8OPQcfgk+W5/IudLrziHYf/5dmfnh3aexltJXVdqytI08=\n=4HEj\n-----END PGP SIGNATURE-----",
+          "payload": "tree fd4c82a08d5b51c97b9b735ae4561dfbb87cab45\nparent 2e937bde17e69cf868d6fbfb9ebe7d7d67bf2cd5\nauthor David Tolnay <dtolnay@gmail.com> 1792121275 -0400\ncommitter David Tolnay <dtolnay@gmail.com> 1792121309 -0400\npredecessor b582afed721654565a9da76505a316f21396b1ff\npredecessor-op amend\n\nIgnore deprecated_attributes_without_since pedantic clippy lint in test\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n     --> test_suite/tests/test_deprecated.rs:7:1\n      |\n    7 | #[deprecated]\n      | ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n      |\n      = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n      = note: `-W clippy::deprecated-attributes-without-since` implied by `-W clippy::pedantic`\n      = help: to override `-W clippy::pedantic` add `#[allow(clippy::deprecated_attributes_without_since)]`\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:14:1\n       |\n    14 | #[deprecated]\n       | ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:22:5\n       |\n    22 |     #[deprecated]\n       |     ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n      --> test_suite/tests/test_deprecated.rs:28:5\n       |\n    28 |     #[deprecated]\n       |     ^^^^^^^^^^^^^ help: add a version: `#[deprecated(since = /* version */)]`\n       |\n       = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n",
+          "verified_at": "2026-10-16T03:28:45Z"
+        }
+      }
+    },
+    {
+      "sha": "2e937bde17e69cf868d6fbfb9ebe7d7d67bf2cd5",
+      "html_url": "https://github.com/serde-rs/serde/commit/2e937bde17e69cf868d6fbfb9ebe7d7d67bf2cd5",
+      "commit": {
+        "author": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:22:08Z"
+        },
+        "committer": {
+          "name": "David Tolnay",
+          "email": "dtolnay@gmail.com",
+          "date": "2026-10-16T03:24:07Z"
+        },
+        "message": "Resolve deprecated_attributes_without_since pedantic clippy lint\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n     --> serde/src/integer128.rs:2:1\n      |\n    2 | / #[deprecated = \"\n    3 | | This macro has no effect on any version of Serde released in the past 2 years.\n    4 | | It was used long ago in crates that needed to support Rustc older than 1.26.0,\n    5 | | or Emscripten targets older than 1.40.0, which did not yet have 128-bit integer\n    6 | | support. These days Serde requires a Rust compiler newer than that so 128-bit\n    7 | | integers are always supported.\n    8 | | \"]\n      | |__^\n      |\n      = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n      = note: `-W clippy::deprecated-attributes-without-since` implied by `-W clippy::pedantic`\n      = help: to override `-W clippy::pedantic` add `#[allow(clippy::deprecated_attributes_without_since)]`\n    help: add a version\n      |\n    2 + #[deprecated(note = \"\n    3 + This macro has no effect on any version of Serde released in the past 2 years.\n    4 + It was used long ago in crates that needed to support Rustc older than 1.26.0,\n    5 + or Emscripten targets older than 1.40.0, which did not yet have 128-bit integer\n    6 + support. These days Serde requires a Rust compiler newer than that so 128-bit\n    7 + integers are always supported.\n    8 + \", since = /* version */)]\n      |",
+        "tree": {
+          "sha": "6fbb01ee0b2cf52d785c39524bcbf804d06c228f",
+          "url": "https://api.github.com/repos/serde-rs/serde/git/trees/6fbb01ee0b2cf52d785c39524bcbf804d06c228f"
+        },
+        "url": "https://api.github.com/repos/serde-rs/serde/git/commits/2e937bde17e69cf868d6fbfb9ebe7d7d67bf2cd5",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEERijF2Cz/ZdaBZKeK+boUO5X/bYIFAmrRmNcACgkQ+boUO5X/\nbYJ62RAAuKZT5B/rY9mzZFUrbbhBGvTGAaN/9IOE+FfECBgVjo6Q8MhHXIu2X8nL\ns4YQkdyznyJakYW0kplI3bPEcRc51gfLEZkgS4+2lT8ORGE2jMgJcuQdGnwIDx+M\nvNtKdhI/1qmEVAXV05Gl6LCQimzmuvQsjtvEUkrXTV62irwq7Ku4Qv4hCSZS2sXO\nEA1e01dTT4SJPFnND1iSPt+FAOvt5StLwZnK7x469VyGWoNCldnvq85NsISTeT5n\ndh4IQSpKPd/15hZZbKJnWzFIcDfk4UxPYUYStk/xEhOGYW9nGOKcOKhz/lvQN4yc\nNSsAajSB2R2A5YirCp1bSrn/MhwQIvWeFfutuJzEUy7UCVKH0ffGUzVYfLN5IpVe\nbzboAhGEYGteCTAfBl61X3N0w37SxjlfMieWf8cwdgJAPzV2dBIUbbRNFT1UFKrY\nXNdFgJws0JTbH1T0xEQCQyf2kk32A0qNTNUBQalKhH7EpTTwVDnqN/yEvuYoFJVj\nfRIUDs5kV3z8aMOlB9pL4HPGKwhvZ8G0QToDJITHD1zVZiFmAV6br8pxBKgwN7iT\nlH6sNowMda+/I5O+HNKux2Cw559MkB6rfHi2mLePThvdtcg6sSNjAsEaPwijtZth\nC/TWb4rv9iaes9iQ4QViSuD5TDtqDyiMYX891A7cNt/Ngr5rZ6Y=\n=X2mZ\n-----END PGP SIGNATURE-----",
+          "payload": "tree 6fbb01ee0b2cf52d785c39524bcbf804d06c228f\nparent 6693a89cca77e0151437da1c7f890090b9ebf04c\nauthor David Tolnay <dtolnay@gmail.com> 1792120928 -0400\ncommitter David Tolnay <dtolnay@gmail.com> 1792121047 -0400\npredecessor e0c3f94a055f8908ba83a42104e9eac2b74e3b74\npredecessor-op amend\n\nResolve deprecated_attributes_without_since pedantic clippy lint\n\n    warning: `deprecated` attribute without specifying what version of the crate deprecated the item\n     --> serde/src/integer128.rs:2:1\n      |\n    2 | / #[deprecated = \"\n    3 | | This macro has no effect on any version of Serde released in the past 2 years.\n    4 | | It was used long ago in crates that needed to support Rustc older than 1.26.0,\n    5 | | or Emscripten targets older than 1.40.0, which did not yet have 128-bit integer\n    6 | | support. These days Serde requires a Rust compiler newer than that so 128-bit\n    7 | | integers are always supported.\n    8 | | \"]\n      | |__^\n      |\n      = help: for further information visit https://rust-lang.github.io/rust-clippy/main/index.html#deprecated_attributes_without_since\n      = note: `-W clippy::deprecated-attributes-without-since` implied by `-W clippy::pedantic`\n      = help: to override `-W clippy::pedantic` add `#[allow(clippy::deprecated_attributes_without_since)]`\n    help: add a version\n      |\n    2 + #[deprecated(note = \"\n    3 + This macro has no effect on any version of Serde released in the past 2 years.\n    4 + It was used long ago in crates that needed to support Rustc older than 1.26.0,\n    5 + or Emscripten targets older than 1.40.0, which did not yet have 128-bit integer\n    6 + support. These days Serde requires a Rust compiler newer than that so 128-bit\n    7 + integers are always supported.\n    8 + \", since = /* version */)]\n      |\n",
+          "verified_at": "2026-10-16T03:24:26Z"
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 3119,
+      "html_url": "https://github.com/serde-rs/serde/pull/3119",
+      "title": "Evaluate skip_serializing_if once per field",
+      "state": "open",
+      "created_at": "2026-11-02T19:56:12Z",
+      "updated_at": "2026-11-02T19:56:12Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3119",
+        "html_url": "https://github.com/serde-rs/serde/pull/3119",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3119.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3119.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3118,
+      "html_url": "https://github.com/serde-rs/serde/pull/3118",
+      "title": "Build container default only if a field is missing",
+      "state": "open",
+      "created_at": "2026-10-27T22:02:59Z",
+      "updated_at": "2026-10-29T15:26:15Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3118",
+        "html_url": "https://github.com/serde-rs/serde/pull/3118",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3118.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3118.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3117,
+      "html_url": "https://github.com/serde-rs/serde/pull/3117",
+      "title": "Skip formatting errors of failed untagged attempts",
+      "state": "open",
+      "created_at": "2026-10-27T22:02:44Z",
+      "updated_at": "2026-10-29T15:34:45Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3117",
+        "html_url": "https://github.com/serde-rs/serde/pull/3117",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3117.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3117.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3116,
+      "html_url": "https://github.com/serde-rs/serde/issues/3116",
+      "title": "Deserialize a struct from a nested path",
+      "state": "open",
+      "created_at": "2026-10-19T09:28:58Z",
+      "updated_at": "2026-10-30T17:42:31Z",
+      "closed_at": null,
+      "comments": 5,
+      "pull_request": null
+    },
+    {
+      "number": 3115,
+      "html_url": "https://github.com/serde-rs/serde/pull/3115",
+      "title": "docs: pluralize contribution in guide",
+      "state": "open",
+      "created_at": "2026-10-18T20:07:30Z",
+      "updated_at": "2026-10-18T20:07:30Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3115",
+        "html_url": "https://github.com/serde-rs/serde/pull/3115",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3115.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3115.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3114,
+      "html_url": "https://github.com/serde-rs/serde/pull/3114",
+      "title": "Do not generate deserialize_in_place for packed structs",
+      "state": "open",
+      "created_at": "2026-10-16T05:37:17Z",
+      "updated_at": "2026-10-16T05:37:17Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3114",
+        "html_url": "https://github.com/serde-rs/serde/pull/3114",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3114.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3114.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3113,
+      "html_url": "https://github.com/serde-rs/serde/pull/3113",
+      "title": "Resolve deprecated_attributes_without_since pedantic clippy lint",
+      "state": "closed",
+      "created_at": "2026-10-16T03:26:51Z",
+      "updated_at": "2026-10-29T06:09:55Z",
+      "closed_at": "2026-10-16T03:31:34Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3113",
+        "html_url": "https://github.com/serde-rs/serde/pull/3113",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3113.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3113.patch",
+        "merged_at": "2026-10-16T03:31:34Z"
+      }
+    },
+    {
+      "number": 3112,
+      "html_url": "https://github.com/serde-rs/serde/issues/3112",
+      "title": "deserialize_in_place breaks Deserialize for packed structs",
+      "state": "open",
+      "created_at": "2026-10-14T14:54:52Z",
+      "updated_at": "2026-10-14T14:54:52Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": null
+    },
+    {
+      "number": 3111,
+      "html_url": "https://github.com/serde-rs/serde/pull/3111",
+      "title": "Do not require explicit default for Option fields with deserialize_with",
+      "state": "open",
+      "created_at": "2026-10-13T22:22:26Z",
+      "updated_at": "2026-10-13T22:22:26Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3111",
+        "html_url": "https://github.com/serde-rs/serde/pull/3111",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3111.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3111.patch",
+        "merged_at": null
+      }
+    },
+    {
+      "number": 3110,
+      "html_url": "https://github.com/serde-rs/serde/pull/3110",
+      "title": "Unify handling of unit and unit structs in ContentDeserializer",
+      "state": "open",
+      "created_at": "2026-10-11T18:14:23Z",
+      "updated_at": "2026-10-11T18:20:56Z",
+      "closed_at": null,
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/serde-rs/serde/pulls/3110",
+        "html_url": "https://github.com/serde-rs/serde/pull/3110",
+        "diff_url": "https://github.com/serde-rs/serde/pull/3110.diff",
+        "patch_url": "https://github.com/serde-rs/serde/pull/3110.patch",
+        "merged_at": null
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}

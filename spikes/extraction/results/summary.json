@@ -1,0 +1,1175 @@
+[
+  {
+    "case_id": "scan-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 3.513999999995576,
+    "min_wall_ms": 3.3129170000165686,
+    "max_wall_ms": 3.7911660000418124,
+    "max_sampled_tree_rss_bytes": 5111808,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 1.0,
+    "coverage": 0.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "scan-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 5.632082999909471,
+    "min_wall_ms": 3.790417000004709,
+    "max_wall_ms": 6.241333000048144,
+    "max_sampled_tree_rss_bytes": 7409664,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 1.0,
+    "coverage": 0.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "scan-pdf",
+    "candidate": "pdfium-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 1816.6655429999992,
+    "min_wall_ms": 1795.4738339999494,
+    "max_wall_ms": 1861.0709179999958,
+    "max_sampled_tree_rss_bytes": 212414464,
+    "distinct_text_hashes": 1,
+    "wer": 0.16206896551724137,
+    "cer": 0.07352941176470588,
+    "coverage": 0.8586206896551725,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "scan-pdf",
+    "candidate": "pdfium-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 1309.3046669999922,
+    "min_wall_ms": 1279.5791669999517,
+    "max_wall_ms": 1409.4693759999473,
+    "max_sampled_tree_rss_bytes": 98529280,
+    "distinct_text_hashes": 1,
+    "wer": 0.08620689655172414,
+    "cer": 0.06442577030812324,
+    "coverage": 0.9724137931034482,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "map-png",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 421.25516700002663,
+    "min_wall_ms": 404.04620800006796,
+    "max_wall_ms": 431.07800000007046,
+    "max_sampled_tree_rss_bytes": 170844160,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.7647058823529411,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "map-png",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 411.8116669999381,
+    "min_wall_ms": 394.7736249999707,
+    "max_wall_ms": 481.382917000019,
+    "max_sampled_tree_rss_bytes": 170815488,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.7647058823529411,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "map-png",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 136.59754200000407,
+    "min_wall_ms": 133.36329200001273,
+    "max_wall_ms": 143.61599999995178,
+    "max_sampled_tree_rss_bytes": 37425152,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.5294117647058824,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "map-png",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 155.74791699998514,
+    "min_wall_ms": 154.20800000003965,
+    "max_wall_ms": 181.07024999994792,
+    "max_sampled_tree_rss_bytes": 37306368,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.6470588235294118,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "table-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.362250000009226,
+    "min_wall_ms": 3.2994169999938094,
+    "max_wall_ms": 6.317208000041319,
+    "max_sampled_tree_rss_bytes": 5251072,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "images-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 3.412000000025728,
+    "min_wall_ms": 3.224416000080055,
+    "max_wall_ms": 3.5709579999547714,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "notes-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.377416999910565,
+    "min_wall_ms": 3.30862500004514,
+    "max_wall_ms": 3.4187500000371074,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 0.4,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "table-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.34370799998851,
+    "min_wall_ms": 3.2061249999060237,
+    "max_wall_ms": 3.3705420000842423,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "picture-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 3.327207999973325,
+    "min_wall_ms": 3.192582999986371,
+    "max_wall_ms": 3.383834000032948,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "workbook-xlsx",
+    "candidate": "calamine",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.4272499999588035,
+    "min_wall_ms": 3.3069579999391863,
+    "max_wall_ms": 6.0184579999713606,
+    "max_sampled_tree_rss_bytes": 4767744,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "digital-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 19.827040999985,
+    "min_wall_ms": 19.736834000013914,
+    "max_wall_ms": 20.130332999997336,
+    "max_sampled_tree_rss_bytes": 20672512,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "digital-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 17.862624999906984,
+    "min_wall_ms": 17.169917000046553,
+    "max_wall_ms": 18.880250000052,
+    "max_sampled_tree_rss_bytes": 12189696,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "photo-jpeg",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 197.58458299997983,
+    "min_wall_ms": 191.23000000001866,
+    "max_wall_ms": 201.41833299999234,
+    "max_sampled_tree_rss_bytes": 172044288,
+    "distinct_text_hashes": 1,
+    "wer": 5.0,
+    "cer": 2.5,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "photo-jpeg",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 194.27866600005927,
+    "min_wall_ms": 190.36429200002658,
+    "max_wall_ms": 196.55237500001022,
+    "max_sampled_tree_rss_bytes": 172040192,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "photo-jpeg",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 86.79745900008129,
+    "min_wall_ms": 85.35587500000474,
+    "max_wall_ms": 87.36612500001684,
+    "max_sampled_tree_rss_bytes": 39215104,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 1.0,
+    "coverage": 0.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "photo-jpeg",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 155.37287499989816,
+    "min_wall_ms": 154.0784999999687,
+    "max_wall_ms": 157.14012499995533,
+    "max_sampled_tree_rss_bytes": 41349120,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 5.25,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.4316250000756554,
+    "min_wall_ms": 3.1890000000203145,
+    "max_wall_ms": 3.519833999916955,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-jpeg",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 221.52458300001854,
+    "min_wall_ms": 212.71058399997855,
+    "max_wall_ms": 224.59900000001198,
+    "max_sampled_tree_rss_bytes": 177668096,
+    "distinct_text_hashes": 1,
+    "wer": 5.0,
+    "cer": 2.5,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-jpeg",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 218.30950000003213,
+    "min_wall_ms": 212.56412500008537,
+    "max_wall_ms": 230.81004200003008,
+    "max_sampled_tree_rss_bytes": 177676288,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-jpeg",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "no_extractable_text"
+    ],
+    "median_wall_ms": 134.60299999997005,
+    "min_wall_ms": 123.8986669999349,
+    "max_wall_ms": 142.83199999999852,
+    "max_sampled_tree_rss_bytes": 59957248,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 1.0,
+    "coverage": 0.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-jpeg",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 197.59783400002107,
+    "min_wall_ms": 195.308209000018,
+    "max_wall_ms": 208.26912500001526,
+    "max_sampled_tree_rss_bytes": 62291968,
+    "distinct_text_hashes": 1,
+    "wer": 1.0,
+    "cer": 5.25,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 45.59333300005619,
+    "min_wall_ms": 45.276250000028995,
+    "max_wall_ms": 46.386250000068685,
+    "max_sampled_tree_rss_bytes": 33042432,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 17.077083000003768,
+    "min_wall_ms": 16.901583999924696,
+    "max_wall_ms": 19.33712499999274,
+    "max_sampled_tree_rss_bytes": 12201984,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-png",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 408.37229099997785,
+    "min_wall_ms": 392.4805420000439,
+    "max_wall_ms": 419.9398340000471,
+    "max_sampled_tree_rss_bytes": 170758144,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.7647058823529411,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-png",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 411.40066599996317,
+    "min_wall_ms": 405.3628750000371,
+    "max_wall_ms": 443.50445899999613,
+    "max_sampled_tree_rss_bytes": 170811392,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.7647058823529411,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-png",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 158.24058300006527,
+    "min_wall_ms": 154.32633299997178,
+    "max_wall_ms": 164.73579199998767,
+    "max_sampled_tree_rss_bytes": 37437440,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.5294117647058824,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-png",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 181.12983299999996,
+    "min_wall_ms": 178.03429200000664,
+    "max_wall_ms": 185.514540999975,
+    "max_sampled_tree_rss_bytes": 37679104,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": 0.6470588235294118,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 3.4440409999660915,
+    "min_wall_ms": 3.3793329999980415,
+    "max_wall_ms": 3.818084000045019,
+    "max_sampled_tree_rss_bytes": 4505600,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "boundary-xlsx",
+    "candidate": "calamine",
+    "repetitions": 5,
+    "outcomes": [
+      "success"
+    ],
+    "median_wall_ms": 63.4975419999364,
+    "min_wall_ms": 62.18791699996018,
+    "max_wall_ms": 64.46229200003017,
+    "max_sampled_tree_rss_bytes": 15613952,
+    "distinct_text_hashes": 1,
+    "wer": 0.0,
+    "cer": 0.0,
+    "coverage": 1.0,
+    "metadata_accuracy": 1.0
+  },
+  {
+    "case_id": "empty-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.642915999989782,
+    "min_wall_ms": 3.316084000061892,
+    "max_wall_ms": 3.697209000051771,
+    "max_sampled_tree_rss_bytes": 3964928,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "empty-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.4657500000321306,
+    "min_wall_ms": 3.369207999980972,
+    "max_wall_ms": 3.534250000029715,
+    "max_sampled_tree_rss_bytes": 6344704,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "expansion-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.4462080000139395,
+    "min_wall_ms": 3.3423329999777707,
+    "max_wall_ms": 3.7603329999456037,
+    "max_sampled_tree_rss_bytes": 4096000,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "expansion-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.513791999921523,
+    "min_wall_ms": 3.3103749999554566,
+    "max_wall_ms": 3.5205410000571646,
+    "max_sampled_tree_rss_bytes": 4096000,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "expansion-xlsx",
+    "candidate": "calamine",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.394999999954962,
+    "min_wall_ms": 3.321000000028107,
+    "max_wall_ms": 3.556417000027068,
+    "max_sampled_tree_rss_bytes": 4096000,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "huge-png",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.4504579999747875,
+    "min_wall_ms": 3.3400840000012977,
+    "max_wall_ms": 4.56112500000927,
+    "max_sampled_tree_rss_bytes": 4358144,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "huge-png",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.4533340000280077,
+    "min_wall_ms": 3.3897089999754826,
+    "max_wall_ms": 3.527082999994491,
+    "max_sampled_tree_rss_bytes": 4358144,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "huge-png",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.4055840000064563,
+    "min_wall_ms": 3.38362499996947,
+    "max_wall_ms": 3.4776659999806725,
+    "max_sampled_tree_rss_bytes": 4358144,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "huge-png",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_limit"
+    ],
+    "median_wall_ms": 3.487874999905216,
+    "min_wall_ms": 3.3907910000152697,
+    "max_wall_ms": 3.555375000019012,
+    "max_sampled_tree_rss_bytes": 4358144,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.401250000024447,
+    "min_wall_ms": 3.330792000042493,
+    "max_wall_ms": 3.6309579999169728,
+    "max_sampled_tree_rss_bytes": 4112384,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-jpeg",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.5075410000899865,
+    "min_wall_ms": 3.4562499999992724,
+    "max_wall_ms": 3.5382920000301965,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-jpeg",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.543791999959467,
+    "min_wall_ms": 3.4031249999770807,
+    "max_wall_ms": 3.8290410000172415,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-jpeg",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.6127920000126323,
+    "min_wall_ms": 3.4469579999267808,
+    "max_wall_ms": 3.7803330000087954,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-jpeg",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.547041000047102,
+    "min_wall_ms": 3.3217920000652157,
+    "max_wall_ms": 3.6442499999793654,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.4587920000603845,
+    "min_wall_ms": 3.3113340000454627,
+    "max_wall_ms": 3.7840410000171687,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.7091670000108934,
+    "min_wall_ms": 3.562499999929969,
+    "max_wall_ms": 4.09112499994535,
+    "max_sampled_tree_rss_bytes": 6475776,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-png",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.4220830000322167,
+    "min_wall_ms": 3.3145410000088305,
+    "max_wall_ms": 3.5979589999897144,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-png",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.6402499999894644,
+    "min_wall_ms": 3.5967080000318674,
+    "max_wall_ms": 4.0962499999750435,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-png",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.5085829999843554,
+    "min_wall_ms": 3.3366250000881337,
+    "max_wall_ms": 3.6252080000167552,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-png",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.563249999956497,
+    "min_wall_ms": 3.508084000031886,
+    "max_wall_ms": 3.706792000002679,
+    "max_sampled_tree_rss_bytes": 4374528,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.5969169999816586,
+    "min_wall_ms": 3.3901659999173717,
+    "max_wall_ms": 3.6278339999853415,
+    "max_sampled_tree_rss_bytes": 3964928,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "malformed-xlsx",
+    "candidate": "calamine",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.4217080000189526,
+    "min_wall_ms": 3.3986250000452856,
+    "max_wall_ms": 3.5735000000158834,
+    "max_sampled_tree_rss_bytes": 4096000,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.589541999986068,
+    "min_wall_ms": 3.3102500000268265,
+    "max_wall_ms": 3.8936670000566664,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-jpeg",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.4980000000359723,
+    "min_wall_ms": 3.458999999907064,
+    "max_wall_ms": 3.534875000013926,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-jpeg",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.439583000044877,
+    "min_wall_ms": 3.391290999957164,
+    "max_wall_ms": 3.9747499999975844,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-jpeg",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.827000000001135,
+    "min_wall_ms": 3.3836670000937374,
+    "max_wall_ms": 4.122667000046931,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-jpeg",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.5843329999352136,
+    "min_wall_ms": 3.436833000023398,
+    "max_wall_ms": 3.7219170000071244,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-pdf",
+    "candidate": "lopdf",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.4827919999997903,
+    "min_wall_ms": 3.4220830000322167,
+    "max_wall_ms": 3.650750000019798,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-pdf",
+    "candidate": "pdfium",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.567374999988715,
+    "min_wall_ms": 3.3864160000121046,
+    "max_wall_ms": 3.7381250000407817,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-png",
+    "candidate": "image-ocrs",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.694042000006448,
+    "min_wall_ms": 3.517499999929896,
+    "max_wall_ms": 3.8004159999900367,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-png",
+    "candidate": "image-ocrs-filtered",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.682416999936322,
+    "min_wall_ms": 3.44625000002452,
+    "max_wall_ms": 3.7025000000312502,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-png",
+    "candidate": "image-tesseract",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.666457999997874,
+    "min_wall_ms": 3.4577079999280613,
+    "max_wall_ms": 3.8716249999879437,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-png",
+    "candidate": "image-tesseract-sparse",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.710000000069158,
+    "min_wall_ms": 3.550375000031636,
+    "max_wall_ms": 3.922874999943815,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-pptx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.6280000000488144,
+    "min_wall_ms": 3.4992089999832388,
+    "max_wall_ms": 3.6944999999377615,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "over-limit-xlsx",
+    "candidate": "calamine",
+    "repetitions": 5,
+    "outcomes": [
+      "file_too_large"
+    ],
+    "median_wall_ms": 3.642499999955362,
+    "min_wall_ms": 3.541333000043778,
+    "max_wall_ms": 3.8254999999480788,
+    "max_sampled_tree_rss_bytes": 3571712,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  },
+  {
+    "case_id": "spoofed-docx",
+    "candidate": "ooxml",
+    "repetitions": 5,
+    "outcomes": [
+      "extraction_failed"
+    ],
+    "median_wall_ms": 3.526040999986435,
+    "min_wall_ms": 3.3937089999653836,
+    "max_wall_ms": 6.144167000002199,
+    "max_sampled_tree_rss_bytes": 4866048,
+    "distinct_text_hashes": 1,
+    "wer": null,
+    "cer": null,
+    "coverage": null,
+    "metadata_accuracy": null
+  }
+]

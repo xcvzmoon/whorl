@@ -1,0 +1,269 @@
+{
+  "queried_at": "2026-11-02T20:45:52.104770+00:00",
+  "repository": {
+    "full_name": "robertknight/rten",
+    "html_url": "https://github.com/robertknight/rten",
+    "pushed_at": "2026-11-02T09:55:41Z",
+    "updated_at": "2026-11-02T09:55:46Z",
+    "open_issues_count": 49,
+    "archived": false,
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    }
+  },
+  "commits": [
+    {
+      "sha": "16d9f27eba404000d981982bc83d9ad759aaaf59",
+      "html_url": "https://github.com/robertknight/rten/commit/16d9f27eba404000d981982bc83d9ad759aaaf59",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-11-02T09:55:18Z"
+        },
+        "committer": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-11-02T09:55:27Z"
+        },
+        "message": "Update change log\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+        "tree": {
+          "sha": "0fe875ef0c5f0bdd4c0ba58542cec970cd5c0aa3",
+          "url": "https://api.github.com/repos/robertknight/rten/git/trees/0fe875ef0c5f0bdd4c0ba58542cec970cd5c0aa3"
+        },
+        "url": "https://api.github.com/repos/robertknight/rten/git/commits/16d9f27eba404000d981982bc83d9ad759aaaf59",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    },
+    {
+      "sha": "8b7270b44c5fba72f66eb5fabcf3b325f8d13334",
+      "html_url": "https://github.com/robertknight/rten/commit/8b7270b44c5fba72f66eb5fabcf3b325f8d13334",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-28T09:21:02Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-10-28T09:21:02Z"
+        },
+        "message": "Merge pull request #1539 from robertknight/fix-limit-reader-varint\n\nFix truncated varints at the end of a message or packed field being accepted",
+        "tree": {
+          "sha": "e03440e546119b6919448050a9b8e6328d9eeb35",
+          "url": "https://api.github.com/repos/robertknight/rten/git/trees/e03440e546119b6919448050a9b8e6328d9eeb35"
+        },
+        "url": "https://api.github.com/repos/robertknight/rten/git/commits/8b7270b44c5fba72f66eb5fabcf3b325f8d13334",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq4b5+CRC1aQ7uu5UhlAAA78QQAEuJngZ6WxWbFD0587E74/UQ\nzSd8xxRNUBxfUL1qToRBl/UuPHO+YanobU1zfQ0yzQeinD2FnprUaRcTqzFm29fP\nIqhGNM/kN2+fguKjIcd7pXmbf5L7yA3JoyLOU0BcnOOZmRHz4mK7BAt7IgzS/yAk\nYKNfYZBvKeqEyuv2qc9F9GBdleNlMT48l+cvaBHcruTZJNlNX7PFHn2L3agFbs+X\nLgw2pdcWkB0wl+fomm6lVCzgQrvgnq8ruTgpKTlXo7Xgw1EOB8Mx1XNmua4ZXTeo\nQOaTNQUCU9BOHm2Hb6uRpCKlxVS/CKMUJPX89lwBpCCP85k1+/xOUBcgFyk3Qyb/\nDcETjRzGXJGtDTyNB7MOdXkUrTIUfhP4oJvoxbpvsS8hz5ucF3/BY2R7C+9Va6Mu\n+1CrURMSnz6ZoMddg7mYWtZIEMPAF1f6P8Z0FwdD/BiDcyJl9W+x3nEeZtXcr48K\naIKo4nCrmganevg9LTG29xYT22W+4U/xBqK4kk+puaaot3Q0McB8tK22+K7oRmjV\nMkYxcPkwaS/t5fbcZzfw27b+g0mZo6ETJEEq6S+QcK1JKi2Z4bky86Yj1sj+b9tx\nMVizoU2w+u9bf4AE6B58b8pKzIDYPVqp7b5QS6FrebUTAaQBYxNNDC3d9N5oJgkR\nlpDAJ3fXjVOZ9hOCqRjx\n=aWV2\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree e03440e546119b6919448050a9b8e6328d9eeb35\nparent 193cfe00bf5758da58fc4ccf81e269f03ed1bcaf\nparent 53c1274bd43eb779c161f9c8d74fba1a4e12d4a4\nauthor Robert Knight <robertknight@gmail.com> 1793179262 +0000\ncommitter GitHub <noreply@github.com> 1793179262 +0000\n\nMerge pull request #1539 from robertknight/fix-limit-reader-varint\n\nFix truncated varints at the end of a message or packed field being accepted",
+          "verified_at": "2026-10-28T09:21:02Z"
+        }
+      }
+    },
+    {
+      "sha": "53c1274bd43eb779c161f9c8d74fba1a4e12d4a4",
+      "html_url": "https://github.com/robertknight/rten/commit/53c1274bd43eb779c161f9c8d74fba1a4e12d4a4",
+      "commit": {
+        "author": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-28T09:03:55Z"
+        },
+        "committer": {
+          "name": "Robert Knight",
+          "email": "robertknight@gmail.com",
+          "date": "2026-10-28T09:11:19Z"
+        },
+        "message": "Fix truncated varints at the end of a message or packed field being accepted\n\nIf a varint at the end of an embedded message or packed repeated field was\ntruncated by the field's length, parsing continued into the bytes that\nfollowed, returning an incorrect value instead of an error and leaving the\nparser at the wrong position in the outer message. Such varints now produce\nan `InvalidVarint` error.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+        "tree": {
+          "sha": "e03440e546119b6919448050a9b8e6328d9eeb35",
+          "url": "https://api.github.com/repos/robertknight/rten/git/trees/e03440e546119b6919448050a9b8e6328d9eeb35"
+        },
+        "url": "https://api.github.com/repos/robertknight/rten/git/commits/53c1274bd43eb779c161f9c8d74fba1a4e12d4a4",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "number": 1539,
+      "html_url": "https://github.com/robertknight/rten/pull/1539",
+      "title": "Fix truncated varints at the end of a message or packed field being accepted",
+      "state": "closed",
+      "created_at": "2026-10-28T09:17:10Z",
+      "updated_at": "2026-10-28T09:21:06Z",
+      "closed_at": "2026-10-28T09:21:02Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1539",
+        "html_url": "https://github.com/robertknight/rten/pull/1539",
+        "diff_url": "https://github.com/robertknight/rten/pull/1539.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1539.patch",
+        "merged_at": "2026-10-28T09:21:02Z"
+      }
+    },
+    {
+      "number": 1538,
+      "html_url": "https://github.com/robertknight/rten/pull/1538",
+      "title": "Fix infinite loop and incorrect end-of-stream handling in ONNX parser",
+      "state": "closed",
+      "created_at": "2026-10-28T08:57:49Z",
+      "updated_at": "2026-10-28T09:03:10Z",
+      "closed_at": "2026-10-28T09:03:09Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1538",
+        "html_url": "https://github.com/robertknight/rten/pull/1538",
+        "diff_url": "https://github.com/robertknight/rten/pull/1538.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1538.patch",
+        "merged_at": "2026-10-28T09:03:09Z"
+      }
+    },
+    {
+      "number": 1537,
+      "html_url": "https://github.com/robertknight/rten/issues/1537",
+      "title": "rten-onnx: parse_buf loops forever on a varint of more than ten continuation bytes",
+      "state": "closed",
+      "created_at": "2026-10-28T08:01:54Z",
+      "updated_at": "2026-10-28T09:03:11Z",
+      "closed_at": "2026-10-28T09:03:11Z",
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 1536,
+      "html_url": "https://github.com/robertknight/rten/issues/1536",
+      "title": "ConvInteger produces incorrect results with nonzero zero points and padding",
+      "state": "open",
+      "created_at": "2026-10-27T03:13:37Z",
+      "updated_at": "2026-10-27T09:28:17Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 1535,
+      "html_url": "https://github.com/robertknight/rten/pull/1535",
+      "title": "Extract CTC decoder into new rten-sequence crate",
+      "state": "closed",
+      "created_at": "2026-10-23T17:00:51Z",
+      "updated_at": "2026-10-23T17:08:37Z",
+      "closed_at": "2026-10-23T17:08:34Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1535",
+        "html_url": "https://github.com/robertknight/rten/pull/1535",
+        "diff_url": "https://github.com/robertknight/rten/pull/1535.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1535.patch",
+        "merged_at": "2026-10-23T17:08:34Z"
+      }
+    },
+    {
+      "number": 1534,
+      "html_url": "https://github.com/robertknight/rten/pull/1534",
+      "title": "Add vectorized kernels for `Log` and `Softplus` operators",
+      "state": "closed",
+      "created_at": "2026-10-22T18:47:45Z",
+      "updated_at": "2026-10-22T18:54:18Z",
+      "closed_at": "2026-10-22T18:54:15Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1534",
+        "html_url": "https://github.com/robertknight/rten/pull/1534",
+        "diff_url": "https://github.com/robertknight/rten/pull/1534.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1534.patch",
+        "merged_at": "2026-10-22T18:54:14Z"
+      }
+    },
+    {
+      "number": 1533,
+      "html_url": "https://github.com/robertknight/rten/issues/1533",
+      "title": "Support specifying thread pool used for model optimizing and weight prepacking",
+      "state": "open",
+      "created_at": "2026-10-22T07:43:08Z",
+      "updated_at": "2026-10-24T23:38:33Z",
+      "closed_at": null,
+      "comments": 1,
+      "pull_request": null
+    },
+    {
+      "number": 1532,
+      "html_url": "https://github.com/robertknight/rten/pull/1532",
+      "title": "Derive wasm-bindgen-cli version from Cargo.lock in CI",
+      "state": "closed",
+      "created_at": "2026-10-19T08:03:32Z",
+      "updated_at": "2026-10-19T08:08:41Z",
+      "closed_at": "2026-10-19T08:08:37Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1532",
+        "html_url": "https://github.com/robertknight/rten/pull/1532",
+        "diff_url": "https://github.com/robertknight/rten/pull/1532.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1532.patch",
+        "merged_at": "2026-10-19T08:08:37Z"
+      }
+    },
+    {
+      "number": 1531,
+      "html_url": "https://github.com/robertknight/rten/pull/1531",
+      "title": "Fix remaining clippy lint failures in tests",
+      "state": "closed",
+      "created_at": "2026-10-17T17:06:01Z",
+      "updated_at": "2026-10-17T17:11:13Z",
+      "closed_at": "2026-10-17T17:11:13Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1531",
+        "html_url": "https://github.com/robertknight/rten/pull/1531",
+        "diff_url": "https://github.com/robertknight/rten/pull/1531.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1531.patch",
+        "merged_at": "2026-10-17T17:11:13Z"
+      }
+    },
+    {
+      "number": 1530,
+      "html_url": "https://github.com/robertknight/rten/pull/1530",
+      "title": "Fix additional clippy lint failures in tests",
+      "state": "closed",
+      "created_at": "2026-10-17T16:53:28Z",
+      "updated_at": "2026-10-17T16:57:33Z",
+      "closed_at": "2026-10-17T16:57:29Z",
+      "comments": 0,
+      "pull_request": {
+        "url": "https://api.github.com/repos/robertknight/rten/pulls/1530",
+        "html_url": "https://github.com/robertknight/rten/pull/1530",
+        "diff_url": "https://github.com/robertknight/rten/pull/1530.diff",
+        "patch_url": "https://github.com/robertknight/rten/pull/1530.patch",
+        "merged_at": "2026-10-17T16:57:29Z"
+      }
+    }
+  ],
+  "release": {
+    "tag_name": null,
+    "published_at": null,
+    "html_url": null
+  }
+}
