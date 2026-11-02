@@ -119,4 +119,53 @@ $$;
 CREATE TRIGGER batches_revision BEFORE UPDATE ON batches
     FOR EACH ROW EXECUTE FUNCTION revise_batch_fields();
 
+CREATE TABLE capacity_limits (
+    scope text PRIMARY KEY CHECK (scope <> ''),
+    max_jobs bigint NOT NULL CHECK (max_jobs >= 0),
+    max_bytes bigint NOT NULL CHECK (max_bytes >= 0)
+);
+CREATE TABLE capacity_reservations (
+    id uuid PRIMARY KEY,
+    client_id text NOT NULL CHECK (client_id <> ''),
+    jobs bigint NOT NULL CHECK (jobs >= 0),
+    bytes bigint NOT NULL CHECK (bytes >= 0),
+    lease_until timestamptz NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+    CHECK (jobs > 0 OR bytes > 0),
+    CHECK (lease_until > created_at)
+);
+CREATE INDEX capacity_reservations_client ON capacity_reservations (client_id);
+CREATE INDEX capacity_reservations_lease ON capacity_reservations (lease_until);
+
+CREATE FUNCTION reserve_capacity(reservation_id uuid, owner_id text, pending_jobs bigint,
+    pending_bytes bigint, lease_deadline timestamptz) RETURNS boolean LANGUAGE plpgsql AS $$
+DECLARE
+    limits capacity_limits;
+    used_jobs numeric;
+    used_bytes numeric;
+    quota_scope text;
+BEGIN
+    IF owner_id IS NULL OR owner_id = '' OR pending_jobs IS NULL OR pending_bytes IS NULL OR
+       pending_jobs < 0 OR pending_bytes < 0 OR (pending_jobs = 0 AND pending_bytes = 0) OR
+       lease_deadline IS NULL OR lease_deadline <= clock_timestamp() THEN
+        RAISE EXCEPTION 'invalid capacity reservation' USING ERRCODE = '22023';
+    END IF;
+    IF current_setting('transaction_isolation') <> 'read committed' THEN
+        RAISE EXCEPTION 'capacity reservation requires READ COMMITTED' USING ERRCODE = '25001';
+    END IF;
+    PERFORM pg_advisory_xact_lock(746831904);
+    FOREACH quota_scope IN ARRAY ARRAY['global', 'client:' || owner_id] LOOP
+        SELECT * INTO STRICT limits FROM capacity_limits WHERE scope = quota_scope FOR UPDATE;
+        SELECT COALESCE(sum(jobs), 0), COALESCE(sum(bytes), 0) INTO used_jobs, used_bytes
+            FROM capacity_reservations WHERE quota_scope = 'global' OR client_id = owner_id;
+        IF used_jobs + pending_jobs > limits.max_jobs OR used_bytes + pending_bytes > limits.max_bytes THEN
+            RETURN false;
+        END IF;
+    END LOOP;
+    INSERT INTO capacity_reservations (id, client_id, jobs, bytes, lease_until)
+        VALUES (reservation_id, owner_id, pending_jobs, pending_bytes, lease_deadline);
+    RETURN true;
+END;
+$$;
+
 COMMIT;

@@ -46,3 +46,18 @@ BEGIN
     IF (SELECT revision FROM batches) <= before_revision THEN RAISE EXCEPTION 'result revision'; END IF;
 END;
 $$;
+INSERT INTO capacity_limits VALUES ('global', 5, 50), ('client:race', 3, 30), ('client:other', 5, 50);
+DO $$
+BEGIN
+    IF reserve_capacity('40000000-0000-0000-0000-000000000001', 'race', 1, 31, clock_timestamp() + interval '1 hour') THEN RAISE EXCEPTION 'client bytes exceeded'; END IF;
+    IF reserve_capacity('40000000-0000-0000-0000-000000000001', 'other', 6, 1, clock_timestamp() + interval '1 hour') THEN RAISE EXCEPTION 'global jobs exceeded'; END IF;
+    IF reserve_capacity('40000000-0000-0000-0000-000000000001', 'other', 1, 51, clock_timestamp() + interval '1 hour') THEN RAISE EXCEPTION 'global bytes exceeded'; END IF;
+    BEGIN
+        PERFORM reserve_capacity('40000000-0000-0000-0000-000000000001', 'race', -1, 1, clock_timestamp() + interval '1 hour');
+        RAISE EXCEPTION 'negative reservation accepted';
+    EXCEPTION WHEN invalid_parameter_value THEN NULL; END;
+END;
+$$;
+BEGIN;
+SELECT reserve_capacity('40000000-0000-0000-0000-000000000001', 'race', 3, 30, clock_timestamp() + interval '1 hour');
+ROLLBACK;
