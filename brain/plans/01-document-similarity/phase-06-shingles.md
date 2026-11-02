@@ -18,7 +18,7 @@ Implement word shingles and short-text policy.
 ## Todos
 
 - [ ] Use word k=3 by default with explicit set semantics.
-- [ ] Propose min(k, word_count), one/two-word exact normalized match, and a defined empty-extraction failure; approve behavior for short versus longer documents.
+- [ ] Implement the phase 1 approved short-text rule: below configured k words, normalized equality scores 1; unequal short or short/long pairs score 0. Empty extraction fails.
 - [ ] Encode source-specific OCR policy in versioning and prevent incompatible comparisons.
 
 ## Verification

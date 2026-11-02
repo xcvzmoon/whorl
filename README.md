@@ -6,9 +6,9 @@ The repository currently contains a Rust starter binary, a phased implementation
 
 ## Plan and API approval
 
-The [original specification](docs/original-specification.md) preserves the full initial prompt before the planning request. Later clarifications are recorded in the open decisions.
+The [original specification](docs/original-specification.md) preserves the full initial prompt before the planning request. Later clarifications are recorded in the decisions and evidence gates.
 
-Start with the [phase overview](brain/plans/01-document-similarity/overview.md), [todos](brain/todos.md), [API proposal](docs/api-contract.md), and [open decisions](docs/decisions.md). The API requires approval before implementation. Extraction and queue recommendations require measured spikes; no benchmark results or library choices are claimed yet.
+Start with the [phase overview](brain/plans/01-document-similarity/overview.md), [todos](brain/todos.md), [API contract](docs/api-contract.md), and [decisions and evidence gates](docs/decisions.md). Phase 1 is complete; the user approved the API contract and recommendations on November 3, 2026. Extraction and queue recommendations require measured spikes; no benchmark results or library choices are claimed yet.
 
 Work proceeds through contract approval, extraction corpus and spike, schema and similarity core, queue spike, bounded CPU execution and S3 storage, extraction adapters, queue workers, admission and HTTP, polling, maintenance, and acceptance testing. Each phase contains reviewable checkbox tasks and verification criteria.
 
@@ -23,7 +23,7 @@ Work proceeds through contract approval, extraction corpus and spike, schema and
 - Store metadata as JSONB with a path-ops GIN index; index frequent filters as real columns. Return separate metadata Jaccard scores excluding volatile values. Default qualification uses text similarity.
 - Keep CPU work on a fixed, bounded pool. API and workers run as separate binaries; PostgreSQL-backed graphile_worker is provisional until its spike passes.
 
-LSH retrieval is probabilistic. Estimate-only threshold decisions and collision-free 32-bit band claims need clarification before implementation; see the open decisions. Semantic embeddings, vector databases, frontend, SSE, and webhooks are outside version one.
+LSH retrieval is probabilistic, as approved. Every retrieved candidate is verified exactly; MinHash estimates only order work. Band hash collisions add candidates for verification. See the approved decisions. Semantic embeddings, vector databases, frontend, SSE, and webhooks are outside version one.
 
 ## Development today
 
@@ -42,20 +42,20 @@ cargo build --locked --release
 
 ## Deployment and defaults
 
-The initial target is two CPU cores and 4 GiB RAM, with at most two CPU workers and handler concurrency no greater than pool size. Use the latest stable PostgreSQL verified at implementation time and shared S3-compatible storage directly. The sibling upload service is not a storage dependency. Corpus size/growth, peak concurrency, S3 provider, and instance count still need definition.
+The initial target is two CPU cores and 4 GiB RAM, with at most two CPU workers and handler concurrency no greater than pool size. Use the latest stable PostgreSQL verified at implementation time and shared S3-compatible storage directly. The sibling upload service is not a storage dependency. Use MinIO for S3-compatible storage and run PostgreSQL in Docker. Corpus size/growth, peak concurrency, and instance count still need definition.
 
 | Setting | Specified default / status |
 | --- | --- |
 | File count | 1..5 |
 | File content bytes | 20,971,520 |
 | Request content bytes | 104,857,600 |
-| Multipart overhead allowance | Proposed 1,048,576 bytes; raw cap 105,906,176 |
+| Multipart overhead allowance | 1,048,576 bytes; raw cap 105,906,176 |
 | Text threshold | Strictly greater than 0.75 |
-| Word shingle k | 3; short text and OCR policy pending approval/spike |
+| Word shingle k | 3; short text uses normalized equality, OCR policy awaits spike |
 | Signature layout | 125 values, 25 bands x 5 rows |
 | Metadata policy | Text-only qualification; separate metadata score |
 | Completed results and job retention | 24 hours, configurable |
-| Suggested polling interval | Proposed 2 seconds |
+| Suggested polling interval | 2 seconds |
 | Queue/pool/storage/client quotas | Determine from measured job times and workload |
 | Extraction timeout and decoding/expansion limits | Determine in extraction spike, document before implementation |
 

@@ -18,8 +18,8 @@ Retrieve and verify version-compatible candidates.
 
 ## Todos
 
-- [ ] Short-circuit normalized content hash duplicates before MinHash; compute metadata score for each upload independently.
-- [ ] Query signature_version plus band_hashes && query_bands using GIN; page candidates rather than loading an unbounded corpus.
+- [ ] Resolve same-client normalized content hash duplicates before MinHash for that pair, without skipping other candidates; preserve upload provenance and score against first-ingest canonical metadata.
+- [ ] Query client identity and signature_version plus band_hashes && query_bands using GIN; page candidates rather than loading an unbounded corpus. Weighted mode unions metadata-token intersection candidates as approved in phase 1.
 - [ ] Verify candidates on the CPU pool and order qualifying results by score descending with document id tie-break.
 - [ ] Handle concurrent identical ingests with content-hash upsert; define check mode as read-only for corpus documents.
 
