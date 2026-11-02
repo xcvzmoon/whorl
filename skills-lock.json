@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "skills": {
+    "adversarial-review": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/adversarial-review/SKILL.md",
+      "computedHash": "f6c911a45bf080b6c7dcf274b0e22a93d7730ec0efebf2a58934c5be0cd8ac4e"
+    },
+    "ast-grep": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ast-grep/SKILL.md",
+      "computedHash": "02c4c0e5b61af2427e2b108d80198fd9c20ffe00cd1ef791a38bd983e8eb3a06"
+    },
+    "brain": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/brain/SKILL.md",
+      "computedHash": "55bb8641fb0c2ef1145dcafc0c3350f252a46d01dc11f571cbbcae66860a7e74"
+    },
+    "codex": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/codex/SKILL.md",
+      "computedHash": "59cd12b1b33756c15845b8bdc63ea9ddba86827d4b1cbf6098a38107bff503ae"
+    },
+    "commit": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/commit/SKILL.md",
+      "computedHash": "29f654b5bce384f947fbf8ccbb4f42e9f8b844ce218ba5b5bf9e56a7e46f499b"
+    },
+    "create-pr-with-evidence": {
+      "source": "luoling8192/create-pr-with-evidence-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "b7807aa4b2912fa93da304297b832bfccb851c54535d443286e87dd079c546c7"
+    },
+    "debugging": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/debugging/SKILL.md",
+      "computedHash": "67515a1c5460a50d6482f2425f18aafb303bbdb1edd0c36a2d236717b55789f1"
+    },
+    "docker-agent-config": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-config/SKILL.md",
+      "computedHash": "e0948c9b549c9173f0670156fd98bd3e0aeace92f635528ec120c3d9bf10bab5"
+    },
+    "docker-agent-deploy": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-deploy/SKILL.md",
+      "computedHash": "5872dc7aaffbb4928e2e88f9488a338c2f70065fdb77067599f898d24b1db44e"
+    },
+    "docker-agent-run": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-run/SKILL.md",
+      "computedHash": "d91d58413581bba710346799761a319854b6e5c51fe2d24a0c95f2f8c18783be"
+    },
+    "docker-build-strategies": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-build-strategies/SKILL.md",
+      "computedHash": "e6a297d613873cf74b030655ee8405ca4434980cfb0dfd412ac5aa4e213d3d5c"
+    },
+    "docker-compose-patterns": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-compose-patterns/SKILL.md",
+      "computedHash": "391f366bb0e60f5c7c48ecc814b917e7dae797edbb58625d228cb951d7a538ee"
+    },
+    "docker-destructive-guardrails": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-destructive-guardrails/SKILL.md",
+      "computedHash": "f6c72f2ba003b2d6dc480f97beb0e166a61b5acfb1f0f6f31af2fa21a66bd9f2"
+    },
+    "docker-docs": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-docs/SKILL.md",
+      "computedHash": "daf48460dd228d0109a1a8870c386385c644f620f5a6df2cd4fca9c9d30034b2"
+    },
+    "docker-project-foundations": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-project-foundations/SKILL.md",
+      "computedHash": "6b2334b2c24910d177e1f80a0cc1f5135f2a9b33b722673873435736de36128f"
+    },
+    "docker-sandboxes-env": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-env/SKILL.md",
+      "computedHash": "3a8f7fcb3b555e7573e6d5f8958a99e388a6676c0cb425bfa44d3d6c78d68536"
+    },
+    "docker-sandboxes-kits": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-kits/SKILL.md",
+      "computedHash": "d47d99b4f71c0dc39313164f35248d327a2725ab06db97e300e70aa9610b3bdb"
+    },
+    "docker-sandboxes-lifecycle": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-lifecycle/SKILL.md",
+      "computedHash": "551fb87ea0e47c632a5cb23cb2f8c06c680226cd49699bc19c999fc820f5633f"
+    },
+    "docker-sandboxes-network-credentials": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-network-credentials/SKILL.md",
+      "computedHash": "a74622051cc1f6fae30d0adfc2dbd33f5a3d83b484929772ee9a8a298ca2586a"
+    },
+    "execute": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/execute/SKILL.md",
+      "computedHash": "ae9dd81a75349b4c5b84e4dd708b2a5db4ca666106f21db7935645157964e450"
+    },
+    "find-skills": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/find-skills/SKILL.md",
+      "computedHash": "dcbde82d3a424a85b3ad1d40131e2b617dea62a74b6ee1c2d5faf012f6277475"
+    },
+    "k6": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-k6/k6/SKILL.md",
+      "computedHash": "23b6128a86c4cf8fbe95e629ea4e5a01f63b1e9fcf9dab8cbacf10794a3c2244"
+    },
+    "k6-docs": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-k6/k6-docs/SKILL.md",
+      "computedHash": "5c25edafef4dcca8baffb4596086675c26fb87d139aae40b6e28a3cda806213b"
+    },
+    "k6-manage": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-k6/k6-manage/SKILL.md",
+      "computedHash": "629d7a04df420b5efe8899b5d6e22fdc5e60eaf4400de032262511f68309b7f9"
+    },
+    "k6-test-maintenance": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-k6/k6-test-maintenance/SKILL.md",
+      "computedHash": "6bae12addd05d253966f9aa7594ea1ef634599487884699b977d09a159f3cf49"
+    },
+    "meditate": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/meditate/SKILL.md",
+      "computedHash": "ff3734644dccb81138aefe002fa1bde54e71a4afd801ffe20ad758e1de63bf7b"
+    },
+    "oops": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/oops/SKILL.md",
+      "computedHash": "167a5db77dc53ddde997430257a494397f5ccf0cf5c60f9ea44ff0b6f600a3ef"
+    },
+    "optimise-github-actions": {
+      "source": "enesgules/dotfiles",
+      "sourceType": "github",
+      "skillPath": "skills/optimise-github-actions/SKILL.md",
+      "computedHash": "c82f63628c0e6e3d5258f94b8f90b66f9c32a077417aaafbba1bbd74e7c7173e"
+    },
+    "plan": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/plan/SKILL.md",
+      "computedHash": "e4c7033ae034754142b8e54355d4e2d97a7e493eeeb1a9daeabd596e17bda2f4"
+    },
+    "quality": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/quality/SKILL.md",
+      "computedHash": "2631463a7a01f0dd61819c3d89ae41f840127755273e9676f7aeb0c63c94a5e7"
+    },
+    "refine": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/refine/SKILL.md",
+      "computedHash": "0efce32b64060846062e6a5640152c0e7ef59a5a94bfa6281244ec267df7516e"
+    },
+    "reflect": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/reflect/SKILL.md",
+      "computedHash": "0e66ad7744b9fc970ac77373019a3d972ae05f55944acad21031316f6c9407a8"
+    },
+    "review": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/review/SKILL.md",
+      "computedHash": "b6d22d23fb6b21a52df926aed3fab784120d986516958981a1992ebc9988df70"
+    },
+    "ruminate": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ruminate/SKILL.md",
+      "computedHash": "04bf74a62d7e682fe75bdff4aa2ad6e5150472b890c6012bc96a55f5bbff6617"
+    },
+    "schedule": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/schedule/SKILL.md",
+      "computedHash": "5f31c1bbcbe286161a2de16656a3c331e3995046df5580c14add1b909f7ef50f"
+    },
+    "skill-creator": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "9b03bb78ec5c81c4e0546dbb78cfc970368c72dcae5482e8c59690175abbc8e7"
+    },
+    "testing": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/testing/SKILL.md",
+      "computedHash": "54fc94e3c8658a0039819f899dc3d0c48fb1c07ad5a41d2d1533ea237aa0c4fb"
+    },
+    "todo": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/todo/SKILL.md",
+      "computedHash": "dcdd0f18f75b05a3af4c795e47182db13c033802765a67731c72542c38c6aa9a"
+    },
+    "ts-best-practices": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/ts-best-practices/SKILL.md",
+      "computedHash": "8912564b1e2c9a954d242716c2e3714f2a221fc726d947c448f1378a9a6c2b01"
+    },
+    "unslop": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/unslop/SKILL.md",
+      "computedHash": "96ca1f318c41bd0e4adaffc1c881a85555a736b5824d1a9a6ee6139d5851774a"
+    },
+    "worktree": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/worktree/SKILL.md",
+      "computedHash": "e0f76c1a6808fb416ec1e993e6b528eaf574877ddb3e483a35a5d0a882dd9897"
+    }
+  }
+}
