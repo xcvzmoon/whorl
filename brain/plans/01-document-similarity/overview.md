@@ -8,13 +8,13 @@
 ## Status and scope
 
 - Phase 1 is complete and its API/contract decisions are approved. The application is currently a dependency-free Hello World binary.
-- Phase 2 defines the extraction corpus; no service endpoints are implemented yet.
+- Phase 2 is complete: 34 reproducible extraction cases and a measurement protocol are available in `spikes/extraction/`. Phase 3 benchmarks candidates; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
 - Target two CPU cores and 4 GiB RAM; two CPU workers maximum, with queue concurrency no greater than pool size.
 - Use latest stable PostgreSQL verified at implementation time, with an explicit tested major version recorded then.
 - Preserve 20 MiB/file and 100 MiB/request exact binary byte limits as approved.
-- MinIO and Docker-hosted PostgreSQL are confirmed. Corpus size/growth, peak submissions, instance count, and representative real fixtures remain unknown.
+- MinIO and Docker-hosted PostgreSQL are confirmed. Corpus size/growth, peak submissions, and instance count remain unknown; the public corpus does not establish a representative customer workload.
 
 ## Approval gates
 
@@ -40,7 +40,7 @@
 ## Phases
 
 - [x] [[plans/01-document-similarity/phase-01-contract]]
-- [ ] [[plans/01-document-similarity/phase-02-extraction-corpus]]
+- [x] [[plans/01-document-similarity/phase-02-extraction-corpus]]
 - [ ] [[plans/01-document-similarity/phase-03-extraction-spike]]
 - [ ] [[plans/01-document-similarity/phase-04-schema]]
 - [ ] [[plans/01-document-similarity/phase-05-normalization]]
