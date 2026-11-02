@@ -69,7 +69,7 @@ Monitor queue depth, oldest pending age, pending stored bytes, CPU saturation, e
 
 ## GitHub automation
 
-CI and tag-release gates run formatting, Clippy, tests, warning-free rustdoc, release builds, and vulnerability/license checks through [cargo-deny](https://github.com/EmbarkStudios/cargo-deny). `deny.toml` permits a narrow set of common dependency licenses; new licenses require review. No runtime crates were added here.
+CI and tag-release gates run formatting, Clippy, tests, warning-free rustdoc, release builds, and vulnerability/license checks through [cargo-deny](https://github.com/EmbarkStudios/cargo-deny). `deny.toml` permits a narrow set of common dependency licenses; new licenses require review. Whorl is non-publishable, and private workspace packages are excluded from license-expression checks without changing dependency checks or choosing an application license. No runtime crates were added here.
 
 The setup action installs stable Rust and cargo-deny. Audit tooling follows upstream releases; application dependencies will be reviewed and deliberately pinned at implementation time. The release workflow checks that a `v*` tag matches Cargo's package version before creating a GitHub release. The PR description check and templates are retained. Publishing and branch-protection configuration remain repository-owner actions; this change does not publish anything.
 
