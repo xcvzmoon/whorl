@@ -372,6 +372,7 @@ pub(super) fn extract(
         return Err(ExtractionError::MalformedFile);
     }
     let mut document = ExtractedDocument {
+        file_type: format.as_str().into(),
         text: String::new(),
         metadata: BTreeMap::new(),
         ocr: false,

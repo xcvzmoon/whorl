@@ -1,6 +1,6 @@
 # Shared CPU executor
 
-Create one `Arc<CpuPool>` per process and pass it to the matcher and future extraction/signing stages. Configure one or two workers, no greater than available parallelism. The two-core deployment uses two. No stage should construct its own pool or use Tokio's general blocking pool for CPU work.
+Create one `Arc<CpuPool>` per process and pass it to extraction, signing and the matcher. Configure one or two workers, no greater than available parallelism. The two-core deployment uses two. No stage should construct its own pool or use Tokio's general blocking pool for CPU work.
 
 Admission counts running and waiting operations together. Waiting capacity is `floor(workers * acceptable_wait / measured_typical_job_time)`. Timing inputs are required, zero typical duration is rejected, and zero acceptable wait provides no waiting slots. Full admission returns `CpuError::Overloaded` without waiting. The HTTP adapter must translate that into the approved overload response. This phase adds no HTTP endpoint.
 

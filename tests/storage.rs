@@ -42,6 +42,15 @@ async fn durable_uploads_and_recovery() {
             .unwrap();
     let object = store.upload("a", expiry, &b"document"[..]).await.unwrap();
     assert_eq!(object.bytes, 8);
+    assert!(
+        sqlx::query_scalar::<_, bool>(
+            "SELECT multipart_id IS NULL AND bytes=8 FROM stored_uploads WHERE id=$1"
+        )
+        .bind(object.id)
+        .fetch_one(&pool)
+        .await
+        .unwrap()
+    );
     assert_eq!(object.expires_at, expiry);
     let other_instance = client();
     assert_eq!(
@@ -105,7 +114,13 @@ async fn durable_uploads_and_recovery() {
     assert!(store.reconcile_one().await.unwrap());
     assert!(!store.reconcile_one().await.unwrap());
     assert_eq!(counts(&pool).await, (1, 1));
-    sqlx::query("DELETE FROM batches")
+    sqlx::query("UPDATE batch_files SET state='running',stage='extracting'")
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert!(!store.reconcile_one().await.unwrap());
+    assert_eq!(counts(&pool).await, (1, 1));
+    sqlx::query("UPDATE batch_files SET state='completed',stage='completed'")
         .execute(&pool)
         .await
         .unwrap();

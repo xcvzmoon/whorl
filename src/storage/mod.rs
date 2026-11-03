@@ -214,7 +214,7 @@ impl UploadStore {
         }
         self.s3.complete_multipart(path, &multipart, parts).await?;
         let updated = sqlx::query(
-            "UPDATE stored_uploads SET bytes=$2 WHERE id=$1 AND expires_at > clock_timestamp()",
+            "UPDATE stored_uploads SET bytes=$2, multipart_id=NULL WHERE id=$1 AND expires_at > clock_timestamp()",
         )
         .bind(id)
         .bind(total)
@@ -255,7 +255,7 @@ impl UploadStore {
         Ok(())
     }
 
-    /// Reclaims one expired, unreferenced upload without racing active writers.
+    /// Reclaims one expired upload with no active file references.
     ///
     /// Run repeatedly from a bounded maintenance loop. Admission must hold the
     /// same advisory transaction lock (hash of the object key with seed zero)
@@ -286,12 +286,12 @@ impl UploadStore {
             return Err(StorageError::Invalid);
         }
         let mut guard = self.pool.begin().await?;
-        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,0)) LIMIT 1")
+        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,0)) LIMIT 1")
             .fetch_optional(&mut *guard).await?;
         let Some(row) = row else {
             return Ok(false);
         };
-        let eligible: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM stored_uploads u WHERE id=$1 AND expires_at <= clock_timestamp() AND NOT EXISTS(SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key))")
+        let eligible: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM stored_uploads u WHERE id=$1 AND expires_at <= clock_timestamp() AND NOT EXISTS(SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')))")
             .bind(row.get::<Uuid,_>("id")).fetch_one(&mut *guard).await?;
         if !eligible {
             return Ok(false);

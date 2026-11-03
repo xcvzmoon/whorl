@@ -2,7 +2,7 @@
 
 Whorl is a planned asynchronous document similarity service built with Rust, Actix-web, and PostgreSQL. It will compare uploaded PDF, DOCX, PPTX, XLSX, and image text with stored documents using lexical Jaccard similarity over word shingles.
 
-The repository contains similarity primitives, PostgreSQL persistence, bounded CPU execution, shared S3 storage, and a [supervised extraction pipeline](docs/extraction.md). The application binary remains a starter; queue workers and HTTP endpoints are not implemented yet.
+The repository contains similarity primitives, PostgreSQL persistence, bounded CPU execution, shared S3 storage, and a [supervised extraction pipeline](docs/extraction.md). The independent [durable worker](docs/worker.md) processes stored files and commits their matches and ingests transactionally. The application binary remains a starter; HTTP endpoints are not implemented yet.
 
 ## Plan and API approval
 
