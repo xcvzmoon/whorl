@@ -9,6 +9,11 @@ runs:
       with:
         components: rustfmt, clippy
 
+    - name: Cache Rust dependencies and build artifacts
+      uses: Swatinem/rust-cache@v2.9.3
+      with:
+        shared-key: whorl-linux
+
     - name: Install prebuilt dependency auditor
       uses: taiki-e/install-action@v2.89.1
       with:
