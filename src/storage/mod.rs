@@ -115,7 +115,52 @@ impl UploadStore {
         &self,
         client: &str,
         expires_at: i64,
+        input: R,
+    ) -> Result<StoredObjectRef, StorageError> {
+        self.upload_inner(client, expires_at, input, None).await
+    }
+
+    /// Streams a file using capacity already reserved before request content arrived.
+    ///
+    /// # Arguments
+    /// * `lease` - Active request lease for the authenticated client.
+    /// * `expires_at` - Future object retention deadline in Unix seconds.
+    /// * `input` - File content; read only after transferring capacity.
+    ///
+    /// # Returns
+    /// A durable object reference. One file attempt and its actual bytes consume
+    /// the request budget. Release the lease after the request. Cancellation leaves
+    /// journaled uploads for storage reconciliation.
+    ///
+    /// # Errors
+    /// Returns [`StorageError::Capacity`] for insufficient remaining budget,
+    /// `Invalid` for expired leases or invalid content, and `Database`, `Object`,
+    /// or `Input` for backend or stream failures. Failed attempts consume their
+    /// transferred allowance until cleanup; callers must count drained content.
+    ///
+    /// # Examples
+    /// ```no_run
+    /// # async fn example(store: &whorl::storage::UploadStore, lease: &whorl::service::admission::AdmissionLease, expiry: i64) -> Result<(), whorl::storage::StorageError> {
+    /// let object = store.upload_admitted(lease, expiry, &b"text"[..]).await?;
+    /// assert_eq!(object.bytes, 4);
+    /// # Ok(()) }
+    /// ```
+    pub async fn upload_admitted<R: AsyncRead + Unpin>(
+        &self,
+        lease: &crate::service::admission::AdmissionLease,
+        expires_at: i64,
+        input: R,
+    ) -> Result<StoredObjectRef, StorageError> {
+        self.upload_inner(&lease.client, expires_at, input, Some(lease.id))
+            .await
+    }
+
+    async fn upload_inner<R: AsyncRead + Unpin>(
+        &self,
+        client: &str,
+        expires_at: i64,
         mut input: R,
+        lease: Option<Uuid>,
     ) -> Result<StoredObjectRef, StorageError> {
         let _permit = self
             .admission
@@ -141,23 +186,38 @@ impl UploadStore {
         if !valid {
             return Err(StorageError::Invalid);
         }
-        let reserved: bool = sqlx::query_scalar(
-            "SELECT reserve_capacity($1, $2, 1, $3, to_timestamp($4::double precision))",
-        )
-        .bind(id)
-        .bind(client)
-        .bind(FILE_BYTES)
-        .bind(expires_at)
-        .fetch_one(&mut *tx)
-        .await?;
-        if !reserved {
-            return Err(StorageError::Capacity);
-        }
+        let allowance = if let Some(lease) = lease {
+            let remaining: Option<i64> = sqlx::query_scalar("SELECT bytes FROM capacity_reservations WHERE id=$1 AND client_id=$2 AND jobs>0 AND bytes>0 AND lease_until>clock_timestamp() FOR UPDATE")
+                .bind(lease).bind(client).fetch_optional(&mut *tx).await?;
+            let allowance = remaining.ok_or(StorageError::Capacity)?.min(FILE_BYTES);
+            sqlx::query("UPDATE capacity_reservations SET jobs=jobs-1, bytes=bytes-$2 WHERE id=$1")
+                .bind(lease)
+                .bind(allowance)
+                .execute(&mut *tx)
+                .await?;
+            sqlx::query("INSERT INTO capacity_reservations(id,client_id,jobs,bytes,lease_until) VALUES ($1,$2,1,$3,to_timestamp($4::double precision))")
+                .bind(id).bind(client).bind(allowance).bind(expires_at).execute(&mut *tx).await?;
+            allowance
+        } else {
+            let reserved: bool = sqlx::query_scalar(
+                "SELECT reserve_capacity($1, $2, 1, $3, to_timestamp($4::double precision))",
+            )
+            .bind(id)
+            .bind(client)
+            .bind(FILE_BYTES)
+            .bind(expires_at)
+            .fetch_one(&mut *tx)
+            .await?;
+            if !reserved {
+                return Err(StorageError::Capacity);
+            }
+            FILE_BYTES
+        };
         sqlx::query("INSERT INTO stored_uploads(id, client_id, object_key, expires_at) VALUES ($1,$2,$3,to_timestamp($4::double precision))")
             .bind(id).bind(client).bind(&key).bind(expires_at).execute(&mut *tx).await?;
         tx.commit().await?;
         let path = Path::from(key.clone());
-        let result = self.stream(id, &path, &mut input).await;
+        let result = self.stream(id, &path, &mut input, allowance, lease).await;
         if result.is_err() {
             let _ = self.cleanup(id, &path).await;
         }
@@ -176,6 +236,8 @@ impl UploadStore {
         id: Uuid,
         path: &Path,
         input: &mut R,
+        allowance: i64,
+        lease: Option<Uuid>,
     ) -> Result<i64, StorageError> {
         let multipart = self.s3.create_multipart(path).await?;
         sqlx::query("UPDATE stored_uploads SET multipart_id=$2 WHERE id=$1")
@@ -195,7 +257,7 @@ impl UploadStore {
                 }
                 filled += count;
                 total += count as i64;
-                if total > FILE_BYTES {
+                if total > allowance {
                     return Err(StorageError::Invalid);
                 }
             }
@@ -222,6 +284,17 @@ impl UploadStore {
         .await?;
         if updated.rows_affected() == 0 {
             return Err(StorageError::Invalid);
+        }
+        if let Some(lease) = lease {
+            let mut tx = self.pool.begin().await?;
+            sqlx::query("UPDATE capacity_reservations SET bytes=bytes+$2 WHERE id=$1 AND lease_until>clock_timestamp()")
+                .bind(lease).bind(allowance-total).execute(&mut *tx).await?;
+            sqlx::query("UPDATE capacity_reservations SET bytes=$2 WHERE id=$1")
+                .bind(id)
+                .bind(total)
+                .execute(&mut *tx)
+                .await?;
+            tx.commit().await?;
         }
         Ok(total)
     }

@@ -132,7 +132,6 @@ CREATE TABLE capacity_reservations (
     bytes bigint NOT NULL CHECK (bytes >= 0),
     lease_until timestamptz NOT NULL,
     created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
-    CHECK (jobs > 0 OR bytes > 0),
     CHECK (lease_until > created_at)
 );
 CREATE INDEX capacity_reservations_client ON capacity_reservations (client_id);
