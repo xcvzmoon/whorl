@@ -17,7 +17,7 @@ Build a fixed-size bounded CPU executor.
 
 ## Todos
 
-- [ ] Use two fixed workers on the target, configurable to available cores, and oneshot result delivery.
+- [ ] Extend the phase 9 matcher executor into the shared pipeline CPU pool; keep two workers total across matching, extraction, and signing. Use two fixed workers on the target, configurable to available cores, and oneshot result delivery.
 - [ ] Bound waiting slots by workers * acceptable_wait / measured_typical_job_time; reject immediately when full.
 - [ ] Skip expired work, support cancellation and shutdown, and never use the general blocking pool for CPU-heavy work.
 - [ ] Define a hard timeout strategy: a running Rust thread cannot be safely killed; isolate uninterruptible extraction in resource-limited subprocesses when required.

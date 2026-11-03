@@ -75,6 +75,13 @@ jobs:
           WHORL_SCHEMA_TEST_URL: postgresql://postgres@localhost:5432/postgres
         run: cargo test --locked --test schema -- --ignored
 
+      - name: Verify PostgreSQL candidate matching
+        env:
+          WHORL_CANDIDATES_TEST_URL: postgresql://postgres@localhost:5432/whorl_candidates_test
+        run: |
+          psql -X -w postgresql://postgres@localhost:5432/postgres -c 'CREATE DATABASE whorl_candidates_test'
+          cargo test --locked --test candidates -- --ignored
+
       - name: Check documentation
         env:
           RUSTDOCFLAGS: -D warnings

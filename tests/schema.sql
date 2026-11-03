@@ -26,6 +26,14 @@ BEGIN
         RAISE EXCEPTION 'null bands accepted';
     EXCEPTION WHEN check_violation THEN NULL; END;
     BEGIN
+        UPDATE signatures SET values = NULL;
+        RAISE EXCEPTION 'unpaired short-text signature accepted';
+    EXCEPTION WHEN check_violation THEN NULL; END;
+    UPDATE signatures SET values = NULL, band_hashes = NULL WHERE version = 'v2';
+    IF NOT EXISTS (SELECT FROM signatures WHERE version = 'v2' AND values IS NULL AND band_hashes IS NULL) THEN
+        RAISE EXCEPTION 'short-text version membership lost';
+    END IF;
+    BEGIN
         UPDATE batch_files SET state = 'failed';
         RAISE EXCEPTION 'failure without error accepted';
     EXCEPTION WHEN check_violation THEN NULL; END;
