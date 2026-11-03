@@ -1,5 +1,59 @@
 # GitHub Actions audit
 
+## Follow-up after phase 14
+
+Measured November 3, 2026 over 14 days: 42 workflow runs, 81 executed jobs, 165 estimated Linux runner minutes (354/month if this short burst continued). These are rounded duration estimates, not an invoice. Rounding contributed 60 minutes (36.3%); failed jobs consumed 25 minutes; cancelled jobs consumed none.
+
+| Workflow / event | Estimated minutes | Share |
+| --- | ---: | ---: |
+| CI / pull request | 103 | 62.4% |
+| CI / push | 57 | 34.5% |
+| PR description | 5 | 3.0% |
+
+| Job / event | Estimated minutes | Share |
+| --- | ---: | ---: |
+| Checks / pull request | 81 | 49.1% |
+| Checks / push | 41 | 24.8% |
+| CI summary / pull request | 22 | 13.3% |
+| CI summary / push | 16 | 9.7% |
+| PR description | 5 | 3.0% |
+
+Successful PR CI runs had a 1.1-minute median and 11.3-minute p90; successful push runs had a 1.2-minute median and 4.2-minute p90. The median includes early phases with few dependencies and understates current latency. Branches started a median of one run and a maximum of three per workflow. No release workflow ran in this sample.
+
+### Why the latest run took eleven minutes
+
+[PR 16 CI run](https://github.com/xcvzmoon/whorl/actions/runs/41642987099) took 11m16s overall. Its Checks job took 11m05s:
+
+| Step | Seconds |
+| --- | ---: |
+| Project setup | 8 |
+| Formatting and Clippy | 109 |
+| Tests including doctests | 170 |
+| Documentation | 15 |
+| Release build | 313 |
+| Cache cleanup and upload | 20 |
+
+The release build alone used 47% of Checks time. Test compilation took 152 seconds; the all-target tests took 170 seconds overall. This is compilation cost, not evidence that individual tests need removal. The earlier prebuilt auditor correction still works.
+
+The log reports `No cache found`. The cache API returned only two entries, both under PR merge refs (`refs/pull/15/merge` and `refs/pull/16/merge`), totalling about 1.78 GB. There was no default-branch cache. GitHub scopes PR caches to their merge ref, so later PRs cannot restore them. The preceding main run failed in tests, before the cache action's default success-only save. A main run was still in progress during measurement; its eventual result is outside this snapshot.
+
+### Selected correction and limits
+
+The user chose to preserve every gate. The shared setup action now enables `cache-on-failure`, allowing built dependencies to survive a failed main run and become available to subsequent PRs. Existing shared keys, toolchain and dependency hashing remain intact. Partial failed-run caches may omit later release artifacts; immutable existing keys are not refreshed, so this does not guarantee a fully warm release build. No arbitrary per-run keys were added: each full cache is about 1 GB, and duplicating them would increase eviction and upload costs.
+
+| Option | Estimated runner saving | Estimated wall-clock saving | Decision / risk |
+| --- | --- | --- | --- |
+| Save dependencies after failed runs | Unmeasured; conservative budget estimate is zero until hosted verification | Unmeasured; reduces repeated compilation when a usable main cache exists | Selected; preserves all gates, may save partial artifacts |
+| Remove PR release build | Up to 313 seconds on this cold run; rounded savings depend on total duration | Up to 5m13s on this run | Declined; PR release-profile validation would be lost |
+| Remove main validation | Historical ceiling 57 rounded minutes in this sample | Does not shorten PR critical path | Deferred; merge enforcement unavailable |
+| Remove summary job | 38 rounded minutes in this sample | Only a few execution seconds plus scheduling | Deferred; preserves status names |
+
+Rulesets and main protection APIs again returned HTTP 403 with a plan-upgrade message. Required checks and strictness remain unverified. The account is a personal owner, so no organisation plan was queried. No checks, triggers, timeouts, runner types, or status names were removed. Phase 15 also adds a PostgreSQL-backed Linux worker recovery gate; its incremental hosted duration is unmeasured and is not included in the historical totals. No workflow-layout tests were found. No workflow was pushed or dispatched; hosted savings remain unverified.
+
+Sources: [GitHub cache scope and immutability](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching), [rust-cache v2.9.3 options](https://github.com/Swatinem/rust-cache/tree/v2.9.3). Reproduce with the measurement command below, using `/tmp/whorl-ci-jobs.json` for raw rows.
+
+## Initial audit (historical)
+
 Measured on 2026-11-03, covering the preceding 14 days. Three workflow runs contained five executed jobs. Estimates below use hosted Linux job duration rounded up per job, not an invoice or remaining account allowance.
 
 | Area | Estimated minutes | Share |

@@ -13,6 +13,7 @@ runs:
       uses: Swatinem/rust-cache@v2.9.3
       with:
         shared-key: whorl-linux
+        cache-on-failure: true
 
     - name: Install prebuilt dependency auditor
       uses: taiki-e/install-action@v2.89.1
