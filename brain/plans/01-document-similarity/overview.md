@@ -7,7 +7,7 @@
 
 ## Status and scope
 
-- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Phase 8 completed exact candidate verification, validated policy snapshots, deterministic metadata tokens, and weighted scoring. Phase 9 completed client/version-scoped paged candidate retrieval, dedicated CPU verification, and race-safe canonical ingests with preserved upload provenance. Phase 10 completed the graphile_worker lifecycle/dependency spike and retained it under an explicit at-least-once contract; phase 11 is next. Production OCR tool selection remains in the phase 3 approval gate.
+- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Phase 8 completed exact candidate verification, validated policy snapshots, deterministic metadata tokens, and weighted scoring. Phase 9 completed client/version-scoped paged candidate retrieval, dedicated CPU verification, and race-safe canonical ingests with preserved upload provenance. Phase 10 completed the graphile_worker lifecycle/dependency spike and retained it under an explicit at-least-once contract; phase 11 completed the shared bounded CPU executor, deadline/cancellation controls and shutdown tests; phase 12 is next. Production OCR tool selection remains in the phase 3 approval gate.
 - Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction selection and policy approval remain pending; no service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
@@ -49,7 +49,7 @@
 - [x] [[plans/01-document-similarity/phase-08-verification]]
 - [x] [[plans/01-document-similarity/phase-09-candidate-lookup]]
 - [x] [[plans/01-document-similarity/phase-10-queue-spike]]
-- [ ] [[plans/01-document-similarity/phase-11-cpu-pool]]
+- [x] [[plans/01-document-similarity/phase-11-cpu-pool]]
 - [ ] [[plans/01-document-similarity/phase-12-shared-storage]]
 - [ ] [[plans/01-document-similarity/phase-13-extractors]]
 - [ ] [[plans/01-document-similarity/phase-14-queue-adapter]]

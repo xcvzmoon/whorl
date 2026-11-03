@@ -1,6 +1,7 @@
 //! Bounded candidate pages verified on dedicated CPU threads.
 
 use crate::{
+    cpu_pool::{CpuError, CpuPool, WorkDeadline},
     documents::{Candidate, CandidateRepository},
     similarity::{
         normalize::NormalizationVersion,
@@ -14,7 +15,7 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 use sqlx::PgPool;
 use std::{num::NonZeroUsize, sync::Arc};
-use tokio::sync::{Semaphore, oneshot};
+use tokio::sync::Semaphore;
 use uuid::Uuid;
 
 /// Failures while preparing, retrieving, verifying or ingesting a document.
@@ -40,12 +41,9 @@ pub enum MatchingError {
     /// The matcher already owns work; callers must retry through admission (`overloaded`).
     #[error("overloaded: {0}")]
     Overloaded(#[from] tokio::sync::TryAcquireError),
-    /// The dedicated CPU executor could not start.
+    /// Shared CPU admission, deadline, panic or shutdown failure.
     #[error(transparent)]
-    CpuStart(#[from] rayon::ThreadPoolBuildError),
-    /// A CPU result channel closed before delivery.
-    #[error(transparent)]
-    CpuDelivery(#[from] oneshot::error::RecvError),
+    Cpu(#[from] CpuError),
 }
 
 /// Owned canonical input and its versioned retrieval indexes.
@@ -218,37 +216,32 @@ pub struct DocumentMatch {
     pub score: MatchScore,
 }
 
-/// Shared two-thread verifier with one admitted request and no waiting requests.
+/// Candidate verifier using the process-shared pipeline CPU pool.
 ///
-/// Share one instance per process. Pages contain at most 32 candidates; only
-/// qualifying scores are retained. Phase 11 adds deadline and shutdown control.
+/// Pages contain at most 32 candidates. One matching request is admitted at once.
 pub struct Matcher {
-    pool: rayon::ThreadPool,
+    pool: Arc<CpuPool>,
     admission: Arc<Semaphore>,
 }
 
 impl Matcher {
-    /// Starts the two dedicated verification threads.
+    /// Uses the existing process-wide CPU pool without creating threads.
     ///
+    /// # Arguments
+    /// * `pool` - The same pool used for extraction and signing.
     /// # Returns
-    /// A process-shared matcher; dropping it releases the pool after running work.
-    ///
-    /// # Errors
-    /// Returns [`MatchingError::CpuStart`] if the dedicated threads cannot start.
-    ///
+    /// A matcher with one admitted request and no waiting matching requests.
     /// # Examples
+    /// ```no_run
+    /// # fn example(pool: std::sync::Arc<whorl::cpu_pool::CpuPool>) {
+    /// let matcher = whorl::service::matching::Matcher::new(pool);
+    /// # }
     /// ```
-    /// let matcher = whorl::service::matching::Matcher::new()?;
-    /// # Ok::<(), whorl::service::matching::MatchingError>(())
-    /// ```
-    pub fn new() -> Result<Self, MatchingError> {
-        Ok(Self {
-            pool: rayon::ThreadPoolBuilder::new()
-                .num_threads(2)
-                .thread_name(|i| format!("matching-{i}"))
-                .build()?,
+    pub fn new(pool: Arc<CpuPool>) -> Self {
+        Self {
+            pool,
             admission: Arc::new(Semaphore::new(1)),
-        })
+        }
     }
 
     /// Retrieves and exactly verifies a client's version-compatible candidates.
@@ -258,6 +251,7 @@ impl Matcher {
     /// * `client_id` - Authorized corpus owner; callers must enforce authorization.
     /// * `input` - CPU-prepared query whose version is already registered.
     /// * `policy` - Immutable batch scoring settings.
+    /// * `deadline` - Absolute file deadline shared across all CPU stages.
     ///
     /// # Returns
     /// Qualifying results ordered by descending score, then ascending UUID. Exact
@@ -267,7 +261,7 @@ impl Matcher {
     /// # Errors
     /// Returns [`MatchingError::Database`] for SQLx failures,
     /// [`MatchingError::Overloaded`] (`overloaded`) when admission is occupied,
-    /// [`MatchingError::CpuDelivery`] if a result channel closes,
+    /// [`MatchingError::Cpu`] for pool overload, expiration, shutdown, panic or delivery failure,
     /// [`MatchingError::EmptyText`] (`no_extractable_text`) for invalid stored text,
     /// or [`MatchingError::IncompatibleProfile`] for mismatched text policies.
     /// Cancellation drops the read-only transaction;
@@ -275,10 +269,10 @@ impl Matcher {
     ///
     /// # Examples
     /// ```no_run
-    /// # async fn example(client: &sqlx::PgPool) -> Result<(), whorl::service::matching::MatchingError> {
+    /// # async fn example(client: &sqlx::PgPool, pool: std::sync::Arc<whorl::cpu_pool::CpuPool>, deadline: whorl::cpu_pool::WorkDeadline) -> Result<(), whorl::service::matching::MatchingError> {
     /// use whorl::{service::matching::{Matcher, PreparedDocument}, similarity::{shingles::SourceProfile, verify::SimilarityPolicy}};
     /// let input = PreparedDocument::new("one two three", serde_json::json!({}), SourceProfile::NativeTextV1, None)?;
-    /// let results = Matcher::new()?.check(client, "authorized-client", std::sync::Arc::new(input), SimilarityPolicy::default()).await?;
+    /// let results = Matcher::new(pool).check(client, "authorized-client", std::sync::Arc::new(input), SimilarityPolicy::default(), deadline).await?;
     /// # Ok(()) }
     /// ```
     pub async fn check(
@@ -287,6 +281,7 @@ impl Matcher {
         client_id: &str,
         input: Arc<PreparedDocument>,
         policy: SimilarityPolicy,
+        deadline: WorkDeadline,
     ) -> Result<Vec<DocumentMatch>, MatchingError> {
         let permit = Arc::new(self.admission.clone().try_acquire_owned()?);
         let mut transaction = client
@@ -299,8 +294,14 @@ impl Matcher {
         let mut matches = Vec::new();
         if let Some(duplicate) = repository.duplicate(&input).await? {
             matches.extend(
-                self.verify(input.clone(), vec![duplicate], policy, permit.clone())
-                    .await?,
+                self.verify(
+                    input.clone(),
+                    vec![duplicate],
+                    policy,
+                    permit.clone(),
+                    deadline,
+                )
+                .await?,
             );
         }
         let mut after = None;
@@ -317,23 +318,24 @@ impl Matcher {
             }
             after = page.last().map(|candidate| candidate.id);
             matches.extend(
-                self.verify(input.clone(), page, policy, permit.clone())
+                self.verify(input.clone(), page, policy, permit.clone(), deadline)
                     .await?,
             );
         }
         transaction.commit().await?;
-        let (send, receive) = oneshot::channel();
-        self.pool.spawn(move || {
-            matches.sort_by(|a, b| {
-                b.score
-                    .score
-                    .total_cmp(&a.score.score)
-                    .then_with(|| a.document_id.cmp(&b.document_id))
-            });
-            drop(permit);
-            let _ = send.send(matches);
-        });
-        Ok(receive.await?)
+        Ok(self
+            .pool
+            .run(deadline, move |_| {
+                let _permit = permit;
+                matches.sort_by(|a, b| {
+                    b.score
+                        .score
+                        .total_cmp(&a.score.score)
+                        .then_with(|| a.document_id.cmp(&b.document_id))
+                });
+                matches
+            })
+            .await?)
     }
 
     async fn verify(
@@ -342,92 +344,40 @@ impl Matcher {
         page: Vec<Candidate>,
         policy: SimilarityPolicy,
         permit: Arc<tokio::sync::OwnedSemaphorePermit>,
+        deadline: WorkDeadline,
     ) -> Result<Vec<DocumentMatch>, MatchingError> {
-        let (send, receive) = oneshot::channel();
-        self.pool.spawn(move || {
-            let result = page
-                .into_par_iter()
-                .map(|candidate| {
-                    let text = ShingleSet::new(
-                        &candidate.text,
-                        NormalizationVersion::V1,
-                        input.source,
-                        input.k,
-                    )?;
-                    let tokens = MetadataTokens::new(&candidate.metadata);
-                    let score = SimilarityEngine::new(policy).verify(
-                        &input.shingles,
-                        &text,
-                        Some((&input.tokens, &tokens)),
-                    )?;
-                    Ok(score.qualifies.then_some(DocumentMatch {
-                        document_id: candidate.id,
-                        score,
-                    }))
-                })
-                .collect::<Result<Vec<_>, MatchingError>>()
-                .map(|scores| scores.into_iter().flatten().collect());
-            let _ = send.send(result);
-            drop(permit);
-        });
-        receive.await?
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::{
-        future::Future,
-        sync::Barrier,
-        task::{Context, Poll, Waker},
-    };
-
-    #[test]
-    fn cancelled_cpu_page_keeps_admission_until_work_finishes() {
-        let matcher = Matcher::new().unwrap();
-        assert_eq!(matcher.pool.current_num_threads(), 2);
-        let started = Arc::new(Barrier::new(3));
-        let release = Arc::new(Barrier::new(3));
-        for _ in 0..2 {
-            let started = started.clone();
-            let release = release.clone();
-            matcher.pool.spawn(move || {
-                started.wait();
-                release.wait();
-            });
-        }
-        started.wait();
-        let input = Arc::new(
-            PreparedDocument::new(
-                "hello",
-                serde_json::json!({}),
-                SourceProfile::NativeTextV1,
-                None,
-            )
-            .unwrap(),
-        );
-        let permit = Arc::new(matcher.admission.clone().try_acquire_owned().unwrap());
-        let mut future = Box::pin(matcher.verify(
-            input,
-            Vec::new(),
-            SimilarityPolicy::default(),
-            permit.clone(),
-        ));
-        assert!(matches!(
-            future
-                .as_mut()
-                .poll(&mut Context::from_waker(Waker::noop())),
-            Poll::Pending
-        ));
-        drop(future);
-        drop(permit);
-        assert!(matcher.admission.clone().try_acquire_owned().is_err());
-        release.wait();
-        let runtime = tokio::runtime::Builder::new_current_thread()
-            .build()
-            .unwrap();
-        let _permit = runtime.block_on(matcher.admission.acquire()).unwrap();
-        assert_eq!(matcher.admission.available_permits(), 0);
+        self.pool
+            .run(deadline, move |context| {
+                let _permit = permit;
+                page.into_par_iter()
+                    .map(|candidate| {
+                        if context.should_stop() {
+                            return Err(MatchingError::Cpu(if deadline.is_expired() {
+                                CpuError::Expired
+                            } else {
+                                CpuError::Shutdown
+                            }));
+                        }
+                        let text = ShingleSet::new(
+                            &candidate.text,
+                            NormalizationVersion::V1,
+                            input.source,
+                            input.k,
+                        )?;
+                        let tokens = MetadataTokens::new(&candidate.metadata);
+                        let score = SimilarityEngine::new(policy).verify(
+                            &input.shingles,
+                            &text,
+                            Some((&input.tokens, &tokens)),
+                        )?;
+                        Ok(score.qualifies.then_some(DocumentMatch {
+                            document_id: candidate.id,
+                            score,
+                        }))
+                    })
+                    .collect::<Result<Vec<_>, MatchingError>>()
+                    .map(|scores| scores.into_iter().flatten().collect())
+            })
+            .await?
     }
 }
