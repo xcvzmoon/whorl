@@ -42,6 +42,8 @@ Run `cargo run --locked --bin whorl` with the database, S3, signature version, a
 
 ## Deployment and defaults
 
+See [configuration and operations](docs/configuration.md) for environment variables, local `.env` loading, telemetry, alerts, and rollout procedures.
+
 The initial target is two CPU cores and 4 GiB RAM, with at most two CPU workers and handler concurrency no greater than pool size. Use the latest stable PostgreSQL verified at implementation time and shared S3-compatible storage directly. The sibling upload service is not a storage dependency. Use MinIO for S3-compatible storage and run PostgreSQL in Docker. Corpus size/growth, peak concurrency, and instance count still need definition.
 
 | Setting | Specified default / status |

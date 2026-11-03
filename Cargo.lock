@@ -4172,6 +4172,7 @@ dependencies = [
  "actix-web",
  "bytes",
  "calamine",
+ "dotenvy",
  "futures-util",
  "graphile_worker",
  "image",

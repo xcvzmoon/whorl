@@ -1,6 +1,11 @@
+#[path = "../config.rs"]
+mod config;
+#[path = "../telemetry.rs"]
+mod telemetry;
+use config::ServiceConfig;
 use graphile_worker::WorkerOptions;
 use sqlx::postgres::PgPoolOptions;
-use std::{num::NonZeroUsize, sync::Arc, time::Duration};
+use std::{sync::Arc, time::Duration};
 use whorl::{
     extraction::{ExtractionLimits, Extractor},
     queue::FileJobPayload,
@@ -8,21 +13,24 @@ use whorl::{
     storage::{UploadStore, s3},
 };
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    ServiceConfig::load_local()?;
+    tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()?
+        .block_on(run())
+}
+
+async fn run() -> Result<(), Box<dyn std::error::Error>> {
+    let workers = config::workers()?;
+    let storage = ServiceConfig::storage()?;
+    let objects = s3::connect(&storage.endpoint, &storage.bucket, &storage.region)?;
+    let config = ServiceConfig::load()?;
     let pool = PgPoolOptions::new()
         .max_connections(12)
-        .connect(&std::env::var("DATABASE_URL")?)
+        .connect_with(config.database)
         .await?;
-    let objects = s3::connect(
-        &std::env::var("WHORL_S3_ENDPOINT")?,
-        &std::env::var("WHORL_S3_BUCKET")?,
-        &std::env::var("WHORL_S3_REGION")?,
-    )?;
     let store = UploadStore::new(pool.clone(), objects.clone());
-    let workers = std::env::var("WHORL_CPU_WORKERS")
-        .unwrap_or_else(|_| "2".into())
-        .parse::<NonZeroUsize>()?;
     let executable = std::env::current_exe()?.with_file_name("whorl-extract");
     let extractor = Extractor::new(
         executable,
@@ -40,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         },
     )?;
     let worker = WorkerOptions::default()
-        .pg_pool(pool)
+        .pg_pool(pool.clone())
         .schema("whorl_queue")
         .concurrency(pipeline.concurrency())
         .heartbeat_interval(Duration::from_secs(30))
@@ -58,13 +66,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let mut interval = tokio::time::interval(Duration::from_secs(60));
             loop {
                 interval.tick().await;
+                match tokio::time::timeout(Duration::from_secs(5), telemetry::snapshot(&pool)).await {
+                    Ok(Ok(metrics)) => eprintln!("{metrics}"),
+                    _ => eprintln!(r#"{{"event":"operational_snapshot_failed"}}"#),
+                }
+                let mut cleanup = telemetry::StageMetrics::start("cleanup");
+                let mut cleanup_ok = true;
                 for _ in 0..32 {
                     match store.reconcile_one().await {
                         Ok(true) => {},
                         Ok(false) => break,
-                        Err(error) => { eprintln!("upload cleanup failed: {error}"); break; }
+                        Err(_) => { cleanup_ok = false; eprintln!(r#"{{"event":"upload_cleanup_failed"}}"#); break; }
                     }
                 }
+                if cleanup_ok { cleanup.complete(); }
             }
         } => unreachable!(),
     };

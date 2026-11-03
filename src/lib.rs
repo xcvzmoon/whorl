@@ -12,3 +12,5 @@ pub mod storage;
 pub mod extraction;
 
 pub mod queue;
+
+mod telemetry;
