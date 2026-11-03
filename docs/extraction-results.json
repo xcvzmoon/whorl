@@ -1,0 +1,421 @@
+{
+  "machine": "aarch64",
+  "cpu_quota": "200000 100000",
+  "memory_limit_bytes": 4294967296,
+  "swap_limit_bytes": 0,
+  "limits": {
+    "max_input_bytes": 20971520,
+    "max_archive_bytes": 67108864,
+    "max_member_bytes": 33554432,
+    "max_archive_ratio": 100,
+    "max_archive_entries": 4096,
+    "max_xml_depth": 128,
+    "max_pages": 100,
+    "max_slides": 100,
+    "max_sheets": 256,
+    "max_cells": 1000000,
+    "max_image_pixels": 25000000,
+    "max_text_bytes": 8388608
+  },
+  "cases": [
+    {
+      "case": "scan-pdf",
+      "outcome": "success",
+      "wall_ms": 1602.38,
+      "peak_rss_kib": 63224,
+      "text_sha256": "f06d6cf63da44868bf4988d91b0da3d351daddc3d45424a46b82127dcb8bc62c",
+      "quality": {
+        "wer": 0.08620689655172414,
+        "cer": 0.06442577030812324,
+        "coverage": 0.9724137931034482,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ocr-page",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "map-png",
+      "outcome": "success",
+      "wall_ms": 444.26,
+      "peak_rss_kib": 165876,
+      "text_sha256": "e4bebce56b11205da99e2862899da2c7f651b5f7c00aa6fce45dbf26553bd9d3",
+      "quality": {
+        "wer": null,
+        "cer": null,
+        "coverage": 0.7647058823529411,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "unordered-anchors",
+        "null_reasons": {
+          "wer": "partial_reference",
+          "cer": "partial_reference"
+        }
+      }
+    },
+    {
+      "case": "table-docx",
+      "outcome": "success",
+      "wall_ms": 5.46,
+      "peak_rss_kib": 4768,
+      "text_sha256": "52c45692bb9e9ab8117ad4a09632ff631684b394eb8d00d19200de0b4c23ca46",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "images-docx",
+      "outcome": "NoExtractableText",
+      "wall_ms": 4.37,
+      "peak_rss_kib": 4896,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "notes-pptx",
+      "outcome": "success",
+      "wall_ms": 4.39,
+      "peak_rss_kib": 5168,
+      "text_sha256": "372a1394a3814418ba082a33f09c40e58bb6755eef85da94856e1652b9e406d3",
+      "quality": {
+        "wer": 1.0,
+        "cer": 0.4,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "table-pptx",
+      "outcome": "success",
+      "wall_ms": 5.28,
+      "peak_rss_kib": 5168,
+      "text_sha256": "fd37498700210816bb32f0c98bff9a06fdd3915a128fe204f5d720b55be01f5d",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "picture-pptx",
+      "outcome": "NoExtractableText",
+      "wall_ms": 3.26,
+      "peak_rss_kib": 5296,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "workbook-xlsx",
+      "outcome": "success",
+      "wall_ms": 3.05,
+      "peak_rss_kib": 5040,
+      "text_sha256": "5235be553384a3bb1695590cece00e0468361fc42b26c73ab9dabfd99d0f9420",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "digital-pdf",
+      "outcome": "success",
+      "wall_ms": 19.73,
+      "peak_rss_kib": 10676,
+      "text_sha256": "0a489a0bc19a1853d09d158ac4c0473a51db3e7df2f5341fa7d2d9066ec1e559",
+      "quality": {
+        "wer": null,
+        "cer": null,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "anchors",
+        "null_reasons": {
+          "wer": "partial_reference",
+          "cer": "partial_reference"
+        }
+      }
+    },
+    {
+      "case": "photo-jpeg",
+      "outcome": "success",
+      "wall_ms": 225.75,
+      "peak_rss_kib": 167068,
+      "text_sha256": "64587648f167bb0c90aca46815fbc6e29ece4a527d095c2879c8cad9adb9f13f",
+      "quality": {
+        "wer": 5.0,
+        "cer": 2.5,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ocr-page",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "boundary-docx",
+      "outcome": "success",
+      "wall_ms": 48.49,
+      "peak_rss_kib": 58124,
+      "text_sha256": "52c45692bb9e9ab8117ad4a09632ff631684b394eb8d00d19200de0b4c23ca46",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "boundary-jpeg",
+      "outcome": "success",
+      "wall_ms": 269.61,
+      "peak_rss_kib": 172540,
+      "text_sha256": "64587648f167bb0c90aca46815fbc6e29ece4a527d095c2879c8cad9adb9f13f",
+      "quality": {
+        "wer": 5.0,
+        "cer": 2.5,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ocr-page",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "boundary-pdf",
+      "outcome": "success",
+      "wall_ms": 18.8,
+      "peak_rss_kib": 10680,
+      "text_sha256": "0a489a0bc19a1853d09d158ac4c0473a51db3e7df2f5341fa7d2d9066ec1e559",
+      "quality": {
+        "wer": null,
+        "cer": null,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "anchors",
+        "null_reasons": {
+          "wer": "partial_reference",
+          "cer": "partial_reference"
+        }
+      }
+    },
+    {
+      "case": "boundary-png",
+      "outcome": "success",
+      "wall_ms": 385.88,
+      "peak_rss_kib": 166068,
+      "text_sha256": "e4bebce56b11205da99e2862899da2c7f651b5f7c00aa6fce45dbf26553bd9d3",
+      "quality": {
+        "wer": null,
+        "cer": null,
+        "coverage": 0.7647058823529411,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "unordered-anchors",
+        "null_reasons": {
+          "wer": "partial_reference",
+          "cer": "partial_reference"
+        }
+      }
+    },
+    {
+      "case": "boundary-pptx",
+      "outcome": "success",
+      "wall_ms": 41.04,
+      "peak_rss_kib": 59400,
+      "text_sha256": "fd37498700210816bb32f0c98bff9a06fdd3915a128fe204f5d720b55be01f5d",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "boundary-xlsx",
+      "outcome": "success",
+      "wall_ms": 605.18,
+      "peak_rss_kib": 286000,
+      "text_sha256": "e29833cdddaeca582cae52dce5264002d182285379826c9e1d4b7202405297ba",
+      "quality": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "coverage": 1.0,
+        "metadata_accuracy": 1.0,
+        "comparison_scope": "ordered-tokens",
+        "null_reasons": {}
+      }
+    },
+    {
+      "case": "empty-pdf",
+      "outcome": "EmptyFile",
+      "wall_ms": 1.61,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "expansion-docx",
+      "outcome": "LimitExceeded",
+      "wall_ms": 2.35,
+      "peak_rss_kib": 4896,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "expansion-pptx",
+      "outcome": "LimitExceeded",
+      "wall_ms": 2.29,
+      "peak_rss_kib": 5024,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "expansion-xlsx",
+      "outcome": "LimitExceeded",
+      "wall_ms": 1.92,
+      "peak_rss_kib": 4768,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "huge-png",
+      "outcome": "LimitExceeded",
+      "wall_ms": 1.3,
+      "peak_rss_kib": 4264,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-docx",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.26,
+      "peak_rss_kib": 3876,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-jpeg",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.25,
+      "peak_rss_kib": 4144,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-pdf",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.58,
+      "peak_rss_kib": 6132,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-png",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.27,
+      "peak_rss_kib": 4272,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-pptx",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.25,
+      "peak_rss_kib": 3872,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "malformed-xlsx",
+      "outcome": "MalformedFile",
+      "wall_ms": 1.24,
+      "peak_rss_kib": 3888,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-docx",
+      "outcome": "FileTooLarge",
+      "wall_ms": 1.54,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-jpeg",
+      "outcome": "FileTooLarge",
+      "wall_ms": 1.46,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-pdf",
+      "outcome": "FileTooLarge",
+      "wall_ms": 1.5,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-png",
+      "outcome": "FileTooLarge",
+      "wall_ms": 2.11,
+      "peak_rss_kib": 3616,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-pptx",
+      "outcome": "FileTooLarge",
+      "wall_ms": 1.67,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "over-limit-xlsx",
+      "outcome": "FileTooLarge",
+      "wall_ms": 1.81,
+      "peak_rss_kib": 3632,
+      "text_sha256": null,
+      "quality": null
+    },
+    {
+      "case": "spoofed-docx",
+      "outcome": "success",
+      "wall_ms": 385.33,
+      "peak_rss_kib": 165888,
+      "text_sha256": "e4bebce56b11205da99e2862899da2c7f651b5f7c00aa6fce45dbf26553bd9d3",
+      "quality": {
+        "wer": null,
+        "cer": null,
+        "coverage": null,
+        "metadata_accuracy": null,
+        "comparison_scope": null,
+        "null_reasons": {
+          "metadata_accuracy": "no_expected_fields",
+          "wer": "no_reference",
+          "cer": "no_reference",
+          "coverage": "no_reference"
+        }
+      }
+    },
+    {
+      "case": "mixed-native-scanned-pdf",
+      "outcome": "success",
+      "text_sha256": "8377aed7b1f676e9657aa2e8b3b32b31b580d88c5de6cd5b7f12e6ee24306bfc"
+    }
+  ]
+}
