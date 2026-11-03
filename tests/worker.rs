@@ -203,6 +203,15 @@ async fn durable_processing_and_recovery() {
         Err(ProcessError::Storage(_))
     ));
     assert_eq!(state(&pool, &missing).await, "queued");
+    let mut retry = pool.begin().await.unwrap();
+    assert!(
+        sqlx::query_scalar::<_, bool>("SELECT pg_try_advisory_xact_lock(hashtextextended($1,15))")
+            .bind(missing.file_id.to_string())
+            .fetch_one(&mut *retry)
+            .await
+            .unwrap()
+    );
+    retry.rollback().await.unwrap();
     pipeline.process(&missing, true).await.unwrap();
     assert_eq!(state(&pool, &missing).await, "failed");
     assert_eq!(

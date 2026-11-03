@@ -260,6 +260,7 @@ impl ProcessFile {
                 } else {
                     sqlx::query("UPDATE batch_files SET state='queued',stage=NULL,next_retry_at=clock_timestamp()+interval '1 second' * exp(least(attempt,10)) WHERE id=$1 AND client_id=$2 AND attempt=$3 AND state='running'")
                         .bind(payload.file_id).bind(&payload.client_id).bind(attempt).execute(&self.pool).await?;
+                    guard.rollback().await?;
                     return Err(error);
                 }
             }
