@@ -1,8 +1,8 @@
 # Extraction spike
 
-Phase 3 benchmarks extraction candidates on the phase 2 corpus. The experiment is complete; production tool selection and OCR policy remain subject to the approval gate below. No service extractor, fallback chain, signature policy, or dependency has been added to the application.
+Phase 3 benchmarks extraction candidates on the phase 2 corpus. The experiment is complete. The user approved its tool and resource recommendations on November 3, 2026, retaining single-character OCR lines and requesting a maintained EXIF alternative. See the [approval record](decisions.md#phase-13-extraction-approval) and [production adapter documentation](extraction.md). The measurements and proposal language below preserve the benchmark-stage findings.
 
-## Recommendations awaiting approval
+## Benchmark recommendations
 
 | Format | Recommendation | Reason and boundary |
 | --- | --- | --- |
