@@ -214,7 +214,7 @@ impl UploadStore {
         }
         self.s3.complete_multipart(path, &multipart, parts).await?;
         let updated = sqlx::query(
-            "UPDATE stored_uploads SET bytes=$2 WHERE id=$1 AND expires_at > clock_timestamp()",
+            "UPDATE stored_uploads SET bytes=$2, multipart_id=NULL WHERE id=$1 AND expires_at > clock_timestamp()",
         )
         .bind(id)
         .bind(total)
