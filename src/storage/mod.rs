@@ -299,6 +299,43 @@ impl UploadStore {
         Ok(total)
     }
 
+    /// Deletes an unclaimed staged object and releases its durable charge.
+    ///
+    /// # Arguments
+    /// * `object` - Reference returned by this store after upload.
+    ///
+    /// # Returns
+    /// Unit after cleanup, or if a committed file already owns the object.
+    /// Cancellation retains the journal for reconciliation.
+    ///
+    /// # Errors
+    /// Returns [`StorageError::Database`] or [`StorageError::Object`] on cleanup failure.
+    ///
+    /// # Examples
+    /// ```no_run
+    /// # async fn example(store: &whorl::storage::UploadStore, object: &whorl::storage::StoredObjectRef) -> Result<(), whorl::storage::StorageError> {
+    /// store.discard(object).await?;
+    /// # Ok(()) }
+    /// ```
+    pub async fn discard(&self, object: &StoredObjectRef) -> Result<(), StorageError> {
+        let mut guard = self.pool.begin().await?;
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))")
+            .bind(&object.key)
+            .execute(&mut *guard)
+            .await?;
+        let claimed: bool =
+            sqlx::query_scalar("SELECT EXISTS(SELECT FROM batch_files WHERE source_object_key=$1)")
+                .bind(&object.key)
+                .fetch_one(&mut *guard)
+                .await?;
+        if !claimed {
+            self.cleanup(object.id, &Path::from(object.key.clone()))
+                .await?;
+        }
+        guard.commit().await?;
+        Ok(())
+    }
+
     async fn cleanup(&self, id: Uuid, path: &Path) -> Result<(), StorageError> {
         let multipart: Option<String> =
             sqlx::query_scalar("SELECT multipart_id FROM stored_uploads WHERE id=$1")
