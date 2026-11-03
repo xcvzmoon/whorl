@@ -93,6 +93,26 @@ mod linux {
         file
     }
 
+    async fn wait_for_process_exit(pid: &str) {
+        tokio::time::timeout(Duration::from_secs(2), async {
+            loop {
+                match std::fs::read_to_string(format!("/proc/{pid}/stat")) {
+                    Ok(status) => {
+                        let (_, fields) = status.rsplit_once(") ").expect("invalid process status");
+                        if fields.split_whitespace().next() == Some("Z") {
+                            return;
+                        }
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => return,
+                    Err(error) => panic!("cannot read status for process {pid}: {error}"),
+                }
+                tokio::time::sleep(Duration::from_millis(10)).await;
+            }
+        })
+        .await
+        .unwrap_or_else(|_| panic!("process {pid} remained alive after group termination"));
+    }
+
     #[tokio::test]
     async fn deadline_kills_descendants_and_removes_temporary_input() {
         let record = tempfile::NamedTempFile::new().unwrap();
@@ -118,8 +138,7 @@ mod linux {
         let mut lines = record.lines();
         let pid = lines.next().unwrap();
         assert!(!std::path::Path::new(lines.next().unwrap()).exists());
-        let status = std::fs::read_to_string(format!("/proc/{pid}/stat"));
-        assert!(status.is_err() || status.unwrap().split_whitespace().nth(2) == Some("Z"));
+        wait_for_process_exit(pid).await;
         std::fs::remove_file(retained).unwrap();
     }
 
@@ -153,9 +172,7 @@ mod linux {
         let mut lines = recorded.lines();
         let pid = lines.next().unwrap();
         assert!(!std::path::Path::new(lines.next().unwrap()).exists());
-        tokio::time::sleep(Duration::from_millis(20)).await;
-        let status = std::fs::read_to_string(format!("/proc/{pid}/stat"));
-        assert!(status.is_err() || status.unwrap().split_whitespace().nth(2) == Some("Z"));
+        wait_for_process_exit(pid).await;
         std::fs::remove_file(path).unwrap();
     }
 
