@@ -79,7 +79,14 @@ async fn postgres_candidate_matching_and_duplicate_races() {
     .execute(client)
     .await
     .unwrap();
-    let matcher = Matcher::new().unwrap();
+    let matcher = Matcher::new(std::sync::Arc::new(
+        whorl::cpu_pool::CpuPool::new(
+            std::num::NonZeroUsize::new(1).unwrap(),
+            std::time::Duration::ZERO,
+            std::time::Duration::from_millis(10),
+        )
+        .unwrap(),
+    ));
     let text = "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty";
     let canonical = ingest(client, 1, "owner", text, json!({"author":"first"})).await;
     let duplicate_file = upload(
@@ -144,6 +151,9 @@ async fn postgres_candidate_matching_and_duplicate_races() {
             "owner",
             prepared(text, json!({"author":"second"})),
             SimilarityPolicy::default(),
+            whorl::cpu_pool::WorkDeadline::new(
+                std::time::Instant::now() + std::time::Duration::from_secs(60),
+            ),
         )
         .await
         .unwrap();
@@ -171,6 +181,9 @@ async fn postgres_candidate_matching_and_duplicate_races() {
             "owner",
             prepared(text, json!({"author":"first"})),
             SimilarityPolicy::new(0.75, Some(0.5)).unwrap(),
+            whorl::cpu_pool::WorkDeadline::new(
+                std::time::Instant::now() + std::time::Duration::from_secs(60),
+            ),
         )
         .await
         .unwrap();
@@ -189,6 +202,9 @@ async fn postgres_candidate_matching_and_duplicate_races() {
             "owner",
             prepared("TINY!", json!({})),
             SimilarityPolicy::default(),
+            whorl::cpu_pool::WorkDeadline::new(
+                std::time::Instant::now() + std::time::Duration::from_secs(60),
+            ),
         )
         .await
         .unwrap();
@@ -211,6 +227,9 @@ async fn postgres_candidate_matching_and_duplicate_races() {
             "owner",
             prepared("query", json!({"group":"shared"})),
             weighted,
+            whorl::cpu_pool::WorkDeadline::new(
+                std::time::Instant::now() + std::time::Duration::from_secs(60),
+            ),
         )
         .await
         .unwrap();
@@ -226,6 +245,9 @@ async fn postgres_candidate_matching_and_duplicate_races() {
             "owner",
             prepared("query", json!({"group":"shared"})),
             SimilarityPolicy::default(),
+            whorl::cpu_pool::WorkDeadline::new(
+                std::time::Instant::now() + std::time::Duration::from_secs(60),
+            ),
         )
         .await
         .unwrap();
