@@ -1,4 +1,13 @@
+#[path = "../service/maintenance.rs"]
+mod maintenance;
+
+use maintenance::{ReindexCursor, RetentionPolicy};
 use sqlx::postgres::PgPoolOptions;
+use std::num::NonZeroUsize;
+use whorl::{
+    similarity::shingles::SourceProfile,
+    storage::{UploadStore, s3},
+};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
@@ -49,7 +58,33 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 .migrate()
                 .await?;
         }
-        _ => return Err("usage: maintenance migrate".into()),
+        [command] if command == "sweep" => {
+            maintenance::sweep(&pool, RetentionPolicy::default()).await?;
+            let store = UploadStore::new(
+                pool,
+                s3::connect(
+                    &std::env::var("WHORL_S3_ENDPOINT")?,
+                    &std::env::var("WHORL_S3_BUCKET")?,
+                    &std::env::var("WHORL_S3_REGION")?,
+                )?,
+            );
+            for _ in 0..32 {
+                if !store.reconcile_one().await? {
+                    break;
+                }
+            }
+        }
+        [command, source, k] if command == "reindex" => {
+            let source = match source.as_str() {
+                "native" => SourceProfile::NativeTextV1,
+                "ocr" => SourceProfile::OcrVerbatimV1,
+                _ => return Err("source must be native or ocr".into()),
+            };
+            let cursor = ReindexCursor::new(source, k.parse::<NonZeroUsize>()?)?;
+            let count = cursor.page(&pool).await?;
+            println!("version={} processed={count}", cursor.version);
+        }
+        _ => return Err("usage: maintenance migrate | sweep | reindex <native|ocr> <k>".into()),
     }
     Ok(())
 }
