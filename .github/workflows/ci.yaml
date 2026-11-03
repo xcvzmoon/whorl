@@ -20,11 +20,14 @@ jobs:
     name: Checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      PGPASSWORD: whorl-ci
     services:
       postgres:
         image: postgres:18.6@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
         env:
-          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_PASSWORD: whorl-ci
+          POSTGRES_INITDB_ARGS: --auth-local=scram-sha-256 --auth-host=scram-sha-256
         ports:
           - 5432:5432
         options: >-
@@ -77,14 +80,14 @@ jobs:
 
       - name: Verify PostgreSQL schema and reservation races
         env:
-          WHORL_SCHEMA_TEST_URL: postgresql://postgres@localhost:5432/postgres
+          WHORL_SCHEMA_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/postgres
         run: cargo test --locked --test schema -- --ignored
 
       - name: Verify PostgreSQL candidate matching
         env:
-          WHORL_CANDIDATES_TEST_URL: postgresql://postgres@localhost:5432/whorl_candidates_test
+          WHORL_CANDIDATES_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/whorl_candidates_test
         run: |
-          psql -X -w postgresql://postgres@localhost:5432/postgres -c 'CREATE DATABASE whorl_candidates_test'
+          psql -X -w postgresql://postgres:whorl-ci@localhost:5432/postgres -c 'CREATE DATABASE whorl_candidates_test'
           cargo test --locked --test candidates -- --ignored
 
       - name: Check documentation
