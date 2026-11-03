@@ -14,6 +14,8 @@ use std::{collections::BTreeMap, path::Path};
 /// Text and metadata recovered from one input before normalization.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ExtractedDocument {
+    /// Content-detected format, independent of the uploaded filename.
+    pub file_type: String,
     /// Body text in document order, including presentation notes.
     pub text: String,
     /// Format properties and embedded metadata, without filesystem provenance.
@@ -59,6 +61,19 @@ enum Format {
     Docx,
     Pptx,
     Xlsx,
+}
+
+impl Format {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Pdf => "pdf",
+            Self::Png => "png",
+            Self::Jpeg => "jpeg",
+            Self::Docx => "docx",
+            Self::Pptx => "pptx",
+            Self::Xlsx => "xlsx",
+        }
+    }
 }
 
 fn detect(path: &Path, limits: &ExtractionLimits) -> Result<Format, ExtractionError> {

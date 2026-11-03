@@ -90,6 +90,13 @@ jobs:
           psql -X -w postgresql://postgres:whorl-ci@localhost:5432/postgres -c 'CREATE DATABASE whorl_candidates_test'
           cargo test --locked --test candidates -- --ignored
 
+      - name: Verify durable worker processing and recovery
+        env:
+          WHORL_WORKER_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/whorl_worker_test
+        run: |
+          psql -X -w postgresql://postgres:whorl-ci@localhost:5432/postgres -c 'CREATE DATABASE whorl_worker_test'
+          cargo test --locked --test worker -- --ignored --test-threads=1
+
       - name: Check documentation
         env:
           RUSTDOCFLAGS: -D warnings

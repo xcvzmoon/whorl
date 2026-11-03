@@ -114,7 +114,13 @@ async fn durable_uploads_and_recovery() {
     assert!(store.reconcile_one().await.unwrap());
     assert!(!store.reconcile_one().await.unwrap());
     assert_eq!(counts(&pool).await, (1, 1));
-    sqlx::query("DELETE FROM batches")
+    sqlx::query("UPDATE batch_files SET state='running',stage='extracting'")
+        .execute(&pool)
+        .await
+        .unwrap();
+    assert!(!store.reconcile_one().await.unwrap());
+    assert_eq!(counts(&pool).await, (1, 1));
+    sqlx::query("UPDATE batch_files SET state='completed',stage='completed'")
         .execute(&pool)
         .await
         .unwrap();

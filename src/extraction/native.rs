@@ -17,7 +17,7 @@ pub(super) fn extract(
 ) -> Result<ExtractedDocument, ExtractionError> {
     match format {
         Format::Pdf => pdf(path, limits),
-        Format::Png | Format::Jpeg => picture(path, limits),
+        Format::Png | Format::Jpeg => picture(path, format, limits),
         _ => Err(ExtractionError::UnsupportedMediaType),
     }
 }
@@ -50,7 +50,11 @@ fn finish(
     Ok(document)
 }
 
-fn picture(path: &Path, limits: &ExtractionLimits) -> Result<ExtractedDocument, ExtractionError> {
+fn picture(
+    path: &Path,
+    format: Format,
+    limits: &ExtractionLimits,
+) -> Result<ExtractedDocument, ExtractionError> {
     let reader = ImageReader::open(path)
         .map_err(|_| ExtractionError::ExtractionFailed)?
         .with_guessed_format()
@@ -106,6 +110,7 @@ fn picture(path: &Path, limits: &ExtractionLimits) -> Result<ExtractedDocument, 
         .map_err(|_| ExtractionError::ExtractionFailed)?;
     finish(
         ExtractedDocument {
+            file_type: format.as_str().into(),
             text,
             metadata,
             ocr: true,
@@ -165,6 +170,7 @@ fn pdf(path: &Path, limits: &ExtractionLimits) -> Result<ExtractedDocument, Extr
         return Err(ExtractionError::LimitExceeded);
     }
     let mut output = ExtractedDocument {
+        file_type: "pdf".into(),
         text: String::new(),
         metadata: BTreeMap::from([("pages".into(), document.pages().len().to_string())]),
         ocr: false,
