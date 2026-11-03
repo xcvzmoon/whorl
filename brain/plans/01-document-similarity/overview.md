@@ -7,8 +7,8 @@
 
 ## Status and scope
 
-- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Phase 8 completed exact candidate verification, validated policy snapshots, deterministic metadata tokens, and weighted scoring. Phase 9 completed client/version-scoped paged candidate retrieval, dedicated CPU verification, and race-safe canonical ingests with preserved upload provenance. Phase 10 completed the graphile_worker lifecycle/dependency spike and retained it under an explicit at-least-once contract; phase 11 completed the shared bounded CPU executor, deadline/cancellation controls and shutdown tests; phase 12 completed shared S3 uploads, durable quota/journal accounting and orphan reconciliation; phase 13 is next and requires extraction approval. Production OCR tool selection remains in the phase 3 approval gate.
-- Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction selection and policy approval remain pending; no service endpoints are implemented yet.
+- Phase 1 is complete and its API/contract decisions are approved. The executable remains a Hello World binary. Phase 4 completed the application schema and PostgreSQL integration tests; phase 5 completed the versioned CPU-only text normalizer. Phase 6 completed word shingles, short-text equality, and versioned native/verbatim-OCR comparison policies. Phase 7 completed deterministic versioned MinHash signatures, 25×5 banding, golden vectors, synthetic recall checks, and local signing benchmarks. Phase 8 completed exact candidate verification, validated policy snapshots, deterministic metadata tokens, and weighted scoring. Phase 9 completed client/version-scoped paged candidate retrieval, dedicated CPU verification, and race-safe canonical ingests with preserved upload provenance. Phase 10 completed the graphile_worker lifecycle/dependency spike and retained it under an explicit at-least-once contract; phase 11 completed the shared bounded CPU executor, deadline/cancellation controls and shutdown tests; phase 12 completed shared S3 uploads, durable quota/journal accounting and orphan reconciliation; phase 13 completed the approved extraction adapters, Linux subprocess supervision and bounded corpus verification; phase 14 (queue adapter) is next.
+- Phase 2 is complete. Phase 3 benchmark/reporting work is complete: 414 trials and per-format recommendations are available in `spikes/extraction/` and `docs/extraction-spike.md`. Extraction tools, model terms, subprocess limits and retention of single-character OCR lines are approved; nom-exif replaces the stale EXIF candidate. No service endpoints are implemented yet.
 - Build lexical Jaccard similarity with Actix-web, PostgreSQL, library-backed durable jobs, and direct S3-compatible uploads.
 - Exclude semantic embeddings, vector databases, frontend, authentication implementation, SSE, and webhooks.
 - Target two CPU cores and 4 GiB RAM; two CPU workers maximum, with queue concurrency no greater than pool size.
@@ -41,7 +41,7 @@
 
 - [x] [[plans/01-document-similarity/phase-01-contract]]
 - [x] [[plans/01-document-similarity/phase-02-extraction-corpus]]
-- [ ] [[plans/01-document-similarity/phase-03-extraction-spike]]
+- [x] [[plans/01-document-similarity/phase-03-extraction-spike]]
 - [x] [[plans/01-document-similarity/phase-04-schema]]
 - [x] [[plans/01-document-similarity/phase-05-normalization]]
 - [x] [[plans/01-document-similarity/phase-06-shingles]]
@@ -51,7 +51,7 @@
 - [x] [[plans/01-document-similarity/phase-10-queue-spike]]
 - [x] [[plans/01-document-similarity/phase-11-cpu-pool]]
 - [x] [[plans/01-document-similarity/phase-12-shared-storage]]
-- [ ] [[plans/01-document-similarity/phase-13-extractors]]
+- [x] [[plans/01-document-similarity/phase-13-extractors]]
 - [ ] [[plans/01-document-similarity/phase-14-queue-adapter]]
 - [ ] [[plans/01-document-similarity/phase-15-worker]]
 - [ ] [[plans/01-document-similarity/phase-16-admission]]

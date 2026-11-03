@@ -50,3 +50,9 @@ These unknowns are recorded rather than invented. They do not prevent contract a
 - Queue retries, live-job reclaim protection, migration ownership, shutdown, and retention: establish in the phase 10 graphile_worker spike. Evaluate apalis-postgres only after reporting a failed requirement and obtaining approval to switch. Do not claim exactly-once execution from job keys.
 - Worker waiting slots, queue depth/byte quotas, per-client quotas, deadlines, and retry/backoff values require measured defaults before production use.
 - Audit runtime dependencies at their implementation phase for releases, activity, downloads, issue responsiveness, license, MSRV, and deliberate version pinning.
+
+## Phase 13 extraction approval
+
+Approved by the user on November 3, 2026 after reviewing the phase 3 recommendations: PDFium for PDF text/rendering, Tesseract for scanned PDF pages, zip/quick-xml for DOCX/PPTX, calamine for XLSX, and image/Ocrs for PNG/JPEG. The approval includes the Ocrs CC BY-SA model terms, supervised native subprocess isolation, and the experimental resource ceilings. Retain single-character OCR lines. Keep word k=3 and the existing short-text policy. Evaluate a maintained EXIF alternative rather than waiving kamadak-exif's freshness criterion.
+
+`nom-exif` 3.8.0 is the evaluated EXIF replacement. It is MIT licensed, declares Rust 1.83, and was released September 7, 2026. Populated and absent EXIF fixtures exercise its reader. This replaces the proposed stale dependency without changing extraction policy.

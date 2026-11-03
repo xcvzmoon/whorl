@@ -22,7 +22,7 @@ Benchmark extraction candidates and recommend per format.
 - [x] Compare lopdf with pdfium-render; zip/quick-xml for DOCX/PPTX including notes/core properties; calamine for XLSX; image/EXIF plus ocrs versus Tesseract.
 - [x] Measure OCR word and character error, text coverage, extraction speed, and peak memory on the two-core target.
 - [x] Evaluate smaller word k versus character shingles for OCR consistently across ingest/query; propose subprocess tools with strict resource limits when needed.
-- [ ] Report evidence and get approval before selecting a fallback or changing requirements.
+- [x] Report evidence and get approval before selecting a fallback or changing requirements.
 
 ## Verification
 
@@ -35,7 +35,7 @@ Benchmark extraction candidates and recommend per format.
 - 414 trials cover all 34 cases and 69 candidate/configuration combinations on Linux ARM64 under a two-CPU quota and 4 GiB memory cap (the Docker VM has slightly less RAM available). Each combination has one warmup and five measured repetitions.
 - [Raw measurements](../../../spikes/extraction/measurements.json), checksum-verified [raw artifacts](../../../spikes/extraction/results/raw-results.tar.gz), and [all summaries](../../../spikes/extraction/results/summary.md) are published. Real-file quality is separated from generated limit probes.
 - Two Rust tests and fourteen Linux Python tests pass. Formatting, Clippy, tests, and warning-free rustdoc pass; RustSec reports no vulnerabilities or warnings. Both packages are binary-only with no library doctests.
-- Benchmark and reporting work is complete. The final checkbox remains open for user approval of per-format tools, native-process limits, Ocrs model licensing/filtering, and the EXIF maintenance decision. No fallback or requirement change has been selected. Phase 13 stays gated.
+- Benchmark and reporting work is complete. User approval on November 3, 2026 resolves the per-format tools, native-process limits and Ocrs model terms. Retain single-character OCR lines and evaluate a maintained EXIF alternative. See [approval record](../../../docs/decisions.md#phase-13-extraction-approval).
 
 ## Constraints
 

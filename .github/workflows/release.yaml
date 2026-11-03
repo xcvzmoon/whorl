@@ -31,6 +31,11 @@ jobs:
           cargo fmt --all -- --check
           cargo clippy --locked --all-targets --all-features -- -D warnings
 
+      - name: Prepare extraction corpus
+        run: |
+          python3 spikes/extraction/corpus.py generate
+          python3 spikes/extraction/corpus.py verify
+
       - name: Run tests
         run: |
           cargo test --locked --all-targets --all-features
