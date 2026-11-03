@@ -1,3 +1,6 @@
+#[path = "../config.rs"]
+mod config;
+use config::ServiceConfig;
 #[path = "../service/maintenance.rs"]
 mod maintenance;
 
@@ -9,12 +12,20 @@ use whorl::{
     storage::{UploadStore, s3},
 };
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    ServiceConfig::load_local()?;
+    tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()?
+        .block_on(run())
+}
+
+async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let args: Vec<_> = std::env::args().skip(1).collect();
+    let config = ServiceConfig::load()?;
     let pool = PgPoolOptions::new()
         .max_connections(4)
-        .connect(&std::env::var("DATABASE_URL")?)
+        .connect_with(config.database)
         .await?;
     match args.as_slice() {
         [command] if command == "migrate" => {
@@ -60,13 +71,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         }
         [command] if command == "sweep" => {
             maintenance::sweep(&pool, RetentionPolicy::default()).await?;
+            let storage = ServiceConfig::storage()?;
             let store = UploadStore::new(
                 pool,
-                s3::connect(
-                    &std::env::var("WHORL_S3_ENDPOINT")?,
-                    &std::env::var("WHORL_S3_BUCKET")?,
-                    &std::env::var("WHORL_S3_REGION")?,
-                )?,
+                s3::connect(&storage.endpoint, &storage.bucket, &storage.region)?,
             );
             for _ in 0..32 {
                 if !store.reconcile_one().await? {
