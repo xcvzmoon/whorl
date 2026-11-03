@@ -1,0 +1,121 @@
+{
+  "checked_on": "2026-11-03",
+  "crate": {
+    "downloads": 89804,
+    "recent_downloads": 48376,
+    "updated_at": "2026-10-11T12:54:30.329459Z"
+  },
+  "releases": [
+    {
+      "num": "0.14.1",
+      "created_at": "2026-10-11T12:54:30.329459Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.14.0",
+      "created_at": "2026-10-08T22:14:41.092167Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.9",
+      "created_at": "2026-10-08T13:54:56.949149Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.8",
+      "created_at": "2026-10-08T12:24:45.331456Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.7",
+      "created_at": "2026-10-06T13:08:54.581854Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.6",
+      "created_at": "2026-09-29T19:32:06.975027Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.5",
+      "created_at": "2026-07-20T06:28:34.075349Z",
+      "rust_version": null
+    },
+    {
+      "num": "0.13.4",
+      "created_at": "2026-07-12T08:42:04.805600Z",
+      "rust_version": null
+    }
+  ],
+  "repository": {
+    "html_url": "https://github.com/leo91000/graphile_worker_rs",
+    "pushed_at": "2026-10-29T14:53:16Z",
+    "open_issues_count": 6,
+    "archived": false,
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    }
+  },
+  "open_issues_and_prs": [
+    {
+      "number": 575,
+      "title": "chore(deps): update dependency ubuntu to v26",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/pull/575",
+      "created_at": "2026-10-21T00:59:55Z",
+      "updated_at": "2026-10-26T22:24:54Z"
+    },
+    {
+      "number": 573,
+      "title": "chore(deps): update swatinem/rust-cache digest to d1527c8",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/pull/573",
+      "created_at": "2026-10-20T16:42:04Z",
+      "updated_at": "2026-10-26T22:24:36Z"
+    },
+    {
+      "number": 569,
+      "title": "Jobs with dependencies on other jobs",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/issues/569",
+      "created_at": "2026-10-15T13:50:11Z",
+      "updated_at": "2026-10-25T09:06:18Z"
+    },
+    {
+      "number": 563,
+      "title": "chore: release",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/pull/563",
+      "created_at": "2026-10-12T02:17:24Z",
+      "updated_at": "2026-10-29T14:53:27Z"
+    },
+    {
+      "number": 534,
+      "title": "chore(deps): update dtolnay/rust-toolchain digest to b725eda",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/pull/534",
+      "created_at": "2026-10-02T00:49:15Z",
+      "updated_at": "2026-10-26T22:24:43Z"
+    },
+    {
+      "number": 4,
+      "title": "Dependency Dashboard",
+      "html_url": "https://github.com/leo91000/graphile_worker_rs/issues/4",
+      "created_at": "2022-12-19T19:53:18Z",
+      "updated_at": "2026-11-02T20:52:09Z"
+    }
+  ],
+  "recent_commits": [
+    {
+      "sha": "4d536e95e509c13d79df96aee67f8cfd880ee31c",
+      "date": "2026-10-29T14:47:23Z"
+    },
+    {
+      "sha": "1c56b1ac09b5f1c3e584b52944223fe877ccb9de",
+      "date": "2026-10-26T11:24:23Z"
+    },
+    {
+      "sha": "f22bfd931b552e7805844c055736f9411a4b5e6c",
+      "date": "2026-10-22T10:28:47Z"
+    }
+  ]
+}

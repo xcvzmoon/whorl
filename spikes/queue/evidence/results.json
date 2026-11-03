@@ -1,0 +1,21 @@
+{
+  "pending_key_same_id": true,
+  "transaction_rollback": true,
+  "success_deleted": true,
+  "notification_observed_seconds": 0.076,
+  "retry_intervals_seconds": "2.789,7.995",
+  "poll_fallback": true,
+  "live_job_185_seconds_single_start": true,
+  "kill_recovery_seconds": 8.218,
+  "shutdown_seconds": 5.052,
+  "shutdown_released_with_delay": true,
+  "failed_retained_after_minutes": true,
+  "checked_on": "2026-11-03",
+  "postgres": "18.6",
+  "rust": "1.98.1",
+  "graphile_worker": "0.14.1",
+  "utility_transaction_rollback": true,
+  "enqueue_role_grants_and_rls": true,
+  "running_key_creates_successor": true,
+  "supplemental_checks": "Utility rollback, restricted-role SQL, and running-key successor were also run separately against the same disposable database; run.py includes them for reproduction."
+}
