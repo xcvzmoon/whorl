@@ -2,7 +2,7 @@
 
 Whorl is a planned asynchronous document similarity service built with Rust, Actix-web, and PostgreSQL. It will compare uploaded PDF, DOCX, PPTX, XLSX, and image text with stored documents using lexical Jaccard similarity over word shingles.
 
-The repository contains similarity primitives, PostgreSQL persistence, bounded CPU execution, shared S3 storage, and a [supervised extraction pipeline](docs/extraction.md). The independent [durable worker](docs/worker.md) processes stored files and commits their matches and ingests transactionally. The application binary remains a starter; HTTP endpoints are not implemented yet.
+The repository contains similarity primitives, PostgreSQL persistence, bounded CPU execution, shared S3 storage, and a [supervised extraction pipeline](docs/extraction.md). The independent [durable worker](docs/worker.md) processes stored files and commits their matches and ingests transactionally. The [HTTP binary](docs/uploads.md) accepts multipart checks and ingests; polling is the next implementation phase.
 
 ## Plan and API approval
 
@@ -30,7 +30,7 @@ LSH retrieval is probabilistic, as approved. Every retrieved candidate is verifi
 Install stable Rust with rustfmt and Clippy, then run:
 
 ```sh
-cargo run --locked
+cargo run --locked --bin whorl
 cargo fmt --all -- --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets --all-features
@@ -38,7 +38,7 @@ RUSTDOCFLAGS='-D warnings' cargo doc --locked --no-deps --all-features
 cargo build --locked --release
 ```
 
-`cargo run` currently prints Hello, world. There is no database or S3 setup command yet. Implementation phases will add migrations, service configuration, and tested deployment instructions instead of documenting commands that do not exist.
+Run `cargo run --locked --bin whorl` with the database, S3, signature version, and trusted-proxy configuration described in [multipart submission](docs/uploads.md). Database and queue migrations run separately.
 
 ## Deployment and defaults
 

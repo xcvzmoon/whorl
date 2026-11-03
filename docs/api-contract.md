@@ -1,6 +1,6 @@
 # API contract
 
-Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Endpoints below are not implemented.
+Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Multipart submission is implemented; polling remains planned.
 
 ## Submission
 
