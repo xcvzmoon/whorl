@@ -200,11 +200,17 @@ impl CpuPool {
         if deadline.is_expired() {
             return Err(CpuError::Expired);
         }
-        let permit = self
-            .slots
-            .clone()
-            .try_acquire_owned()
-            .map_err(|_| CpuError::Overloaded)?;
+        let permit = self.slots.clone().try_acquire_owned().map_err(|_| {
+            eprintln!(
+                "{}",
+                serde_json::json!({"event":"cpu_overloaded","capacity":self.capacity})
+            );
+            CpuError::Overloaded
+        })?;
+        eprintln!(
+            "{}",
+            serde_json::json!({"event":"cpu_admitted","occupied":self.capacity as usize-self.slots.available_permits(),"capacity":self.capacity})
+        );
         if self.shutdown.load(Ordering::Acquire) {
             return Err(CpuError::Shutdown);
         }

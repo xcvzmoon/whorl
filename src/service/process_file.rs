@@ -290,6 +290,7 @@ impl ProcessFile {
         row: &sqlx::postgres::PgRow,
         deadline: WorkDeadline,
     ) -> Result<(), ProcessError> {
+        let mut metrics = crate::telemetry::StageMetrics::start("extracting");
         let key: Option<String> = row.try_get("source_object_key")?;
         let key = key.ok_or(ProcessError::Invalid)?;
         let expected: i64 = row.try_get("source_bytes")?;
@@ -329,7 +330,10 @@ impl ProcessFile {
                 })
             })
             .await??;
+        metrics.complete();
+        drop(metrics);
         self.stage(payload, attempt, "signing").await?;
+        let mut metrics = crate::telemetry::StageMetrics::start("signing");
         let file_type = extracted.file_type.clone();
         let upload_metadata: Value = row.try_get("upload_metadata")?;
         let prepared = Arc::new(
@@ -369,7 +373,10 @@ impl ProcessFile {
             return Err(ProcessError::Invalid);
         }
         let policy = policy(row.try_get("policy")?)?;
+        metrics.complete();
+        drop(metrics);
         self.stage(payload, attempt, "candidate_lookup").await?;
+        let mut metrics = crate::telemetry::StageMetrics::start("matching");
         self.stage(payload, attempt, "verifying").await?;
         let matches = Matcher::new(self.cpu.clone())
             .check(
@@ -380,7 +387,10 @@ impl ProcessFile {
                 deadline,
             )
             .await?;
+        metrics.complete();
+        drop(metrics);
         self.stage(payload, attempt, "persisting").await?;
+        let mut metrics = crate::telemetry::StageMetrics::start("persisting");
         let mut tx = self.pool.begin().await?;
         let eligible: Option<bool> = sqlx::query_scalar("SELECT least(f.deadline_at,b.deadline_at)>clock_timestamp() FROM batch_files f JOIN batches b ON b.id=f.batch_id AND b.client_id=f.client_id WHERE f.id=$1 AND f.client_id=$2 AND f.attempt=$3 AND f.state='running' AND b.state IN ('queued','running') FOR UPDATE OF f")
             .bind(payload.file_id).bind(&payload.client_id).bind(attempt).fetch_optional(&mut *tx).await?;
@@ -415,6 +425,7 @@ impl ProcessFile {
         .await?;
         self.finish_batch(&mut tx, payload.batch_id).await?;
         tx.commit().await?;
+        metrics.complete();
         Ok(())
     }
 
