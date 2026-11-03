@@ -1,6 +1,6 @@
 # API contract
 
-Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Multipart submission is implemented; polling remains planned.
+Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Multipart submission and polling are implemented.
 
 ## Submission
 
@@ -155,3 +155,9 @@ The approved [decisions](decisions.md) define candidate recall, short-document m
 Candidate lookup combines the exact-content lookup and text LSH. Weighted mode additionally retrieves documents sharing metadata tokens when the metadata weight is positive. Queries stay within the client's corpus and signature version. Exact duplicate lookup avoids MinHash work for that pair, but does not skip lookup of other qualifying documents. Every retrieved pair is verified exactly under its versioned text policy before threshold filtering.
 
 Text with fewer than configured k words matches only identical normalized text with text score 1; unequal short texts and short/long pairs have text score zero. Empty extraction fails. Metadata can still qualify a short document under weighted policy. Undefined metadata contributes zero to weighted scores and remains null in the response.
+
+## Health
+
+`GET /health/live` returns 200 while the HTTP runtime can respond. `GET /health/ready` returns 200 when PostgreSQL answers `SELECT 1`, or 503 with the standard retryable error envelope after a database error or two-second timeout. Both use `Cache-Control: no-store` and require no client identity. Neither waits for CPU workers or extraction. Readiness does not probe S3 or certify that migrations have run; deployment must complete migrations before routing traffic.
+
+Polling streams matches in batches of at most 128 rows from a read-only database snapshot. A response holds a database connection until delivery ends or the client disconnects. Midstream database errors terminate delivery; clients should retry the GET. Polling does not invoke worker processing or alter stored results.

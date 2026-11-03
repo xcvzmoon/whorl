@@ -36,9 +36,15 @@ impl ResponseError for ApiError {
     }
     fn error_response(&self) -> HttpResponse {
         let mut response = HttpResponse::build(self.status);
+        response.insert_header(("Cache-Control", "no-store"));
         if let Some(retry) = self.retry {
             response.insert_header(("Retry-After", retry.to_string()));
         }
-        response.json(json!({"error":{"code":self.code,"message":self.code.replace('_', " "),"retryable":self.retry.is_some(),"request_id":Uuid::new_v4()}}))
+        let message = match self.code {
+            "batch_not_found" => "Batch not found.".to_owned(),
+            "batch_expired" => "Batch results have expired.".to_owned(),
+            _ => self.code.replace('_', " "),
+        };
+        response.json(json!({"error":{"code":self.code,"message":message,"retryable":self.retry.is_some(),"request_id":Uuid::new_v4()}}))
     }
 }

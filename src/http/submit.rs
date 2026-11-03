@@ -30,7 +30,10 @@ pub(crate) struct Submission {
 }
 pub(crate) fn configure(cfg: &mut web::ServiceConfig) {
     cfg.route("/v1/checks", web::post().to(check))
-        .route("/v1/ingests", web::post().to(ingest));
+        .route("/v1/ingests", web::post().to(ingest))
+        .route("/v1/batches/{id}", web::get().to(super::status::status))
+        .route("/health/live", web::get().to(super::health::live))
+        .route("/health/ready", web::get().to(super::health::ready));
 }
 async fn check(
     req: HttpRequest,
