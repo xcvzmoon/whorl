@@ -6,3 +6,5 @@ pub mod similarity;
 #[path = "persistence/documents.rs"]
 mod documents;
 pub mod service;
+
+pub mod storage;

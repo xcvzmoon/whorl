@@ -5,14 +5,16 @@ edition = "2024"
 publish = false
 
 [dependencies]
+bytes = "1"
+object_store = { version = "=0.14.2", default-features = false, features = ["aws"] }
 rayon = "=1.12.0"
 serde_json = "1.0.154"
 sha2 = "=0.11.1"
 sqlx = { version = "=0.9.0", default-features = false, features = ["runtime-tokio", "postgres", "uuid", "json", "tls-rustls-ring-native-roots"] }
 thiserror = "=2.0.21"
-tokio = { version = "1", features = ["sync"] }
+tokio = { version = "1", features = ["io-util", "sync"] }
 unicode-normalization = "=0.1.26"
-uuid = "1"
+uuid = { version = "1", features = ["v4"] }
 xxhash-rust = { version = "=0.8.19", features = ["xxh3"] }
 
 [[bench]]
