@@ -8,3 +8,5 @@ mod documents;
 pub mod service;
 
 pub mod storage;
+
+pub mod extraction;
