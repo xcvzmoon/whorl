@@ -24,9 +24,10 @@ CREATE TABLE signature_versions (
 CREATE TABLE signatures (
     document_id uuid NOT NULL REFERENCES documents ON DELETE CASCADE,
     version text NOT NULL REFERENCES signature_versions,
-    values integer[] NOT NULL CHECK (array_ndims(values) = 1 AND array_lower(values, 1) = 1 AND cardinality(values) = 125 AND array_position(values, NULL) IS NULL),
-    band_hashes integer[] NOT NULL CHECK (array_ndims(band_hashes) = 1 AND array_lower(band_hashes, 1) = 1 AND cardinality(band_hashes) = 25 AND array_position(band_hashes, NULL) IS NULL),
-    PRIMARY KEY (document_id, version)
+    values integer[] CHECK (array_ndims(values) = 1 AND array_lower(values, 1) = 1 AND cardinality(values) = 125 AND array_position(values, NULL) IS NULL),
+    band_hashes integer[] CHECK (array_ndims(band_hashes) = 1 AND array_lower(band_hashes, 1) = 1 AND cardinality(band_hashes) = 25 AND array_position(band_hashes, NULL) IS NULL),
+    PRIMARY KEY (document_id, version),
+    CHECK ((values IS NULL) = (band_hashes IS NULL))
 );
 CREATE INDEX signatures_values ON signatures USING gin (values);
 CREATE INDEX signatures_bands ON signatures USING gin (band_hashes);
