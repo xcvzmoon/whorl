@@ -6,7 +6,7 @@ use crate::{
     similarity::{
         normalize::NormalizationVersion,
         shingles::{ShingleSet, SourceProfile},
-        signature::MinHashSignature,
+        signature::SignatureIndex,
         verify::{MatchScore, MetadataTokens, SimilarityEngine, SimilarityPolicy},
     },
 };
@@ -92,24 +92,10 @@ impl PreparedDocument {
         }
         let text = NormalizationVersion::V1.normalize(text);
         let shingles = ShingleSet::new(&text, NormalizationVersion::V1, source, k)?;
-        let signature = MinHashSignature::new(&shingles);
-        let version = format!("{}/xxh3-low32-le-v1/125/25x5", shingles.version_key());
-        let values = signature.as_ref().map(|s| {
-            s.values()
-                .iter()
-                .map(|&v| i32::from_ne_bytes(v.to_ne_bytes()))
-                .collect()
-        });
-        let bands = signature
-            .as_ref()
-            .map(|s| {
-                s.bands()
-                    .values()
-                    .iter()
-                    .map(|&v| i32::from_ne_bytes(v.to_ne_bytes()))
-                    .collect()
-            })
-            .unwrap_or_default();
+        let index = SignatureIndex::new(&shingles);
+        let version = index.version.as_str().to_owned();
+        let values = index.values;
+        let bands = index.bands.unwrap_or_default();
         Ok(Self {
             hash: Sha256::digest(text.as_bytes()).into(),
             tokens: MetadataTokens::new(&metadata),

@@ -41,9 +41,9 @@ impl Error for NoExtractableText {}
 pub struct ShingleSet {
     text: String,
     words: Vec<(usize, usize)>,
-    k: NonZeroUsize,
+    pub(crate) k: NonZeroUsize,
     normalization: NormalizationVersion,
-    source: SourceProfile,
+    pub(crate) source: SourceProfile,
 }
 
 impl ShingleSet {

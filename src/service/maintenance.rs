@@ -5,7 +5,7 @@ pub(crate) use whorl::service::lifecycle::RetentionPolicy;
 use whorl::similarity::{
     normalize::NormalizationVersion,
     shingles::{ShingleSet, SourceProfile},
-    signature::MinHashSignature,
+    signature::{SignatureIndex, SignatureVersion},
 };
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -39,13 +39,12 @@ pub(crate) struct ReindexCursor {
 }
 
 impl ReindexCursor {
-    pub fn new(source: SourceProfile, k: NonZeroUsize) -> Result<Self, Error> {
-        let input = ShingleSet::new("version", NormalizationVersion::V1, source, Some(k))?;
-        Ok(Self {
-            version: format!("{}/xxh3-low32-le-v1/125/25x5", input.version_key()),
+    pub fn new(source: SourceProfile, k: NonZeroUsize) -> Self {
+        Self {
+            version: SignatureVersion::new(source, k).as_str().to_owned(),
             source,
             k,
-        })
+        }
     }
 
     pub async fn page(&self, pool: &PgPool) -> Result<usize, Error> {
@@ -53,8 +52,7 @@ impl ReindexCursor {
             SourceProfile::NativeTextV1 => "native-text-v1",
             SourceProfile::OcrVerbatimV1 => "ocr-verbatim-v1",
         };
-        let config =
-            serde_json::json!({"normalization":"nfkc-v1", "source":source,"k":self.k.get()});
+        let config = SignatureVersion::new(self.source, self.k).configuration();
         sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES ($1,$2) ON CONFLICT DO NOTHING")
             .bind(&self.version).bind(config).execute(pool).await?;
         let rows = sqlx::query("SELECT d.id FROM documents d WHERE EXISTS(SELECT FROM signatures s WHERE s.document_id=d.id AND split_part(s.version,'/',2)=$2) AND NOT EXISTS(SELECT FROM signatures s WHERE s.document_id=d.id AND s.version=$1) ORDER BY d.id LIMIT 32")
@@ -70,19 +68,8 @@ impl ReindexCursor {
             let k = self.k;
             let (values, bands) = tokio::task::spawn_blocking(move || -> Result<_, Error> {
                 let shingles = ShingleSet::new(&text, NormalizationVersion::V1, source, Some(k))?;
-                let signature = MinHashSignature::new(&shingles);
-                Ok((
-                    signature
-                        .as_ref()
-                        .map(|s| s.values().iter().map(|v| *v as i32).collect::<Vec<_>>()),
-                    signature.as_ref().map(|s| {
-                        s.bands()
-                            .values()
-                            .iter()
-                            .map(|v| *v as i32)
-                            .collect::<Vec<_>>()
-                    }),
-                ))
+                let index = SignatureIndex::new(&shingles);
+                Ok((index.values, index.bands))
             })
             .await??;
             sqlx::query("INSERT INTO signatures(document_id,version,values,band_hashes) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING")

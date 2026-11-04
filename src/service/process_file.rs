@@ -6,7 +6,7 @@ use crate::{
     extraction::{ExtractionError, Extractor},
     queue::FileJobPayload,
     service::matching::{Matcher, MatchingError, PreparedDocument},
-    similarity::{shingles::SourceProfile, verify::SimilarityPolicy},
+    similarity::{shingles::SourceProfile, signature::SignatureVersion, verify::SimilarityPolicy},
 };
 use graphile_worker::{IntoTaskHandlerResult, TaskHandler, WorkerContext};
 use object_store::{ObjectStore, ObjectStoreExt, path::Path};
@@ -373,40 +373,28 @@ impl ProcessFile {
         let mut metrics = crate::telemetry::StageMetrics::start("signing");
         let file_type = extracted.file_type.clone();
         let upload_metadata: Value = row.try_get("upload_metadata")?;
+        let snapshot: String = row.try_get("signature_version")?;
+        let signing_snapshot = snapshot.clone();
         let prepared = Arc::new(
             self.cpu
                 .run(deadline, move |_| {
-                    let mut metadata = serde_json::to_value(extracted.metadata)
-                        .map_err(|_| MatchingError::InvalidMetadata)?;
-                    metadata
-                        .as_object_mut()
-                        .ok_or(MatchingError::InvalidMetadata)?
-                        .extend(
-                            upload_metadata
-                                .as_object()
-                                .ok_or(MatchingError::InvalidMetadata)?
-                                .clone(),
-                        );
-                    PreparedDocument::new(
-                        &extracted.text,
-                        metadata,
-                        if extracted.ocr {
-                            SourceProfile::OcrVerbatimV1
-                        } else {
-                            SourceProfile::NativeTextV1
-                        },
-                        None,
-                    )
+                    prepare_document(extracted, &upload_metadata, &signing_snapshot)
                 })
                 .await??,
         );
-        let snapshot: String = row.try_get("signature_version")?;
         if !compatible_version(&snapshot, prepared.signature_version()) {
             return Err(ProcessError::Invalid);
         }
-        let registered: bool = sqlx::query_scalar("SELECT EXISTS(SELECT FROM signature_versions actual JOIN signature_versions snapshot ON snapshot.version=$1 WHERE actual.version=$2 AND actual.configuration=snapshot.configuration)")
-            .bind(&snapshot).bind(prepared.signature_version()).fetch_one(&self.pool).await?;
-        if !registered {
+        let registrations: Option<(Value, Value)> = sqlx::query_as("SELECT snapshot.configuration, actual.configuration FROM signature_versions actual JOIN signature_versions snapshot ON snapshot.version=$1 WHERE actual.version=$2")
+            .bind(&snapshot).bind(prepared.signature_version()).fetch_optional(&self.pool).await?;
+        if !registrations.is_some_and(|(snapshot_config, actual_config)| {
+            compatible_registration(
+                &snapshot,
+                prepared.signature_version(),
+                &snapshot_config,
+                &actual_config,
+            )
+        }) {
             return Err(ProcessError::Invalid);
         }
         let policy = policy(row.try_get("policy")?)?;
@@ -478,23 +466,61 @@ impl ProcessFile {
     }
 }
 
+fn prepare_document(
+    extracted: crate::extraction::ExtractedDocument,
+    upload_metadata: &Value,
+    snapshot: &str,
+) -> Result<PreparedDocument, ProcessError> {
+    let version: SignatureVersion = snapshot.parse().map_err(|_| ProcessError::Invalid)?;
+    let mut metadata =
+        serde_json::to_value(extracted.metadata).map_err(|_| MatchingError::InvalidMetadata)?;
+    metadata
+        .as_object_mut()
+        .ok_or(MatchingError::InvalidMetadata)?
+        .extend(
+            upload_metadata
+                .as_object()
+                .ok_or(MatchingError::InvalidMetadata)?
+                .clone(),
+        );
+    PreparedDocument::new(
+        &extracted.text,
+        metadata,
+        if extracted.ocr {
+            SourceProfile::OcrVerbatimV1
+        } else {
+            SourceProfile::NativeTextV1
+        },
+        Some(version.k()),
+    )
+    .map_err(ProcessError::from)
+}
+
+fn compatible_registration(
+    snapshot: &str,
+    actual: &str,
+    snapshot_config: &Value,
+    actual_config: &Value,
+) -> bool {
+    let (Ok(snapshot), Ok(actual)) = (
+        snapshot.parse::<SignatureVersion>(),
+        actual.parse::<SignatureVersion>(),
+    ) else {
+        return false;
+    };
+    snapshot.same_algorithm(&actual)
+        && snapshot.configuration() == *snapshot_config
+        && actual.configuration() == *actual_config
+}
+
 fn compatible_version(snapshot: &str, actual: &str) -> bool {
-    let snapshot: Vec<_> = snapshot.split('/').collect();
-    let actual: Vec<_> = actual.split('/').collect();
-    snapshot.len() == 7
-        && actual.len() == 7
-        && snapshot
-            .iter()
-            .zip(&actual)
-            .enumerate()
-            .all(|(index, (a, b))| {
-                if index == 1 {
-                    matches!(*a, "native-text-v1" | "ocr-verbatim-v1")
-                        && matches!(*b, "native-text-v1" | "ocr-verbatim-v1")
-                } else {
-                    a == b
-                }
-            })
+    match (
+        snapshot.parse::<SignatureVersion>(),
+        actual.parse::<SignatureVersion>(),
+    ) {
+        (Ok(snapshot), Ok(actual)) => snapshot.same_algorithm(&actual),
+        _ => false,
+    }
 }
 
 fn policy(value: Value) -> Result<SimilarityPolicy, ProcessError> {
@@ -548,6 +574,39 @@ impl TaskHandler for FileJobPayload {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn preparation_uses_snapshot_shingle_length() {
+        let snapshot = "nfkc-v1/native-text-v1/word-4/short-equality-v1/xxh3-low32-le-v1/125/25x5";
+        let extracted = crate::extraction::ExtractedDocument {
+            file_type: "docx".into(),
+            text: "one two three four five".into(),
+            metadata: std::collections::BTreeMap::default(),
+            ocr: false,
+        };
+        let prepared = prepare_document(extracted, &json!({}), snapshot).unwrap();
+        assert_eq!(prepared.signature_version(), snapshot);
+    }
+
+    #[test]
+    fn source_specific_registrations_share_algorithm_parameters() {
+        let native = "nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5";
+        let ocr = native.replace("native-text-v1", "ocr-verbatim-v1");
+        let native_config = json!({"normalization":"nfkc-v1","source":"native-text-v1","k":3});
+        let ocr_config = json!({"normalization":"nfkc-v1","source":"ocr-verbatim-v1","k":3});
+        assert!(compatible_registration(
+            native,
+            &ocr,
+            &native_config,
+            &ocr_config
+        ));
+        assert!(!compatible_registration(
+            native,
+            &ocr,
+            &native_config,
+            &json!({"normalization":"nfkc-v1","source":"ocr-verbatim-v1","k":4})
+        ));
+    }
+
     #[test]
     fn source_derivation_preserves_algorithm_parameters() {
         let native = "nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5";

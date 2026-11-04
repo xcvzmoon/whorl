@@ -96,7 +96,7 @@ async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 "ocr" => SourceProfile::OcrVerbatimV1,
                 _ => return Err("source must be native or ocr".into()),
             };
-            let cursor = ReindexCursor::new(source, k.parse::<NonZeroUsize>()?)?;
+            let cursor = ReindexCursor::new(source, k.parse::<NonZeroUsize>()?);
             let count = cursor.page(&pool).await?;
             println!("version={} processed={count}", cursor.version);
         }
