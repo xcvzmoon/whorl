@@ -32,8 +32,9 @@ pub(crate) async fn sweep(pool: &PgPool, policy: RetentionPolicy) -> Result<(), 
         .fetch_all(&mut *tx).await?;
     for (file, _) in files {
         let locked: bool =
-            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1,15))")
+            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1,$2))")
                 .bind(file.to_string())
+                .bind(whorl::locks::ATTEMPT)
                 .fetch_one(&mut *tx)
                 .await?;
         if locked {
@@ -47,7 +48,8 @@ pub(crate) async fn sweep(pool: &PgPool, policy: RetentionPolicy) -> Result<(), 
         .execute(&mut *tx).await?;
     sqlx::query("DELETE FROM batches WHERE id IN (SELECT id FROM batches WHERE tombstone_until<=clock_timestamp() ORDER BY tombstone_until LIMIT 32 FOR UPDATE SKIP LOCKED)")
         .execute(&mut *tx).await?;
-    sqlx::query("SELECT pg_advisory_xact_lock(746831904)")
+    sqlx::query("SELECT pg_advisory_xact_lock($1)")
+        .bind(whorl::locks::CAPACITY)
         .execute(&mut *tx)
         .await?;
     sqlx::query("DELETE FROM capacity_reservations WHERE id IN (SELECT r.id FROM capacity_reservations r WHERE lease_until<=clock_timestamp() AND NOT EXISTS(SELECT FROM stored_uploads u WHERE u.id=r.id) ORDER BY lease_until LIMIT 32)")

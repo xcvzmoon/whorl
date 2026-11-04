@@ -194,8 +194,9 @@ impl ProcessFile {
     ) -> Result<(), ProcessError> {
         let mut guard = self.pool.begin().await?;
         let locked: bool =
-            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1, 15))")
+            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1,$2))")
                 .bind(payload.file_id.to_string())
+                .bind(crate::locks::ATTEMPT)
                 .fetch_one(&mut *guard)
                 .await?;
         if !locked {

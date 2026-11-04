@@ -30,7 +30,8 @@ async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     match args.as_slice() {
         [command] if command == "migrate" => {
             let mut tx = pool.begin().await?;
-            sqlx::query("SELECT pg_advisory_xact_lock(746831905)")
+            sqlx::query("SELECT pg_advisory_xact_lock($1)")
+                .bind(whorl::locks::MIGRATIONS)
                 .execute(&mut *tx)
                 .await?;
             sqlx::query("CREATE TABLE IF NOT EXISTS whorl_migrations(version integer PRIMARY KEY)")

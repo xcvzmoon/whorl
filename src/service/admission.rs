@@ -109,7 +109,8 @@ impl AdmissionLease {
         sqlx::query("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
             .execute(&mut *tx)
             .await?;
-        sqlx::query("SELECT pg_advisory_xact_lock(746831904)")
+        sqlx::query("SELECT pg_advisory_xact_lock($1)")
+            .bind(crate::locks::CAPACITY)
             .execute(&mut *tx)
             .await?;
         sqlx::query("DELETE FROM capacity_reservations r WHERE lease_until <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM stored_uploads u WHERE u.id=r.id)").execute(&mut *tx).await?;

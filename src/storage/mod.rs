@@ -173,8 +173,9 @@ impl UploadStore {
         let id = Uuid::new_v4();
         let key = format!("uploads/{id}");
         let mut guard = self.pool.begin().await?;
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))")
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,$2))")
             .bind(&key)
+            .bind(crate::locks::UPLOAD)
             .execute(&mut *guard)
             .await?;
         let mut tx = self.pool.begin().await?;
@@ -319,8 +320,9 @@ impl UploadStore {
     /// ```
     pub async fn discard(&self, object: &StoredObjectRef) -> Result<(), StorageError> {
         let mut guard = self.pool.begin().await?;
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))")
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,$2))")
             .bind(&object.key)
+            .bind(crate::locks::UPLOAD)
             .execute(&mut *guard)
             .await?;
         let claimed: bool =
@@ -396,8 +398,8 @@ impl UploadStore {
             return Err(StorageError::Invalid);
         }
         let mut guard = self.pool.begin().await?;
-        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,0)) LIMIT 1")
-            .fetch_optional(&mut *guard).await?;
+        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,$1)) LIMIT 1")
+            .bind(crate::locks::UPLOAD).fetch_optional(&mut *guard).await?;
         let Some(row) = row else {
             return Ok(false);
         };

@@ -14,3 +14,5 @@ pub mod extraction;
 pub mod queue;
 
 mod telemetry;
+
+pub mod locks;
