@@ -12,6 +12,14 @@ pub struct JobQueue {
     utils: WorkerUtils,
     max_attempts: i16,
 }
+impl std::fmt::Debug for JobQueue {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("JobQueue")
+            .field("max_attempts", &self.max_attempts)
+            .finish_non_exhaustive()
+    }
+}
+
 impl JobQueue {
     /// Creates an adapter with an explicit delivery budget.
     ///

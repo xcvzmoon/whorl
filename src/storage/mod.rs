@@ -58,6 +58,14 @@ pub struct UploadStore {
     admission: std::sync::Arc<tokio::sync::Semaphore>,
 }
 
+impl std::fmt::Debug for UploadStore {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("UploadStore")
+            .field("available", &self.admission.available_permits())
+            .finish_non_exhaustive()
+    }
+}
+
 impl UploadStore {
     /// Creates a store sharing the application's database pool.
     ///

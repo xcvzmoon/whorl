@@ -58,6 +58,15 @@ pub struct PreparedDocument {
     shingles: ShingleSet,
 }
 
+impl std::fmt::Debug for PreparedDocument {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PreparedDocument")
+            .field("version", &self.version)
+            .field("source", &self.source)
+            .finish_non_exhaustive()
+    }
+}
+
 impl PreparedDocument {
     /// Normalizes and indexes extracted text under normalization v1.
     ///
@@ -191,6 +200,14 @@ pub struct DocumentMatch {
 pub struct Matcher {
     pool: Arc<CpuPool>,
     admission: Arc<Semaphore>,
+}
+
+impl std::fmt::Debug for Matcher {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Matcher")
+            .field("available", &self.admission.available_permits())
+            .finish_non_exhaustive()
+    }
 }
 
 impl Matcher {

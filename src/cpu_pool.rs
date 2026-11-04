@@ -78,7 +78,7 @@ impl WorkDeadline {
 /// Cooperative stop signal for running Rust work.
 ///
 /// Poll between bounded chunks. Running threads cannot be killed safely.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct WorkContext {
     deadline: WorkDeadline,
     cancelled: Arc<AtomicBool>,
