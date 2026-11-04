@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-04",
+  "application_cpu_cores": 2,
+  "application_memory_bytes": 4294967296,
+  "application_swap_bytes": 0,
+  "corpus_documents": 1,
+  "corpus_file": "spikes/extraction/fixtures/table.docx",
+  "corpus_sha256": "dc01708a24c5e940c94b99b7ee496606e5f17152bc41cec211c9f8c72334cb22",
+  "corpus_source_bytes": 36051,
+  "database": "PostgreSQL 18.6",
+  "object_store": "MinIO RELEASE.2025-10-15T17-29-55Z",
+  "external_services_excluded_from_application_cgroup": true,
+  "workers": 2,
+  "handler_concurrency": 2,
+  "corpus_representative_of_customers": false
+}

@@ -1,0 +1,146 @@
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.19s
+     Running tests/schema.rs (target/debug/deps/schema-4ea6f90b33a367d4)
+
+running 1 test
+test postgres_schema_and_reservation_races ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.32s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+     Running tests/candidates.rs (target/debug/deps/candidates-aecfc9fbba07883e)
+
+running 1 test
+test postgres_candidate_matching_and_duplicate_races ... {"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+Limit  (cost=1083.37..1252.23 rows=32 width=37)
+  ->  Nested Loop  (cost=1083.37..1716.59 rows=120 width=37)
+        ->  Unique  (cost=1083.09..1083.69 rows=120 width=16)
+              ->  Sort  (cost=1083.09..1083.39 rows=120 width=16)
+                    Sort Key: s.document_id
+                    ->  Append  (cost=556.91..1078.94 rows=120 width=16)
+                          ->  Hash Join  (cost=556.91..904.33 rows=115 width=16)
+                                Hash Cond: (owner.id = s.document_id)
+                                ->  Seq Scan on documents owner  (cost=0.00..320.96 rows=10076 width=16)
+                                      Filter: (client_id = 'owner'::text)
+                                ->  Hash  (cost=555.47..555.47 rows=115 width=16)
+                                      ->  Bitmap Heap Scan on signatures s  (cost=225.54..555.47 rows=115 width=16)
+                                            Recheck Cond: (band_hashes && '{-2073162158,1480456891,1842174394,-1230579530,-1386014267,239170432,-108787231,-91859303,-488571122,-297299060,-296337853,-1196334152,712880714,-882688464,-2044142621,-1505985513,-1065043099,1074079543,649021685,691912108,-1984566755,948104557,369937067,799297050,471157879}'::integer[])
+                                            Filter: (version = 'nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5'::text)
+                                            ->  Bitmap Index Scan on signatures_bands  (cost=0.00..225.51 rows=115 width=0)
+                                                  Index Cond: (band_hashes && '{-2073162158,1480456891,1842174394,-1230579530,-1386014267,239170432,-108787231,-91859303,-488571122,-297299060,-296337853,-1196334152,712880714,-882688464,-2044142621,-1505985513,-1065043099,1074079543,649021685,691912108,-1984566755,948104557,369937067,799297050,471157879}'::integer[])
+                          ->  Nested Loop  (cost=115.10..174.01 rows=5 width=16)
+                                ->  Bitmap Heap Scan on documents m  (cost=114.81..132.49 rows=5 width=16)
+                                      Recheck Cond: (metadata_tokens && '{"/author=\"first\""}'::text[])
+                                      Filter: (client_id = 'owner'::text)
+                                      ->  Bitmap Index Scan on documents_metadata_tokens  (cost=0.00..114.81 rows=5 width=0)
+                                            Index Cond: (metadata_tokens && '{"/author=\"first\""}'::text[])
+                                ->  Index Only Scan using signatures_pkey on signatures versioned  (cost=0.29..8.30 rows=1 width=16)
+                                      Index Cond: ((document_id = m.id) AND (version = 'nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5'::text))
+        ->  Index Scan using documents_pkey on documents d  (cost=0.29..5.27 rows=1 width=37)
+              Index Cond: (id = s.document_id)
+              Filter: ((content_hash <> '\x0000000000000000000000000000000000000000000000000000000000000000'::bytea) AND (client_id = 'owner'::text))
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 1.84s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/worker.rs (target/debug/deps/worker-756a6f1f1fca1317)
+
+running 1 test
+test durable_processing_and_recovery ... {"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.002045792,"stage":"extracting"}
+{"completed":false,"event":"stage_duration","seconds":0.001582458,"stage":"extracting"}
+{"completed":false,"event":"stage_duration","seconds":0.000808666,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.001354791,"stage":"extracting"}
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.31s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/storage.rs (target/debug/deps/storage-24598497121ba648)
+
+running 1 test
+test durable_uploads_and_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s
+     Running tests/admission.rs (target/debug/deps/admission-7a133fbb56ce9815)
+
+running 1 test
+test races_isolation_expiry_and_idempotent_release ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.26s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+     Running tests/admission.rs (target/debug/deps/admission-7a133fbb56ce9815)
+
+running 1 test
+test upload_transfer_reconciles_bytes_and_bounds_file_attempts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.33s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/enqueue.rs (target/debug/deps/enqueue-fa03925eebe4b5c7)
+
+running 1 test
+test atomic_enqueue_and_concurrent_submissions ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.57s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running tests/uploads.rs (target/debug/deps/uploads-7a31ace5868ebfe0)
+
+running 1 test
+test streaming_boundaries_and_atomic_admission ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 4.42s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running tests/polling.rs (target/debug/deps/polling-27130f730d5a4bdf)
+
+running 1 test
+test persisted_states_revisions_streaming_and_expiration ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.33s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+     Running tests/maintenance.rs (target/debug/deps/maintenance-9f4c6d31961c559f)
+
+running 1 test
+test restartable_cleanup_and_version_isolation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.68s
+
+CREATE DATABASE
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running tests/operations.rs (target/debug/deps/operations-0a71e5f150dcd111)
+
+running 1 test
+test partial_failure_and_cleanup_metrics ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.25s
+
+SKIP end_to_end: successful extraction requires Linux

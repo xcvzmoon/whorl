@@ -1,0 +1,310 @@
+{
+  "operational_samples": [
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 93016064
+    },
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 93122560
+    },
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 93122560
+    },
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 93122560
+    },
+    {
+      "pending": 1,
+      "oldest_pending_seconds": 0.020073,
+      "cgroup_memory_peak_bytes": 93122560
+    },
+    {
+      "pending": 1,
+      "oldest_pending_seconds": 0.082873,
+      "cgroup_memory_peak_bytes": 94679040
+    },
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 94679040
+    },
+    {
+      "pending": 0,
+      "oldest_pending_seconds": 0,
+      "cgroup_memory_peak_bytes": 94687232
+    }
+  ],
+  "file": "spikes/extraction/fixtures/table.docx",
+  "bytes_per_file": 36051,
+  "batches_per_size": 10,
+  "concurrency": 2,
+  "records": [
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.130535083,
+      "total_seconds": 0.266931708,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.00802191699999999,
+      "poll_max_seconds": 0.014150583000000022
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.116885958,
+      "total_seconds": 0.246795125,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.004120917000000002,
+      "poll_max_seconds": 0.01172404199999999
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.049320792,
+      "total_seconds": 0.16820012500000003,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0037763330000000206,
+      "poll_max_seconds": 0.007977082999999996
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.04352187499999999,
+      "total_seconds": 0.16603829200000003,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.003080624999999948,
+      "poll_max_seconds": 0.00862099999999999
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.04921074999999997,
+      "total_seconds": 0.1814252919999999,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0044396670000000915,
+      "poll_max_seconds": 0.016821625000000062
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.03971545799999998,
+      "total_seconds": 0.1652913749999999,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0057450419999999225,
+      "poll_max_seconds": 0.013144374999999986
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.036971500000000046,
+      "total_seconds": 0.160544959,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.008377290999999953,
+      "poll_max_seconds": 0.0061251250000000645
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.04507966600000002,
+      "total_seconds": 0.16211083299999995,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0030291669999999993,
+      "poll_max_seconds": 0.005974999999999953
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.03337220800000007,
+      "total_seconds": 0.15463845799999998,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0035806670000000373,
+      "poll_max_seconds": 0.008825583999999997
+    },
+    {
+      "files": 1,
+      "http_status": 202,
+      "admission_seconds": 0.031084624999999977,
+      "total_seconds": 0.151621208,
+      "terminal_states": [
+        "completed"
+      ],
+      "health_max_seconds": 0.0027790420000000093,
+      "poll_max_seconds": 0.0083767079999999
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.14778154200000015,
+      "total_seconds": 0.401447833,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.003272375000000105,
+      "poll_max_seconds": 0.02398645799999999
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.14012866699999993,
+      "total_seconds": 0.27109841700000015,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.0029474169999998967,
+      "poll_max_seconds": 0.018122874999999983
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.0887153329999999,
+      "total_seconds": 0.21237937500000004,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.00464633400000003,
+      "poll_max_seconds": 0.010618540999999926
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.10834654099999996,
+      "total_seconds": 0.23339925000000017,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.00234770899999992,
+      "poll_max_seconds": 0.015356791999999952
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.11142704199999987,
+      "total_seconds": 0.255651791,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.0035500420000000865,
+      "poll_max_seconds": 0.0314733330000001
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.16862570799999999,
+      "total_seconds": 0.292616958,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.0028621250000000487,
+      "poll_max_seconds": 0.013184290999999959
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.1266825840000001,
+      "total_seconds": 0.25510104199999994,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.0022849169999998864,
+      "poll_max_seconds": 0.018608624999999934
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.11612091599999985,
+      "total_seconds": 0.2405574159999999,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.0024729999999997254,
+      "poll_max_seconds": 0.01428254200000012
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.10805249999999988,
+      "total_seconds": 0.2270985419999998,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.002084458999999761,
+      "poll_max_seconds": 0.011208874999999896
+    },
+    {
+      "files": 5,
+      "http_status": 202,
+      "admission_seconds": 0.11122845899999989,
+      "total_seconds": 0.24517037499999983,
+      "terminal_states": [
+        "completed",
+        "completed",
+        "completed",
+        "completed",
+        "completed"
+      ],
+      "health_max_seconds": 0.003033749999999724,
+      "poll_max_seconds": 0.016373208000000083
+    }
+  ]
+}

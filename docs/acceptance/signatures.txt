@@ -1,0 +1,7 @@
+   Compiling whorl v0.0.0 (/Users/xcvzmoon/Repositories/whorl)
+    Finished `bench` profile [optimized] target(s) in 45.44s
+     Running benches/signatures.rs (target/release/deps/signatures-04f427c7cb3ea0e9)
+100 words: 56.833µs per signature + bands (10 iterations)
+1000 words: 399.683µs per signature + bands (10 iterations)
+10000 words: 4.040141ms per signature + bands (10 iterations)
+100000 words: 46.438216ms per signature + bands (10 iterations)
