@@ -1,6 +1,7 @@
 use sqlx::{PgPool, Row};
 use std::num::NonZeroUsize;
 use uuid::Uuid;
+pub(crate) use whorl::service::lifecycle::RetentionPolicy;
 use whorl::similarity::{
     normalize::NormalizationVersion,
     shingles::{ShingleSet, SourceProfile},
@@ -9,41 +10,9 @@ use whorl::similarity::{
 
 type Error = Box<dyn std::error::Error + Send + Sync>;
 
-pub(crate) struct RetentionPolicy {
-    pub seconds: i32,
-    pub tombstone_seconds: i32,
-}
-
-impl Default for RetentionPolicy {
-    fn default() -> Self {
-        Self {
-            seconds: 86400,
-            tombstone_seconds: 86400,
-        }
-    }
-}
-
 pub(crate) async fn sweep(pool: &PgPool, policy: RetentionPolicy) -> Result<(), Error> {
-    if policy.seconds <= 0 || policy.tombstone_seconds <= 0 {
-        return Err("retention must be positive".into());
-    }
     let mut tx = pool.begin().await?;
-    let files: Vec<(Uuid, Uuid)> = sqlx::query_as("SELECT f.id,f.batch_id FROM batch_files f JOIN batches b ON b.id=f.batch_id WHERE f.state IN ('queued','running') AND least(f.deadline_at,b.deadline_at)<=clock_timestamp() ORDER BY f.deadline_at,f.id LIMIT 32")
-        .fetch_all(&mut *tx).await?;
-    for (file, _) in files {
-        let locked: bool =
-            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1,$2))")
-                .bind(file.to_string())
-                .bind(whorl::locks::ATTEMPT)
-                .fetch_one(&mut *tx)
-                .await?;
-        if locked {
-            sqlx::query("UPDATE batch_files SET state='failed',stage=NULL,next_retry_at=NULL,attempt=attempt+1,error='{\"code\":\"deadline_exceeded\",\"message\":\"deadline_exceeded\",\"retryable\":false}' WHERE id=$1 AND state IN ('queued','running')")
-                .bind(file).execute(&mut *tx).await?;
-        }
-    }
-    sqlx::query("UPDATE batches SET state=CASE WHEN NOT EXISTS(SELECT FROM batch_files WHERE batch_id=batches.id AND state='failed') THEN 'completed' WHEN EXISTS(SELECT FROM batch_files WHERE batch_id=batches.id AND state='completed') THEN 'partially_failed' ELSE 'failed' END,completed_at=clock_timestamp(),expires_at=clock_timestamp()+make_interval(secs=>$1::double precision),tombstone_until=clock_timestamp()+make_interval(secs=>$1::double precision)+make_interval(secs=>$2::double precision) WHERE id IN (SELECT b.id FROM batches b WHERE completed_at IS NULL AND NOT EXISTS(SELECT FROM batch_files f WHERE f.batch_id=b.id AND f.state IN ('queued','running')) ORDER BY b.id LIMIT 32 FOR UPDATE SKIP LOCKED)")
-        .bind(policy.seconds).bind(policy.tombstone_seconds).execute(&mut *tx).await?;
+    whorl::service::lifecycle::expire_pending(&mut tx, policy).await?;
     sqlx::query("DELETE FROM batch_files WHERE batch_id IN (SELECT id FROM batches WHERE expires_at<=clock_timestamp() AND EXISTS(SELECT FROM batch_files WHERE batch_id=batches.id) ORDER BY expires_at LIMIT 32 FOR UPDATE SKIP LOCKED)")
         .execute(&mut *tx).await?;
     sqlx::query("DELETE FROM batches WHERE id IN (SELECT id FROM batches WHERE tombstone_until<=clock_timestamp() ORDER BY tombstone_until LIMIT 32 FOR UPDATE SKIP LOCKED)")

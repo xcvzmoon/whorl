@@ -1,5 +1,6 @@
 //! Durable per-file processing with transactional results and attempt fencing.
 
+use super::lifecycle::{self, RetentionPolicy};
 use crate::{
     cpu_pool::{CpuError, CpuPool, WorkDeadline},
     documents::CandidateRepository,
@@ -69,6 +70,7 @@ pub struct ProcessFile {
     extractor: Arc<Extractor>,
     cpu: Arc<CpuPool>,
     config: WorkerConfig,
+    retention: RetentionPolicy,
 }
 
 impl std::fmt::Debug for ProcessFile {
@@ -112,15 +114,15 @@ impl ProcessFile {
         extractor: Extractor,
         config: WorkerConfig,
     ) -> Result<Self, ProcessError> {
+        let retention = RetentionPolicy::new(
+            i32::try_from(config.retention.as_secs()).map_err(|_| ProcessError::Invalid)?,
+            i32::try_from(config.tombstone_retention.as_secs())
+                .map_err(|_| ProcessError::Invalid)?,
+        )
+        .map_err(|_| ProcessError::Invalid)?;
         if config.workers.get() > 2
-            || pool.options().get_max_connections() < config.workers.get() as u32 * 4
-            || config.retention.as_secs() == 0
-            || config.tombstone_retention.as_secs() == 0
-            || config
-                .retention
-                .as_secs()
-                .checked_add(config.tombstone_retention.as_secs())
-                .is_none_or(|n| n > i32::MAX as u64)
+            || pool.options().get_max_connections()
+                < u32::try_from(config.workers.get()).map_err(|_| ProcessError::Invalid)? * 4
         {
             return Err(ProcessError::Invalid);
         }
@@ -135,6 +137,7 @@ impl ProcessFile {
             extractor: Arc::new(extractor),
             cpu,
             config,
+            retention,
         })
     }
 
@@ -458,7 +461,7 @@ impl ProcessFile {
         .bind(document)
         .execute(&mut *tx)
         .await?;
-        self.finish_batch(&mut tx, payload.batch_id).await?;
+        lifecycle::finish_batch(&mut tx, payload.batch_id, self.retention).await?;
         tx.commit().await?;
         metrics.complete();
         Ok(())
@@ -473,22 +476,8 @@ impl ProcessFile {
         let mut tx = self.pool.begin().await?;
         sqlx::query("UPDATE batch_files SET state='failed',stage=NULL,next_retry_at=NULL,error=$4 WHERE id=$1 AND client_id=$2 AND attempt=$3 AND state='running'")
             .bind(payload.file_id).bind(&payload.client_id).bind(attempt).bind(json!({"code":code,"message":code,"retryable":false})).execute(&mut *tx).await?;
-        self.finish_batch(&mut tx, payload.batch_id).await?;
+        lifecycle::finish_batch(&mut tx, payload.batch_id, self.retention).await?;
         tx.commit().await?;
-        Ok(())
-    }
-
-    async fn finish_batch(
-        &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-        batch: Uuid,
-    ) -> Result<(), sqlx::Error> {
-        sqlx::query("SELECT id FROM batches WHERE id=$1 FOR UPDATE")
-            .bind(batch)
-            .execute(&mut **tx)
-            .await?;
-        sqlx::query("UPDATE batches SET state=CASE WHEN NOT EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state='failed') THEN 'completed' WHEN EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state='completed') THEN 'partially_failed' ELSE 'failed' END,completed_at=clock_timestamp(),expires_at=clock_timestamp()+make_interval(secs=>$2),tombstone_until=clock_timestamp()+make_interval(secs=>$3) WHERE id=$1 AND completed_at IS NULL AND NOT EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state IN ('queued','running'))")
-            .bind(batch).bind(self.config.retention.as_secs() as f64).bind((self.config.retention+self.config.tombstone_retention).as_secs() as f64).execute(&mut **tx).await?;
         Ok(())
     }
 }
