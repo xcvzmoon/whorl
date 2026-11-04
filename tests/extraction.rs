@@ -35,7 +35,7 @@ fn detects_content_and_rejects_empty_malformed_and_expansion_inputs() {
     ];
     for path in cases {
         let doc = worker(path, ExtractionLimits::default()).unwrap();
-        assert!(!doc.text.trim().is_empty());
+        assert_ne!(doc.text.trim(), "");
     }
     let empty = tempfile::NamedTempFile::new().unwrap();
     assert_eq!(
@@ -170,7 +170,7 @@ mod linux {
             }
             tokio::time::sleep(Duration::from_millis(10)).await;
         }
-        assert!(!recorded.is_empty());
+        assert_ne!(recorded, "");
         task.abort();
         assert!(task.await.unwrap_err().is_cancelled());
         let mut lines = recorded.lines();
