@@ -19,17 +19,17 @@ fn persisted_golden_vectors() {
         (
             "  CAFÉ! Ｆｉｌｅ one two three four café file ",
             3,
-            include_str!("vectors/native-k3.txt"),
+            include_str!("fixtures/vectors/native-k3.txt"),
         ),
         (
             "café file one two three four café file",
             1,
-            include_str!("vectors/native-k1.txt"),
+            include_str!("fixtures/vectors/native-k1.txt"),
         ),
         (
             "one two three",
             3,
-            include_str!("vectors/single-shingle.txt"),
+            include_str!("fixtures/vectors/single-shingle.txt"),
         ),
     ] {
         let signature = sign(text, k);
@@ -82,7 +82,8 @@ fn normalization_sets_and_policy_identity() {
 fn seeded_known_jaccard_retrieval_tracks_theory() {
     let trials = 2_000;
     for (shared, unique) in [(42, 7), (18, 21)] {
-        let similarity = shared as f64 / (shared + unique * 2) as f64;
+        let similarity = f64::from(u32::try_from(shared).unwrap())
+            / f64::from(u32::try_from(shared + unique * 2).unwrap());
         let expected = 1.0 - (1.0 - similarity.powi(5)).powi(25);
         let mut hits = 0;
         let mut equal_rows = 0;
@@ -116,13 +117,13 @@ fn seeded_known_jaccard_retrieval_tracks_theory() {
                 .filter(|(a, b)| a == b)
                 .count();
         }
-        let observed = hits as f64 / trials as f64;
-        let tolerance = 6.0 * (expected * (1.0 - expected) / trials as f64).sqrt() + 0.005;
+        let observed = f64::from(u32::try_from(hits).unwrap()) / f64::from(trials);
+        let tolerance = 6.0 * (expected * (1.0 - expected) / f64::from(trials)).sqrt() + 0.005;
         assert!(
             (observed - expected).abs() < tolerance,
             "s={similarity}, observed={observed}, theory={expected}, tolerance={tolerance}"
         );
-        let row_rate = equal_rows as f64 / (trials * 125) as f64;
+        let row_rate = f64::from(u32::try_from(equal_rows).unwrap()) / f64::from(trials * 125);
         assert!((row_rate - similarity).abs() < 0.01);
         println!(
             "Jaccard {similarity}: {hits}/{trials} retrieved, theory {expected:.8}, row agreement {row_rate:.6}"

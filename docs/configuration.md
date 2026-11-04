@@ -6,14 +6,23 @@ are allowed; malformed or unreadable files fail startup. Keep this file local,
 mode 0600, and out of source control. No process changes its environment after
 starting threads. Production should inject environment variables directly.
 
+Start from the repository's [`.env.example`](../.env.example): copy it to `.env`,
+set mode 0600, and replace the placeholders. It deliberately sets
+`WHORL_TRUSTED_PROXY_ONLY=false`; set it to `true` only after configuring the
+proxy contract. Configure the commented extraction asset paths before processing
+PDFs or image/OCR input. Database migrations, version registration, bucket setup,
+and capacity limits remain separate setup steps.
+
 The dotenv parser is pinned to dotenvy 0.15.7 (MIT), already present transitively
 through SQLx. Its [upstream source](https://github.com/allan2/dotenvy) and
 [API](https://docs.rs/dotenvy/0.15.7/dotenvy/fn.from_path.html) were checked on
-November 4, 2026. This adds no new resolved package. No telemetry dependency is
-needed: existing serde_json serializes fixed, bounded log fields.
+November 4, 2026. Adding dotenvy directly did not add a resolved package.
+Diagnostics use tracing, tracing-subscriber, and tracing-appender for filtered
+JSON output and the bounded writer described below.
 
 | Variable | Default and validation | Used by |
 | --- | --- | --- |
+| RUST_LOG | info; tracing EnvFilter directives, invalid syntax fails startup | API, worker, maintenance |
 | DATABASE_URL | Required nonempty PostgreSQL connection URL/options accepted by SQLx | All service binaries |
 | WHORL_S3_ENDPOINT | Required nonempty URL accepted by object_store; HTTPS in production, HTTP for local MinIO | API, worker, sweep |
 | WHORL_S3_BUCKET | Required nonempty existing service-owned bucket | API, worker, sweep |
@@ -30,6 +39,9 @@ needed: existing serde_json serializes fixed, bounded log fields.
 Database and object-store libraries validate connection settings; credentials
 are checked when used. Missing extraction assets fail the affected file. A
 version must be registered with the matching configuration before submissions.
+Workers derive k from the batch snapshot and validate each source registration
+against its canonical configuration. Register both native and OCR versions before
+admitting mixed batches. See [maintenance](maintenance.md).
 Configuration errors name the setting without printing its value.
 Provider-specific AWS settings remain governed by object_store's credential
 and client configuration.
@@ -57,9 +69,21 @@ extraction or queue limits requires benchmark evidence and approval.
 
 ## Logs and alerts
 
-Collect stderr as JSON lines for the fixed telemetry events below. Queue-library
-diagnostics may also appear; configure the collector to accept non-JSON lines.
-Never enrich events with filenames, text, metadata, keys, payloads or tenant IDs.
+Collect stderr as JSON lines. Executables install a filtered `tracing` subscriber
+with a 1,024-line bounded, lossy off-thread writer. A full queue drops new lines
+rather than blocking processing. `RUST_LOG` defaults to `info`; use
+`info,whorl::cpu_pool=debug` to include CPU admission events. Invalid filter syntax
+fails startup. The guard stays alive until the runtime stops and makes a bounded
+flush attempt on shutdown; a stalled sink cannot prevent process exit indefinitely.
+The operational snapshot reports a process-local cumulative
+`telemetry_dropped_lines` queue-saturation count. Sink write failures are not part
+of that counter, so collect and alert on missing snapshots as well.
+
+Library users may install their own subscriber; library code does not initialize
+one globally. Event fields stay at the top level alongside timestamp, level,
+target, and a stable message template. Never add document text, filenames,
+metadata, source keys, payloads, credentials, or tenant identities to events.
+Queue-library diagnostics also use the configured subscriber.
 
 `stage_duration` emits elapsed seconds and a completion flag for extraction
 (including source retrieval), signing, combined candidate lookup/exact verification,
@@ -67,7 +91,7 @@ persistence and cleanup. A false flag means the stage exited without successful
 completion, including cancellation. CPU closures can briefly outlive cancellation;
 this duration measures the awaiting stage, not abandoned thread lifetime.
 `cpu_admitted` records occupied slots and total capacity at admission;
-`cpu_overloaded` counts rejected CPU admissions. Admission samples are events,
+`cpu_overloaded` reports rejected CPU admissions at warning level. CPU admission samples are debug-level events,
 not a continuously sampled utilization gauge.
 
 Once per worker cleanup tick, `operational_snapshot` reports queued/running file

@@ -7,13 +7,17 @@ use whorl::similarity::shingles::SourceProfile;
 
 #[tokio::test]
 #[ignore = "requires fresh WHORL_MAINTENANCE_TEST_URL database"]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One fresh database scenario verifies recovery and version isolation"
+)]
 async fn restartable_cleanup_and_version_isolation() {
     let pool = sqlx::PgPool::connect(&std::env::var("WHORL_MAINTENANCE_TEST_URL").unwrap())
         .await
         .unwrap();
     for migration in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(migration).execute(&pool).await.unwrap();
     }
@@ -21,8 +25,7 @@ async fn restartable_cleanup_and_version_isolation() {
         .migrate()
         .await
         .unwrap();
-    let old =
-        ReindexCursor::new(SourceProfile::NativeTextV1, NonZeroUsize::new(3).unwrap()).unwrap();
+    let old = ReindexCursor::new(SourceProfile::NativeTextV1, NonZeroUsize::new(3).unwrap());
     old.page(&pool).await.unwrap();
     let id = uuid::Uuid::new_v4();
     sqlx::query("INSERT INTO documents(id,client_id,content_hash,text_content,file_type,metadata) VALUES ($1,'a',decode(repeat('00',32),'hex'),'one two three four','pdf','{}')").bind(id).execute(&pool).await.unwrap();
@@ -32,8 +35,7 @@ async fn restartable_cleanup_and_version_isolation() {
         .execute(&pool)
         .await
         .unwrap();
-    let new =
-        ReindexCursor::new(SourceProfile::NativeTextV1, NonZeroUsize::new(4).unwrap()).unwrap();
+    let new = ReindexCursor::new(SourceProfile::NativeTextV1, NonZeroUsize::new(4).unwrap());
     assert_eq!(new.page(&pool).await.unwrap(), 1);
     assert_eq!(new.page(&pool).await.unwrap(), 0);
     let versions: i64 =
@@ -43,8 +45,7 @@ async fn restartable_cleanup_and_version_isolation() {
             .await
             .unwrap();
     assert_eq!(versions, 2);
-    let ocr =
-        ReindexCursor::new(SourceProfile::OcrVerbatimV1, NonZeroUsize::new(4).unwrap()).unwrap();
+    let ocr = ReindexCursor::new(SourceProfile::OcrVerbatimV1, NonZeroUsize::new(4).unwrap());
     assert_eq!(ocr.page(&pool).await.unwrap(), 0);
     for n in 1..=33i32 {
         let extra = uuid::Uuid::new_v4();
@@ -148,4 +149,29 @@ async fn restartable_cleanup_and_version_isolation() {
         .await
         .unwrap();
     assert_eq!(batches, 0);
+    for text in ["one two three four", "short"] {
+        let reindexed: uuid::Uuid = sqlx::query_scalar(
+            "SELECT id FROM documents WHERE text_content=$1 ORDER BY id LIMIT 1",
+        )
+        .bind(text)
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+        let prepared = whorl::service::matching::PreparedDocument::new(
+            text,
+            serde_json::json!({}),
+            SourceProfile::NativeTextV1,
+            NonZeroUsize::new(4),
+        )
+        .unwrap();
+        let mut tx = pool.begin().await.unwrap();
+        let live = prepared
+            .ingest(&mut tx, "comparison", uuid::Uuid::new_v4(), "pdf")
+            .await
+            .unwrap();
+        let same: bool = sqlx::query_scalar("SELECT a.values IS NOT DISTINCT FROM b.values AND a.band_hashes IS NOT DISTINCT FROM b.band_hashes FROM signatures a JOIN signatures b ON b.version=a.version WHERE a.document_id=$1 AND b.document_id=$2 AND a.version=$3")
+            .bind(reindexed).bind(live).bind(prepared.signature_version()).fetch_one(&mut *tx).await.unwrap();
+        assert!(same, "live and reindexed arrays differ for {text}");
+        tx.rollback().await.unwrap();
+    }
 }

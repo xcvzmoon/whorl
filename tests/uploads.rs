@@ -18,8 +18,8 @@ async fn streaming_boundaries_and_atomic_admission() {
         .await
         .unwrap();
     for sql in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(sql).execute(&pool).await.unwrap();
     }
@@ -45,8 +45,8 @@ async fn streaming_boundaries_and_atomic_admission() {
         trusted_proxy_only: true,
     });
     let app = test::init_service(App::new().app_data(state).configure(http::configure)).await;
-    let cap = 20971520usize;
-    let data = Bytes::from(vec![b'x'; 16384]);
+    let cap = 20_971_520usize;
+    let data = Bytes::from(vec![b'x'; 16_384]);
     for (sizes, expected, codes) in [
         (vec![], StatusCode::BAD_REQUEST, vec![]),
         (vec![1], StatusCode::ACCEPTED, vec![None]),
@@ -77,8 +77,8 @@ async fn streaming_boundaries_and_atomic_admission() {
         let mut chunks = Vec::new();
         for size in sizes {
             chunks.push(Ok::<_,actix_web::error::PayloadError>(Bytes::from_static(b"--bound\r\nContent-Disposition: form-data; name=\"files\"; filename=\"x.pdf\"\r\n\r\n")));
-            for offset in (0..size).step_by(16384) {
-                chunks.push(Ok(data.slice(..(size - offset).min(16384))));
+            for offset in (0..size).step_by(16_384) {
+                chunks.push(Ok(data.slice(..(size - offset).min(16_384))));
             }
             chunks.push(Ok(Bytes::from_static(b"\r\n")));
         }

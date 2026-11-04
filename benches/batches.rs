@@ -5,6 +5,10 @@ use whorl::similarity::{
     signature::MinHashSignature,
 };
 
+#[expect(
+    clippy::format_collect,
+    reason = "Document generation is benchmark setup outside the measured operations"
+)]
 fn main() {
     for words in [100, 1_000, 10_000, 100_000] {
         let text = (0..words).map(|i| format!("word{i} ")).collect::<String>();

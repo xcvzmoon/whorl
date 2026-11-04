@@ -8,10 +8,20 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 /// `prlimit` bounds CPU seconds, address space, output files and core dumps.
 /// Deployment must additionally enforce the approved aggregate cgroup limits
 /// (two CPUs, 4 GiB RAM, no swap) and a 128 MiB temporary filesystem.
+/// Debug output omits the trusted executable path.
 pub struct Extractor {
     worker: PathBuf,
     limits: ExtractionLimits,
     timeout: Duration,
+}
+
+impl std::fmt::Debug for Extractor {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Extractor")
+            .field("limits", &self.limits)
+            .field("timeout", &self.timeout)
+            .finish_non_exhaustive()
+    }
 }
 
 impl Extractor {
@@ -74,6 +84,10 @@ impl Extractor {
     /// assert!(!document.text.trim().is_empty());
     /// # Ok(()) }
     /// ```
+    #[expect(
+        clippy::too_many_lines,
+        reason = "Subprocess lifetime and bounded protocol handling share one cancellation scope"
+    )]
     pub async fn extract(&self, input: &[u8]) -> Result<ExtractedDocument, ExtractionError> {
         if input.is_empty() {
             return Err(ExtractionError::EmptyFile);

@@ -43,12 +43,28 @@ async fn upload(
     file
 }
 
+async fn store(
+    input: Arc<PreparedDocument>,
+    client: &Client,
+    owner: &str,
+    id: Uuid,
+    file_type: &str,
+) -> Uuid {
+    let mut tx = client.begin().await.unwrap();
+    let canonical = input.ingest(&mut tx, owner, id, file_type).await.unwrap();
+    tx.commit().await.unwrap();
+    canonical
+}
+
 async fn ingest(client: &Client, id: u128, owner: &str, text: &str, metadata: Value) -> Uuid {
-    let file = upload(client, id, owner, "ingest", VERSION, metadata.clone()).await;
-    prepared(text, metadata)
-        .ingest(client, owner, Uuid::from_u128(id), file, "pdf")
-        .await
-        .unwrap()
+    store(
+        prepared(text, metadata),
+        client,
+        owner,
+        Uuid::from_u128(id),
+        "pdf",
+    )
+    .await
 }
 
 #[test]
@@ -65,10 +81,18 @@ fn rejects_empty_text_and_nonobject_metadata() {
 
 #[tokio::test]
 #[ignore = "requires a fresh disposable PostgreSQL database; see docs/persistence.md"]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One disposable corpus scenario verifies retrieval and duplicate races"
+)]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact duplicate and disjoint scores are part of the retrieval contract"
+)]
 async fn postgres_candidate_matching_and_duplicate_races() {
     let pool = connect().await;
     let client = &pool;
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(client)
         .await
         .unwrap();
@@ -99,10 +123,14 @@ async fn postgres_candidate_matching_and_duplicate_races() {
     )
     .await;
     assert_eq!(
-        prepared(text, json!({"author":"second"}))
-            .ingest(&pool, "owner", Uuid::from_u128(2), duplicate_file, "docx")
-            .await
-            .unwrap(),
+        store(
+            prepared(text, json!({"author":"second"})),
+            &pool,
+            "owner",
+            Uuid::from_u128(2),
+            "docx"
+        )
+        .await,
         canonical
     );
     let row = sqlx::query("SELECT metadata,file_type,(SELECT upload_metadata FROM batch_files WHERE id=$1),(SELECT source_object_key FROM batch_files WHERE id=$1) FROM documents WHERE id=$2").bind(duplicate_file).bind(canonical).fetch_one(client).await.unwrap();
@@ -253,29 +281,19 @@ async fn postgres_candidate_matching_and_duplicate_races() {
         .unwrap();
     assert!(text_only.is_empty());
 
-    let check_file = upload(client, 8, "owner", "check", VERSION, json!({})).await;
-    assert!(
-        prepared("check only", json!({}))
-            .ingest(client, "owner", Uuid::from_u128(8), check_file, "pdf")
-            .await
-            .is_err()
-    );
-    assert!(
-        prepared("other owner", json!({}))
-            .ingest(&pool, "foreign", Uuid::from_u128(8), duplicate_file, "pdf")
-            .await
-            .is_err()
-    );
-
     let mut tasks = Vec::new();
     for id in 200..208 {
-        let file = upload(client, id, "owner", "ingest", VERSION, json!({"race":id})).await;
+        upload(client, id, "owner", "ingest", VERSION, json!({"race":id})).await;
         let pool = pool.clone();
         tasks.push(tokio::spawn(async move {
-            prepared("race content", json!({"race":id}))
-                .ingest(&pool, "owner", Uuid::from_u128(id), file, "pdf")
-                .await
-                .unwrap()
+            store(
+                prepared("race content", json!({"race":id})),
+                &pool,
+                "owner",
+                Uuid::from_u128(id),
+                "pdf",
+            )
+            .await
         }));
     }
     let mut ids = Vec::new();
@@ -286,7 +304,7 @@ async fn postgres_candidate_matching_and_duplicate_races() {
     let rows = sqlx::query("SELECT document_id,upload_metadata FROM batch_files WHERE id >= $1 AND id < $2 ORDER BY id").bind(Uuid::from_u128(20200)).bind(Uuid::from_u128(20208)).fetch_all(client).await.unwrap();
     assert_eq!(rows.len(), 8);
     for (offset, row) in rows.iter().enumerate() {
-        assert_eq!(row.get::<Uuid, _>(0), ids[0]);
+        assert!(row.get::<Option<Uuid>, _>(0).is_none());
         assert_eq!(row.get::<Value, _>(1), json!({"race":200+offset}));
     }
 
@@ -316,7 +334,7 @@ async fn postgres_candidate_matching_and_duplicate_races() {
     let tokens = vec!["/author=\"first\""];
     let statement = concat!(
         "EXPLAIN ",
-        include_str!("../src/persistence/candidates.sql")
+        include_str!("../database/queries/candidates.sql")
     );
     let plan = sqlx::query(statement)
         .bind("owner")

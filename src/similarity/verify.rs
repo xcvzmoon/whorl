@@ -73,6 +73,7 @@ impl SimilarityPolicy {
     /// # use whorl::similarity::verify::SimilarityPolicy;
     /// assert_eq!(SimilarityPolicy::default().threshold(), 0.75);
     /// ```
+    #[must_use]
     pub fn threshold(self) -> f64 {
         self.threshold
     }
@@ -89,6 +90,7 @@ impl SimilarityPolicy {
     /// # use whorl::similarity::verify::SimilarityPolicy;
     /// assert_eq!(SimilarityPolicy::default().text_weight(), None);
     /// ```
+    #[must_use]
     pub fn text_weight(self) -> Option<f64> {
         self.text_weight
     }
@@ -139,6 +141,7 @@ impl MetadataTokens {
     /// let tokens = MetadataTokens::new(&json!({"author": "Ada", "size": 42}));
     /// assert_eq!(tokens.iter().collect::<Vec<_>>(), ["/author=\"Ada\""]);
     /// ```
+    #[must_use]
     pub fn new(metadata: &Value) -> Self {
         let mut tokens = BTreeSet::new();
         let mut pending = vec![(String::new(), metadata)];
@@ -208,7 +211,7 @@ pub struct MatchScore {
 
 /// CPU-only verifier holding an immutable batch policy snapshot.
 ///
-/// Every retrieved candidate must pass through this verifier. MinHash estimates
+/// Every retrieved candidate must pass through this verifier. `MinHash` estimates
 /// are deliberately absent from the interface: they may only order candidates.
 #[derive(Clone, Copy, Debug)]
 pub struct SimilarityEngine {
@@ -232,6 +235,7 @@ impl SimilarityEngine {
     /// use whorl::similarity::verify::{SimilarityEngine, SimilarityPolicy};
     /// let engine = SimilarityEngine::new(SimilarityPolicy::default());
     /// ```
+    #[must_use]
     pub fn new(policy: SimilarityPolicy) -> Self {
         Self { policy }
     }
@@ -275,7 +279,7 @@ impl SimilarityEngine {
     ) -> Result<MatchScore, IncompatibleProfile> {
         let text_similarity = match query.short_text_similarity(candidate)? {
             Some(score) => score,
-            None => jaccard(&query.shingles(), &candidate.shingles()).unwrap_or(0.0),
+            None => query.jaccard(candidate),
         };
         let metadata_similarity = metadata.and_then(|(left, right)| jaccard(&left.0, &right.0));
         let score = match self.policy.text_weight {
@@ -293,6 +297,10 @@ impl SimilarityEngine {
     }
 }
 
+#[expect(
+    clippy::cast_precision_loss,
+    reason = "Set cardinalities use floating-point division to report bounded similarity scores"
+)]
 fn jaccard<T: Ord>(left: &BTreeSet<T>, right: &BTreeSet<T>) -> Option<f64> {
     let intersection = left.intersection(right).count();
     let union = left.len() + right.len() - intersection;

@@ -4,6 +4,10 @@ use std::{
 };
 use whorl::extraction::{ExtractedDocument, ExtractionError, ExtractionLimits, Extractor};
 
+#[expect(
+    clippy::needless_pass_by_value,
+    reason = "The test helper serializes owned limits into the extraction child protocol"
+)]
 fn worker(path: &str, limits: ExtractionLimits) -> Result<ExtractedDocument, ExtractionError> {
     let mut child = Command::new(env!("CARGO_BIN_EXE_whorl-extract"))
         .arg(path)
@@ -31,7 +35,7 @@ fn detects_content_and_rejects_empty_malformed_and_expansion_inputs() {
     ];
     for path in cases {
         let doc = worker(path, ExtractionLimits::default()).unwrap();
-        assert!(!doc.text.trim().is_empty());
+        assert_ne!(doc.text.trim(), "");
     }
     let empty = tempfile::NamedTempFile::new().unwrap();
     assert_eq!(
@@ -122,8 +126,8 @@ mod linux {
         );
         let file = script(&command);
         let worker_path = file.path().to_owned();
-        let (_handle, retained) = file.keep().unwrap();
-        drop(_handle);
+        let (handle, retained) = file.keep().unwrap();
+        drop(handle);
         let extractor = Extractor::new(
             worker_path,
             ExtractionLimits::default(),
@@ -166,7 +170,7 @@ mod linux {
             }
             tokio::time::sleep(Duration::from_millis(10)).await;
         }
-        assert!(!recorded.is_empty());
+        assert_ne!(recorded, "");
         task.abort();
         assert!(task.await.unwrap_err().is_cancelled());
         let mut lines = recorded.lines();

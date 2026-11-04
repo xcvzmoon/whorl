@@ -14,6 +14,7 @@ use whorl::{
 
 fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     ServiceConfig::load_local()?;
+    let _logging = whorl::logging::init()?;
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()?
@@ -30,15 +31,22 @@ async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     match args.as_slice() {
         [command] if command == "migrate" => {
             let mut tx = pool.begin().await?;
-            sqlx::query("SELECT pg_advisory_xact_lock(746831905)")
+            sqlx::query("SELECT pg_advisory_xact_lock($1)")
+                .bind(whorl::locks::MIGRATIONS)
                 .execute(&mut *tx)
                 .await?;
             sqlx::query("CREATE TABLE IF NOT EXISTS whorl_migrations(version integer PRIMARY KEY)")
                 .execute(&mut *tx)
                 .await?;
             for (version, migration) in [
-                (1i32, include_str!("../../migrations/0001_application.sql")),
-                (2, include_str!("../../migrations/0002_uploads.sql")),
+                (
+                    1i32,
+                    include_str!("../../database/migrations/0001_application.sql"),
+                ),
+                (
+                    2,
+                    include_str!("../../database/migrations/0002_uploads.sql"),
+                ),
             ] {
                 let applied: bool = sqlx::query_scalar(
                     "SELECT EXISTS(SELECT FROM whorl_migrations WHERE version=$1)",
@@ -88,7 +96,7 @@ async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 "ocr" => SourceProfile::OcrVerbatimV1,
                 _ => return Err("source must be native or ocr".into()),
             };
-            let cursor = ReindexCursor::new(source, k.parse::<NonZeroUsize>()?)?;
+            let cursor = ReindexCursor::new(source, k.parse::<NonZeroUsize>()?);
             let count = cursor.page(&pool).await?;
             println!("version={} processed={count}", cursor.version);
         }

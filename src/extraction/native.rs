@@ -39,7 +39,7 @@ fn finish(
         .metadata
         .iter()
         .map(|(k, v)| k.len().saturating_add(v.len()))
-        .try_fold(0usize, |total, size| total.checked_add(size))
+        .try_fold(0usize, usize::checked_add)
         .ok_or(ExtractionError::LimitExceeded)?;
     if document.text.len().saturating_add(metadata_bytes) > limits.max_text_bytes {
         return Err(ExtractionError::LimitExceeded);
@@ -119,6 +119,10 @@ fn picture(
     )
 }
 
+#[expect(
+    clippy::needless_pass_by_value,
+    reason = "Result::map_err transfers the owned decoder error"
+)]
 fn image_error(error: image::ImageError) -> ExtractionError {
     match error {
         image::ImageError::Limits(_) => ExtractionError::LimitExceeded,
@@ -154,6 +158,11 @@ fn exif(path: &Path, metadata: &mut BTreeMap<String, String>) -> Result<(), Extr
     }
 }
 
+#[expect(
+    clippy::cast_precision_loss,
+    clippy::cast_possible_truncation,
+    reason = "Raster dimensions are validated for finite positive pixel and integer bounds before conversion"
+)]
 fn pdf(path: &Path, limits: &ExtractionLimits) -> Result<ExtractedDocument, ExtractionError> {
     let library =
         std::env::var_os("WHORL_PDFIUM_LIBRARY").ok_or(ExtractionError::ExtractionFailed)?;

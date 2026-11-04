@@ -45,7 +45,7 @@ fn unsigned_hashes_preserve_every_bit() {
 #[ignore = "requires a disposable PostgreSQL 18 database; see docs/persistence.md"]
 fn postgres_schema_and_reservation_races() {
     sql(persistence::APPLICATION_MIGRATION);
-    sql(include_str!("schema.sql"));
+    sql(include_str!("fixtures/schema.sql"));
     let threads: Vec<_> = (1..=12).map(|id| std::thread::spawn(move || {
         sql(&format!("SELECT reserve_capacity('00000000-0000-0000-0000-{id:012}', 'race', 1, 10, clock_timestamp() + interval '1 hour');"))
     })).collect();

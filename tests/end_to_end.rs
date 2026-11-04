@@ -36,8 +36,8 @@ async fn admission_storage_processing_and_polling() {
         .await
         .unwrap();
     for migration in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(migration).execute(&pool).await.unwrap();
     }
@@ -50,8 +50,19 @@ async fn admission_storage_processing_and_polling() {
             .unwrap()
             .signature_version()
             .to_owned();
-    sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES($1,'{}') ON CONFLICT DO NOTHING")
-        .bind(&version).execute(&pool).await.unwrap();
+    for source in ["native", "ocr"] {
+        let output = tokio::process::Command::new(env!("CARGO_BIN_EXE_maintenance"))
+            .args(["reindex", source, "3"])
+            .env("DATABASE_URL", std::env::var("WHORL_E2E_TEST_URL").unwrap())
+            .output()
+            .await
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
     sqlx::raw_sql("INSERT INTO capacity_limits VALUES ('global',100,1073741824),('client:acceptance',100,1073741824)").execute(&pool).await.unwrap();
     let objects = || {
         AmazonS3Builder::new()

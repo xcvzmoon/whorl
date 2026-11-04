@@ -51,11 +51,20 @@ pub struct StoredObjectRef {
 /// Callers must enforce request deadlines and invoke reconciliation regularly.
 /// Completed objects retain their reservation until deletion; admission must
 /// attach the key to a same-client `batch_files` row before its lease expires.
+/// Debug output excludes database and object-store connection settings.
 #[derive(Clone)]
 pub struct UploadStore {
     pool: PgPool,
     s3: AmazonS3,
     admission: std::sync::Arc<tokio::sync::Semaphore>,
+}
+
+impl std::fmt::Debug for UploadStore {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("UploadStore")
+            .field("available", &self.admission.available_permits())
+            .finish_non_exhaustive()
+    }
 }
 
 impl UploadStore {
@@ -75,6 +84,7 @@ impl UploadStore {
     /// let store = whorl::storage::UploadStore::new(pool, s3);
     /// # Ok(()) }
     /// ```
+    #[must_use]
     pub fn new(pool: PgPool, s3: AmazonS3) -> Self {
         let slots = (pool.options().get_max_connections() / 2).max(1) as usize;
         Self {
@@ -173,8 +183,9 @@ impl UploadStore {
         let id = Uuid::new_v4();
         let key = format!("uploads/{id}");
         let mut guard = self.pool.begin().await?;
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))")
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,$2))")
             .bind(&key)
+            .bind(crate::locks::UPLOAD)
             .execute(&mut *guard)
             .await?;
         let mut tx = self.pool.begin().await?;
@@ -256,7 +267,7 @@ impl UploadStore {
                     break;
                 }
                 filled += count;
-                total += count as i64;
+                total += i64::try_from(count).map_err(|_| StorageError::Invalid)?;
                 if total > allowance {
                     return Err(StorageError::Invalid);
                 }
@@ -319,8 +330,9 @@ impl UploadStore {
     /// ```
     pub async fn discard(&self, object: &StoredObjectRef) -> Result<(), StorageError> {
         let mut guard = self.pool.begin().await?;
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))")
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,$2))")
             .bind(&object.key)
+            .bind(crate::locks::UPLOAD)
             .execute(&mut *guard)
             .await?;
         let claimed: bool =
@@ -396,8 +408,8 @@ impl UploadStore {
             return Err(StorageError::Invalid);
         }
         let mut guard = self.pool.begin().await?;
-        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,0)) LIMIT 1")
-            .fetch_optional(&mut *guard).await?;
+        let row = sqlx::query("WITH candidates AS MATERIALIZED (SELECT id, object_key FROM stored_uploads u WHERE expires_at <= clock_timestamp() AND NOT EXISTS (SELECT 1 FROM batch_files f WHERE f.source_object_key=u.object_key AND f.state IN ('queued','running')) ORDER BY expires_at LIMIT 32) SELECT id, object_key FROM candidates WHERE pg_try_advisory_xact_lock(hashtextextended(object_key,$1)) LIMIT 1")
+            .bind(crate::locks::UPLOAD).fetch_optional(&mut *guard).await?;
         let Some(row) = row else {
             return Ok(false);
         };

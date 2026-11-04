@@ -9,7 +9,7 @@ Run the static gates in the README, generate and verify the extraction corpus, a
 For a Linux acceptance environment on ARM64:
 
 ```sh
-docker build --target acceptance -f src/extraction/Dockerfile -t whorl-acceptance .
+docker build --target acceptance -f docker/extraction.Dockerfile -t whorl-acceptance .
 docker run --name whorl-acceptance-integration --cpus 2 --memory 4g --memory-swap 4g \
   -e WHORL_ACCEPTANCE_ADMIN_URL -e WHORL_STORAGE_S3_ENDPOINT \
   -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY \
@@ -34,7 +34,7 @@ The November 4, 2026 host is an Apple M1 with 8 GiB RAM, Rust 1.98.1, PostgreSQL
 
 All eleven existing PostgreSQL/S3 integration tests passed across ten suites, including both admission tests. The [host integration log](acceptance/integration.txt) explicitly records the Linux end-to-end skip. Tests use fresh databases, real PostgreSQL, and real MinIO. The macOS worker suite exercises extraction failure handling; successful extraction and process recovery require the separate Linux run.
 
-Formatting, Clippy with warnings denied, all targets/features tests, warning-free rustdoc, 48 doctests, and cargo-deny advisories/licenses/sources passed. cargo-deny reported an unused license allowance warning; it did not report a dependency advisory or license violation. The CI workflow now runs all integration suites, including end-to-end acceptance, and builds MinIO from the pinned upstream commit matching the local binary. Hosted CI itself has not been run from this workspace.
+Formatting, Clippy with warnings denied, all targets/features tests, warning-free rustdoc, 48 doctests, and cargo-deny advisories/licenses/sources passed. cargo-deny reported an unused license allowance warning; it did not report a dependency advisory or license violation. The acceptance work originally added integration suites and a pinned MinIO build to CI. Test execution has since moved entirely to local runs; the recorded measurements remain evidence from the stated environment. Hosted CI itself was not run from this workspace.
 
 ## CPU measurements
 

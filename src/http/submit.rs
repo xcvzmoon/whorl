@@ -2,7 +2,7 @@ use super::errors::ApiError;
 use actix_multipart::Multipart;
 use actix_web::{HttpRequest, HttpResponse, http::StatusCode, web};
 use futures_util::{StreamExt, TryStreamExt};
-use serde_json::{Value, json};
+use serde_json::json;
 use sqlx::PgPool;
 use std::{
     cell::{Cell, RefCell},
@@ -13,7 +13,7 @@ use tokio_util::io::StreamReader;
 use uuid::Uuid;
 use whorl::{
     queue::JobQueue,
-    service::admission::{AdmissionError, AdmissionLease, ClientQuota},
+    service::admission::{AdmissionError, AdmissionLease, ClientQuota, SubmittedFile as File},
     storage::{StoredObjectRef, UploadStore},
 };
 
@@ -91,7 +91,7 @@ impl Structure {
                 if self.count > 8192 {
                     return Err(actix_web::error::PayloadError::Overflow);
                 }
-                if self.tail == 0x0d0a0d0a {
+                if self.tail == 0x0d0a_0d0a {
                     self.headers = false;
                     self.count = 0;
                 }
@@ -142,12 +142,6 @@ impl Drop for Cleanup {
     }
 }
 
-struct File {
-    id: Uuid,
-    name: String,
-    object: Option<StoredObjectRef>,
-    error: Option<Value>,
-}
 async fn submit(
     req: HttpRequest,
     body: web::Payload,
@@ -196,7 +190,7 @@ async fn submit(
     let mut files = Vec::new();
     let result = tokio::time::timeout(
         Duration::from_secs(110),
-        receive(&req, body, &state, &cleanup, client, mode, &mut files),
+        receive(&req, body, &state, &cleanup, mode, &mut files),
     )
     .await
     .unwrap_or_else(|_| Err(bad("malformed_multipart")));
@@ -213,12 +207,15 @@ async fn submit(
     result
 }
 
+#[expect(
+    clippy::too_many_lines,
+    reason = "Multipart limits and bounded draining share the same stream state"
+)]
 async fn receive(
     req: &HttpRequest,
     body: web::Payload,
     state: &Submission,
     cleanup: &Cleanup,
-    client: &str,
     mode: &str,
     files: &mut Vec<File>,
 ) -> Result<HttpResponse, ApiError> {
@@ -302,8 +299,8 @@ async fn receive(
         let expiry = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .map_err(|_| ApiError::unavailable())?
-            .as_secs() as i64
-            + 3600;
+            .as_secs();
+        let expiry = i64::try_from(expiry).map_err(|_| ApiError::unavailable())? + 3600;
         let result = state
             .store
             .upload_admitted(
@@ -374,46 +371,26 @@ async fn receive(
     if files.is_empty() {
         return Err(bad("no_files"));
     }
-    persist(state, client, mode, files).await
+    persist(
+        state,
+        cleanup.lease.as_ref().expect("active request lease"),
+        mode,
+        files,
+    )
+    .await
 }
 
 async fn persist(
     state: &Submission,
-    client: &str,
+    lease: &AdmissionLease,
     mode: &str,
     files: &[File],
 ) -> Result<HttpResponse, ApiError> {
-    let batch = Uuid::new_v4();
-    let mut tx = state
-        .pool
-        .begin()
+    let batch = lease
+        .admit(&state.pool, &state.queue, mode, &state.version, files)
         .await
         .map_err(|_| ApiError::unavailable())?;
-    sqlx::query("INSERT INTO batches(id,client_id,mode,signature_version,policy,deadline_at) VALUES ($1,$2,$3,$4,$5,clock_timestamp()+interval '1 hour')")
-        .bind(batch).bind(client).bind(mode).bind(&state.version).bind(json!({"kind":"text_only","threshold":0.75})).execute(&mut *tx).await.map_err(|_| ApiError::unavailable())?;
-    for (ordinal, file) in files.iter().enumerate() {
-        if let Some(object) = &file.object {
-            sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))")
-                .bind(&object.key)
-                .execute(&mut *tx)
-                .await
-                .map_err(|_| ApiError::unavailable())?;
-        }
-        sqlx::query("INSERT INTO batch_files(id,batch_id,client_id,ordinal,name,state,error,source_object_key,source_bytes,deadline_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,clock_timestamp()+interval '1 hour')")
-            .bind(file.id).bind(batch).bind(client).bind(ordinal as i16).bind(&file.name).bind(if file.error.is_some() { "failed" } else { "queued" }).bind(&file.error).bind(file.object.as_ref().map(|o| &o.key)).bind(file.object.as_ref().map_or(0, |o| o.bytes)).execute(&mut *tx).await.map_err(|_| ApiError::unavailable())?;
-        if file.object.is_some() {
-            state
-                .queue
-                .enqueue(&mut tx, client, file.id)
-                .await
-                .map_err(|_| ApiError::unavailable())?;
-        }
-    }
-    let failed = files.iter().all(|f| f.error.is_some());
-    if failed {
-        sqlx::query("UPDATE batches SET state='failed',completed_at=clock_timestamp(),expires_at=clock_timestamp()+interval '24 hours',tombstone_until=clock_timestamp()+interval '48 hours' WHERE id=$1").bind(batch).execute(&mut *tx).await.map_err(|_| ApiError::unavailable())?;
-    }
-    tx.commit().await.map_err(|_| ApiError::unavailable())?;
+    let failed = files.iter().all(|file| file.error.is_some());
     let url = format!("/v1/batches/{batch}");
     let files: Vec<_> = files.iter().map(|f| {
         let mut value = json!({"file_id":f.id,"name":f.name,"state":if f.error.is_some() { "failed" } else { "queued" }});

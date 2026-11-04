@@ -33,21 +33,21 @@ impl Error for NoExtractableText {}
 
 /// Canonical text and its unique consecutive word shingles.
 ///
-/// Owns the canonical text and word offsets; shingles borrow from that text when
-/// requested. Inputs shorter than k have no shingles and use full-text equality.
+/// Owns canonical text and sorted unique shingle ranges. Verification reuses
+/// those ranges without rebuilding a set. Inputs shorter than k use full-text equality.
 /// Normalization, source profile, k, and the short-text rule are included in
 /// [`super::signature::SignatureVersion`]. Run construction outside async executor threads.
 #[derive(Debug)]
 pub struct ShingleSet {
     text: String,
-    words: Vec<(usize, usize)>,
-    k: NonZeroUsize,
+    ranges: Vec<(usize, usize)>,
+    pub(crate) k: NonZeroUsize,
     normalization: NormalizationVersion,
-    source: SourceProfile,
+    pub(crate) source: SourceProfile,
 }
 
 impl ShingleSet {
-    /// Normalizes extracted text and records word boundaries.
+    /// Normalizes extracted text and prepares unique word-shingle ranges.
     ///
     /// # Arguments
     ///
@@ -85,7 +85,7 @@ impl ShingleSet {
             return Err(NoExtractableText);
         }
         let mut offset = 0;
-        let words = text
+        let words: Vec<_> = text
             .split(' ')
             .map(|word| {
                 let start = offset;
@@ -93,10 +93,21 @@ impl ShingleSet {
                 (start, start + word.len())
             })
             .collect();
+        let k = k.unwrap_or(const { NonZeroUsize::new(3).unwrap() });
+        let mut ranges = words
+            .windows(k.get())
+            .map(|window| {
+                let range = (window[0].0, window[window.len() - 1].1);
+                (&text[range.0..range.1], range)
+            })
+            .collect::<Vec<_>>();
+        ranges.sort_unstable_by_key(|&(slice, _)| slice);
+        ranges.dedup_by_key(|(slice, _)| *slice);
+        let ranges = ranges.into_iter().map(|(_, range)| range).collect();
         Ok(Self {
             text,
-            words,
-            k: k.unwrap_or(NonZeroUsize::new(3).unwrap()),
+            ranges,
+            k,
             normalization,
             source,
         })
@@ -118,16 +129,52 @@ impl ShingleSet {
     /// assert_eq!(input.shingles().into_iter().collect::<Vec<_>>(), ["a a a"]);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn shingles(&self) -> BTreeSet<&str> {
-        self.words
-            .windows(self.k.get())
-            .map(|window| &self.text[window[0].0..window[window.len() - 1].1])
-            .collect()
+        self.slices().collect()
+    }
+
+    fn slices(&self) -> impl ExactSizeIterator<Item = &str> {
+        self.ranges
+            .iter()
+            .map(|&(start, end)| &self.text[start..end])
+    }
+
+    /// Scores prepared ranges after the caller checks source policy and short text.
+    #[expect(
+        clippy::cast_precision_loss,
+        reason = "Set cardinalities become floating-point ratios for similarity scores"
+    )]
+    pub(crate) fn jaccard(&self, other: &Self) -> f64 {
+        let mut left = self.slices().peekable();
+        let mut right = other.slices().peekable();
+        let mut intersection = 0;
+        while let (Some(a), Some(b)) = (left.peek(), right.peek()) {
+            match a.cmp(b) {
+                std::cmp::Ordering::Less => {
+                    left.next();
+                }
+                std::cmp::Ordering::Greater => {
+                    right.next();
+                }
+                std::cmp::Ordering::Equal => {
+                    intersection += 1;
+                    left.next();
+                    right.next();
+                }
+            }
+        }
+        let union = self.ranges.len() + other.ranges.len() - intersection;
+        if union == 0 {
+            0.0
+        } else {
+            intersection as f64 / union as f64
+        }
     }
 
     /// Identifies all text-processing rules used by this input.
     ///
-    /// Persist this key as part of the phase 7 signature version, alongside hash
+    /// Persist this key as part of the signature version, alongside hash
     /// seeds and band layout. A processing-rule change requires a new key and
     /// reindexing. OCR engine/model revisions must also be recorded by the
     /// extraction adapter; this key describes the similarity policy only.
@@ -146,6 +193,7 @@ impl ShingleSet {
     /// assert_eq!(input.version_key(), "nfkc-v1/ocr-verbatim-v1/word-3/short-equality-v1");
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn version_key(&self) -> String {
         let normalization = match self.normalization {
             NormalizationVersion::V1 => "nfkc-v1",
@@ -220,7 +268,7 @@ impl ShingleSet {
     /// ```
     pub fn short_text_similarity(&self, other: &Self) -> Result<Option<f64>, IncompatibleProfile> {
         self.ensure_compatible(other)?;
-        if self.words.len() < self.k.get() || other.words.len() < other.k.get() {
+        if self.ranges.is_empty() || other.ranges.is_empty() {
             return Ok(Some(if self.text == other.text { 1.0 } else { 0.0 }));
         }
         Ok(None)

@@ -23,7 +23,7 @@ async fn rejects_untrusted_identity_and_invalid_budgets_without_database() {
         AdmissionLease::reserve(&pool, " ", true, quota(1, 1)).await,
         Err(AdmissionError::Identity)
     ));
-    for budget in [quota(0, 1), quota(1, 0), quota(1, 104857601)] {
+    for budget in [quota(0, 1), quota(1, 0), quota(1, 104_857_601)] {
         assert!(matches!(
             AdmissionLease::reserve(&pool, "a", true, budget).await,
             Err(AdmissionError::Invalid)
@@ -37,11 +37,11 @@ async fn races_isolation_expiry_and_idempotent_release() {
     let pool = PgPool::connect(&std::env::var("WHORL_ADMISSION_TEST_URL").unwrap())
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(&pool)
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0002_uploads.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0002_uploads.sql"))
         .execute(&pool)
         .await
         .unwrap();
@@ -110,11 +110,11 @@ async fn upload_transfer_reconciles_bytes_and_bounds_file_attempts() {
     let pool = PgPool::connect(&std::env::var("WHORL_ADMISSION_UPLOAD_TEST_URL").unwrap())
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(&pool)
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0002_uploads.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0002_uploads.sql"))
         .execute(&pool)
         .await
         .unwrap();

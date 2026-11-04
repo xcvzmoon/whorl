@@ -8,10 +8,19 @@ use uuid::Uuid;
 ///
 /// Deploy library migrations separately under their owner role. Callers own
 /// transaction commit and rollback. Workers must fence repeated execution.
+/// Debug output shows the delivery budget without database connection settings.
 pub struct JobQueue {
     utils: WorkerUtils,
     max_attempts: i16,
 }
+impl std::fmt::Debug for JobQueue {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("JobQueue")
+            .field("max_attempts", &self.max_attempts)
+            .finish_non_exhaustive()
+    }
+}
+
 impl JobQueue {
     /// Creates an adapter with an explicit delivery budget.
     ///
@@ -32,10 +41,11 @@ impl JobQueue {
     /// let queue = JobQueue::new(pool, std::num::NonZeroU16::MIN);
     /// # Ok(()) }
     /// ```
+    #[must_use]
     pub fn new(pool: PgPool, max_attempts: NonZeroU16) -> Self {
         Self {
             utils: WorkerUtils::new(pool, "whorl_queue"),
-            max_attempts: max_attempts.get().min(i16::MAX as u16) as i16,
+            max_attempts: i16::try_from(max_attempts.get()).unwrap_or(i16::MAX),
         }
     }
 

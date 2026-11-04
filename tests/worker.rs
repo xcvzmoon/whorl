@@ -10,7 +10,7 @@ use whorl::{
         matching::PreparedDocument,
         process_file::{ProcessError, ProcessFile, WorkerConfig},
     },
-    similarity::shingles::SourceProfile,
+    similarity::{shingles::SourceProfile, signature::SignatureVersion},
 };
 
 fn config() -> WorkerConfig {
@@ -68,11 +68,11 @@ async fn seed(pool: &PgPool, objects: &InMemory, mode: &str, bytes: &[u8]) -> Fi
             .unwrap()
             .signature_version()
             .to_owned();
-    sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES($1,'{}') ON CONFLICT DO NOTHING").bind(&version).execute(pool).await.unwrap();
-    sqlx::query("INSERT INTO capacity_reservations(id,client_id,jobs,bytes,lease_until) VALUES($1,'worker',1,$2,clock_timestamp()+interval '1 hour')").bind(upload).bind(bytes.len() as i64).execute(pool).await.unwrap();
-    sqlx::query("INSERT INTO stored_uploads(id,client_id,object_key,bytes,expires_at) VALUES($1,'worker',$2,$3,clock_timestamp()+interval '1 hour')").bind(upload).bind(&key).bind(bytes.len() as i64).execute(pool).await.unwrap();
+    sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES($1,$2) ON CONFLICT DO NOTHING").bind(&version).bind(version.parse::<SignatureVersion>().unwrap().configuration()).execute(pool).await.unwrap();
+    sqlx::query("INSERT INTO capacity_reservations(id,client_id,jobs,bytes,lease_until) VALUES($1,'worker',1,$2,clock_timestamp()+interval '1 hour')").bind(upload).bind(i64::try_from(bytes.len()).unwrap()).execute(pool).await.unwrap();
+    sqlx::query("INSERT INTO stored_uploads(id,client_id,object_key,bytes,expires_at) VALUES($1,'worker',$2,$3,clock_timestamp()+interval '1 hour')").bind(upload).bind(&key).bind(i64::try_from(bytes.len()).unwrap()).execute(pool).await.unwrap();
     sqlx::query("INSERT INTO batches(id,client_id,mode,signature_version,policy,deadline_at) VALUES($1,'worker',$2,$3,$4,clock_timestamp()+interval '1 hour')").bind(batch).bind(mode).bind(version).bind(json!({"kind":"text_only","threshold":0.75})).execute(pool).await.unwrap();
-    sqlx::query("INSERT INTO batch_files(id,batch_id,client_id,ordinal,name,deadline_at,source_object_key,source_bytes) VALUES($1,$2,'worker',0,'misleading.exe',clock_timestamp()+interval '1 hour',$3,$4)").bind(file).bind(batch).bind(key).bind(bytes.len() as i64).execute(pool).await.unwrap();
+    sqlx::query("INSERT INTO batch_files(id,batch_id,client_id,ordinal,name,deadline_at,source_object_key,source_bytes) VALUES($1,$2,'worker',0,'misleading.exe',clock_timestamp()+interval '1 hour',$3,$4)").bind(file).bind(batch).bind(key).bind(i64::try_from(bytes.len()).unwrap()).execute(pool).await.unwrap();
     FileJobPayload {
         client_id: "worker".into(),
         batch_id: batch,
@@ -90,6 +90,10 @@ async fn state(pool: &PgPool, payload: &FileJobPayload) -> String {
 
 #[tokio::test]
 #[ignore = "requires fresh PostgreSQL database in WHORL_WORKER_TEST_URL; Linux exercises successful extraction"]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One fresh database scenario covers durable processing and recovery"
+)]
 async fn durable_processing_and_recovery() {
     let pool = sqlx::postgres::PgPoolOptions::new()
         .max_connections(12)
@@ -102,8 +106,8 @@ async fn durable_processing_and_recovery() {
         return;
     }
     for migration in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(migration).execute(&pool).await.unwrap();
     }
@@ -240,6 +244,7 @@ async fn durable_processing_and_recovery() {
     {
         cancelled_attempt_restarts_without_duplicate_results().await;
         mixed_source_namespaces(&pool).await;
+        maintenance_registered_nondefault_versions(&pool).await;
         queue_shutdown_and_live_reclaim_protection(&pool).await;
         killed_worker_recovers(&pool).await;
         handler_concurrency_is_bounded(&pool).await;
@@ -335,7 +340,7 @@ async fn mixed_source_namespaces(pool: &PgPool) {
         .unwrap()
         .signature_version()
         .to_owned();
-    sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES($1,'{}') ON CONFLICT DO NOTHING").bind(version).execute(pool).await.unwrap();
+    sqlx::query("INSERT INTO signature_versions(version,configuration) VALUES($1,$2) ON CONFLICT DO NOTHING").bind(&version).bind(version.parse::<SignatureVersion>().unwrap().configuration()).execute(pool).await.unwrap();
     let native = seed(pool,&objects,"ingest",&serde_json::to_vec(&json!({"Ok":{"file_type":"docx","text":"unique mixed source words","metadata":{},"ocr":false}})).unwrap()).await;
     let mut ocr = seed(pool,&objects,"ingest",&serde_json::to_vec(&json!({"Ok":{"file_type":"png","text":"unique mixed source words","metadata":{},"ocr":true}})).unwrap()).await;
     sqlx::query("UPDATE batch_files SET batch_id=$2,ordinal=1 WHERE id=$1")
@@ -670,4 +675,205 @@ async fn handler_concurrency_is_bounded(pool: &PgPool) {
     running.await.unwrap().unwrap();
     assert_eq!(maximum, 2);
     pipeline.shutdown().await;
+}
+
+#[cfg(target_os = "linux")]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One scenario verifies maintenance registration, source derivation, and invalid configuration rejection"
+)]
+async fn maintenance_registered_nondefault_versions(pool: &PgPool) {
+    use std::{io::Write, os::unix::fs::PermissionsExt};
+    for source in ["native", "ocr"] {
+        let output = tokio::process::Command::new(env!("CARGO_BIN_EXE_maintenance"))
+            .args(["reindex", source, "4"])
+            .env(
+                "DATABASE_URL",
+                std::env::var("WHORL_WORKER_TEST_URL").unwrap(),
+            )
+            .output()
+            .await
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    let objects = Arc::new(InMemory::new());
+    let mut script = tempfile::NamedTempFile::new().unwrap();
+    writeln!(script, "#!/bin/sh\ncat >/dev/null\ncat \"$1\"").unwrap();
+    script
+        .as_file()
+        .set_permissions(std::fs::Permissions::from_mode(0o700))
+        .unwrap();
+    let script = script.into_temp_path();
+    let pipeline = ProcessFile::new(
+        pool.clone(),
+        objects.clone(),
+        Extractor::new(
+            script.to_path_buf(),
+            ExtractionLimits::default(),
+            Duration::from_secs(5),
+        )
+        .unwrap(),
+        config(),
+    )
+    .unwrap();
+    let snapshot =
+        SignatureVersion::new(SourceProfile::NativeTextV1, NonZeroUsize::new(4).unwrap());
+    for ocr in [false, true] {
+        let bytes = serde_json::to_vec(&json!({"Ok":{"file_type":if ocr {"png"} else {"docx"},"text":"maintenance registered nondefault source regression", "metadata":{},"ocr":ocr}})).unwrap();
+        let payload = seed(pool, &objects, "ingest", &bytes).await;
+        sqlx::query("UPDATE batches SET signature_version=$2 WHERE id=$1")
+            .bind(payload.batch_id)
+            .bind(snapshot.as_str())
+            .execute(pool)
+            .await
+            .unwrap();
+        pipeline.process(&payload, false).await.unwrap();
+        assert_eq!(state(pool, &payload).await, "completed");
+        assert_eq!(
+            sqlx::query_scalar::<_, i64>("SELECT count(*) FROM match_results WHERE file_id=$1")
+                .bind(payload.file_id)
+                .fetch_one(pool)
+                .await
+                .unwrap(),
+            0
+        );
+        let source = if ocr {
+            SourceProfile::OcrVerbatimV1
+        } else {
+            SourceProfile::NativeTextV1
+        };
+        let version = SignatureVersion::new(source, NonZeroUsize::new(4).unwrap());
+        assert!(sqlx::query_scalar::<_, bool>("SELECT EXISTS(SELECT FROM signatures s JOIN batch_files f ON f.document_id=s.document_id WHERE f.id=$1 AND s.version=$2)").bind(payload.file_id).bind(version.as_str()).fetch_one(pool).await.unwrap());
+    }
+    let payload = seed(pool, &objects, "check", &serde_json::to_vec(&json!({"Ok":{"file_type":"docx","text":"maintenance registered nondefault source regression","metadata":{},"ocr":false}})).unwrap()).await;
+    sqlx::query("UPDATE batches SET signature_version=$2 WHERE id=$1")
+        .bind(payload.batch_id)
+        .bind(snapshot.as_str())
+        .execute(pool)
+        .await
+        .unwrap();
+    pipeline.process(&payload, false).await.unwrap();
+    assert_eq!(state(pool, &payload).await, "completed");
+    assert_eq!(
+        sqlx::query_scalar::<_, i64>("SELECT count(*) FROM match_results WHERE file_id=$1")
+            .bind(payload.file_id)
+            .fetch_one(pool)
+            .await
+            .unwrap(),
+        1
+    );
+    sqlx::query("UPDATE signature_versions SET configuration=jsonb_set(configuration,'{k}','3') WHERE version=$1").bind(snapshot.as_str()).execute(pool).await.unwrap();
+    let invalid = seed(pool, &objects, "check", &bytes_for_invalid_registration()).await;
+    sqlx::query("UPDATE batches SET signature_version=$2 WHERE id=$1")
+        .bind(invalid.batch_id)
+        .bind(snapshot.as_str())
+        .execute(pool)
+        .await
+        .unwrap();
+    pipeline.process(&invalid, false).await.unwrap();
+    assert_eq!(state(pool, &invalid).await, "failed");
+    assert_eq!(
+        sqlx::query_scalar::<_, String>("SELECT error->>'code' FROM batch_files WHERE id=$1")
+            .bind(invalid.file_id)
+            .fetch_one(pool)
+            .await
+            .unwrap(),
+        "invalid_job"
+    );
+    pipeline.shutdown().await;
+}
+
+#[cfg(target_os = "linux")]
+fn bytes_for_invalid_registration() -> Vec<u8> {
+    serde_json::to_vec(&json!({"Ok":{"file_type":"docx","text":"invalid registration source input","metadata":{},"ocr":false}})).unwrap()
+}
+
+#[derive(serde::Serialize, serde::Deserialize)]
+struct PanicJob;
+
+impl graphile_worker::TaskHandler for PanicJob {
+    const IDENTIFIER: &'static str = "audit_panic_job";
+    async fn run(
+        self,
+        ctx: graphile_worker::WorkerContext,
+    ) -> impl graphile_worker::IntoTaskHandlerResult {
+        let cpu = ctx
+            .get_ext::<Arc<whorl::cpu_pool::CpuPool>>()
+            .ok_or("missing CPU pool")?;
+        cpu.run::<()>(
+            whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now() + Duration::from_secs(10)),
+            |_| panic!("controlled worker panic"),
+        )
+        .await
+        .map_err(|error| error.to_string())
+    }
+}
+
+#[tokio::test]
+#[ignore = "requires fresh PostgreSQL database in WHORL_WORKER_PANIC_TEST_URL"]
+async fn cpu_panic_stops_queue_and_preserves_retry() {
+    let pool = PgPool::connect(&std::env::var("WHORL_WORKER_PANIC_TEST_URL").unwrap())
+        .await
+        .unwrap();
+    graphile_worker::WorkerUtils::new(pool.clone(), "whorl_queue")
+        .migrate()
+        .await
+        .unwrap();
+    let cpu = Arc::new(
+        whorl::cpu_pool::CpuPool::new(NonZeroUsize::MIN, Duration::ZERO, Duration::from_secs(1))
+            .unwrap(),
+    );
+    let failed = Arc::clone(&cpu);
+    let worker = graphile_worker::WorkerOptions::default()
+        .pg_pool(pool.clone())
+        .schema("whorl_queue")
+        .concurrency(1)
+        .poll_interval(Duration::from_millis(20))
+        .listen_os_shutdown_signals(false)
+        .shutdown_signal(async move {
+            failed.failed().await;
+        })
+        .add_extension(Arc::clone(&cpu))
+        .define_job::<PanicJob>()
+        .init()
+        .await
+        .unwrap();
+    let job = graphile_worker::WorkerUtils::new(pool.clone(), "whorl_queue")
+        .add_raw_job(
+            "audit_panic_job",
+            PanicJob,
+            graphile_worker::JobSpec {
+                max_attempts: Some(3),
+                ..graphile_worker::JobSpec::default()
+            },
+        )
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(10), worker.run())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(cpu.has_failed());
+    assert!(matches!(
+        cpu.run(
+            whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now() + Duration::from_secs(1)),
+            |_| 42
+        )
+        .await,
+        Err(whorl::cpu_pool::CpuError::Panicked)
+    ));
+    let row = sqlx::query(
+        "SELECT attempts,locked_at IS NULL AS released FROM whorl_queue._private_jobs WHERE id=$1",
+    )
+    .bind(*job.id())
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    assert_eq!(row.get::<i16, _>("attempts"), 1);
+    assert!(row.get::<bool, _>("released"));
+    cpu.shutdown().await;
 }

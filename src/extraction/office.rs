@@ -100,6 +100,10 @@ struct Package {
 }
 
 impl Package {
+    #[expect(
+        clippy::case_sensitive_file_extension_comparisons,
+        reason = "OOXML package paths are case-sensitive ZIP member identifiers"
+    )]
     fn open(path: &Path, limits: &ExtractionLimits) -> Result<Self> {
         let file = File::open(path).map_err(|_| ExtractionError::ExtractionFailed)?;
         if file.metadata().map_err(malformed)?.len() > limits.max_input_bytes {
@@ -329,6 +333,10 @@ pub(super) fn detect(path: &Path, limits: &ExtractionLimits) -> Result<Format> {
     }
 }
 
+#[expect(
+    clippy::too_many_lines,
+    reason = "Format traversal keeps cumulative resource limits beside document validation"
+)]
 pub(super) fn extract(
     path: &Path,
     format: Format,

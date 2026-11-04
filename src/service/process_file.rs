@@ -2,11 +2,13 @@
 
 use crate::{
     cpu_pool::{CpuError, CpuPool, WorkDeadline},
-    documents::CandidateRepository,
     extraction::{ExtractionError, Extractor},
     queue::FileJobPayload,
-    service::matching::{Matcher, MatchingError, PreparedDocument},
-    similarity::{shingles::SourceProfile, verify::SimilarityPolicy},
+    service::{
+        lifecycle::{self, RetentionPolicy},
+        matching::{Matcher, MatchingError, PreparedDocument},
+    },
+    similarity::{shingles::SourceProfile, signature::SignatureVersion, verify::SimilarityPolicy},
 };
 use graphile_worker::{IntoTaskHandlerResult, TaskHandler, WorkerContext};
 use object_store::{ObjectStore, ObjectStoreExt, path::Path};
@@ -69,6 +71,7 @@ pub struct ProcessFile {
     extractor: Arc<Extractor>,
     cpu: Arc<CpuPool>,
     config: WorkerConfig,
+    retention: RetentionPolicy,
 }
 
 impl std::fmt::Debug for ProcessFile {
@@ -112,15 +115,15 @@ impl ProcessFile {
         extractor: Extractor,
         config: WorkerConfig,
     ) -> Result<Self, ProcessError> {
+        let retention = RetentionPolicy::new(
+            i32::try_from(config.retention.as_secs()).map_err(|_| ProcessError::Invalid)?,
+            i32::try_from(config.tombstone_retention.as_secs())
+                .map_err(|_| ProcessError::Invalid)?,
+        )
+        .map_err(|_| ProcessError::Invalid)?;
         if config.workers.get() > 2
-            || pool.options().get_max_connections() < config.workers.get() as u32 * 4
-            || config.retention.as_secs() == 0
-            || config.tombstone_retention.as_secs() == 0
-            || config
-                .retention
-                .as_secs()
-                .checked_add(config.tombstone_retention.as_secs())
-                .is_none_or(|n| n > i32::MAX as u64)
+            || pool.options().get_max_connections()
+                < u32::try_from(config.workers.get()).map_err(|_| ProcessError::Invalid)? * 4
         {
             return Err(ProcessError::Invalid);
         }
@@ -135,6 +138,7 @@ impl ProcessFile {
             extractor: Arc::new(extractor),
             cpu,
             config,
+            retention,
         })
     }
 
@@ -147,6 +151,7 @@ impl ProcessFile {
     /// assert!(pipeline.concurrency() <= 2);
     /// # }
     /// ```
+    #[must_use]
     pub fn concurrency(&self) -> usize {
         self.config.workers.get()
     }
@@ -162,6 +167,36 @@ impl ProcessFile {
     /// ```
     pub async fn shutdown(&self) {
         self.cpu.shutdown().await;
+    }
+
+    /// Waits for a CPU panic that requires stopping and restarting this worker.
+    /// # Returns
+    /// Nothing once the CPU pool is poisoned. The queue host must stop admission,
+    /// drain unrelated handlers, call [`Self::shutdown`], and exit with failure.
+    /// Cancelling the wait does not clear the failure.
+    /// # Examples
+    /// ```no_run
+    /// # async fn example(pipeline: &whorl::service::process_file::ProcessFile) {
+    /// pipeline.failed().await;
+    /// pipeline.shutdown().await;
+    /// # }
+    /// ```
+    pub async fn failed(&self) {
+        self.cpu.failed().await;
+    }
+
+    /// Reports whether this pipeline requires a process restart after a CPU panic.
+    /// # Returns
+    /// `true` when the shared CPU pool is poisoned; normal file failures return `false`.
+    /// # Examples
+    /// ```no_run
+    /// # fn example(pipeline: &whorl::service::process_file::ProcessFile) {
+    /// assert!(!pipeline.has_failed());
+    /// # }
+    /// ```
+    #[must_use]
+    pub fn has_failed(&self) -> bool {
+        self.cpu.has_failed()
     }
 
     /// Processes one durable identity and commits results before acknowledgment.
@@ -194,8 +229,9 @@ impl ProcessFile {
     ) -> Result<(), ProcessError> {
         let mut guard = self.pool.begin().await?;
         let locked: bool =
-            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1, 15))")
+            sqlx::query_scalar("SELECT pg_try_advisory_xact_lock(hashtextextended($1,$2))")
                 .bind(payload.file_id.to_string())
+                .bind(crate::locks::ATTEMPT)
                 .fetch_one(&mut *guard)
                 .await?;
         if !locked {
@@ -236,6 +272,10 @@ impl ProcessFile {
         match result {
             Ok(()) => {}
             Err(error) => {
+                if self.cpu.has_failed() {
+                    guard.rollback().await?;
+                    return Err(error);
+                }
                 let permanent = matches!(
                     error,
                     ProcessError::Invalid
@@ -283,6 +323,10 @@ impl ProcessFile {
         Ok(())
     }
 
+    #[expect(
+        clippy::too_many_lines,
+        reason = "Stage sequencing and final transaction remain visible in one durable processing function"
+    )]
     async fn execute(
         &self,
         payload: &FileJobPayload,
@@ -302,13 +346,15 @@ impl ProcessFile {
         if !valid {
             return Err(ProcessError::Invalid);
         }
+        let expected_size = u64::try_from(expected).map_err(|_| ProcessError::Invalid)?;
+        let expected_length = usize::try_from(expected).map_err(|_| ProcessError::Invalid)?;
         let path = Path::from(key);
         let head = self.objects.head(&path).await?;
-        if head.size != expected as u64 {
+        if head.size != expected_size {
             return Err(ProcessError::Invalid);
         }
-        let bytes = self.objects.get_range(&path, 0..expected as u64).await?;
-        if bytes.len() != expected as usize {
+        let bytes = self.objects.get_range(&path, 0..expected_size).await?;
+        if bytes.len() != expected_length {
             return Err(ProcessError::Invalid);
         }
         let extractor = self.extractor.clone();
@@ -322,7 +368,7 @@ impl ProcessFile {
                     loop {
                         tokio::select! {
                             result = &mut extraction => return result,
-                            _ = tokio::time::sleep(Duration::from_millis(50)) => {
+                            () = tokio::time::sleep(Duration::from_millis(50)) => {
                                 if context.should_stop() { return Err(ExtractionError::Timeout); }
                             }
                         }
@@ -336,43 +382,31 @@ impl ProcessFile {
         let mut metrics = crate::telemetry::StageMetrics::start("signing");
         let file_type = extracted.file_type.clone();
         let upload_metadata: Value = row.try_get("upload_metadata")?;
+        let snapshot: String = row.try_get("signature_version")?;
+        let signing_snapshot = snapshot.clone();
         let prepared = Arc::new(
             self.cpu
                 .run(deadline, move |_| {
-                    let mut metadata = serde_json::to_value(extracted.metadata)
-                        .map_err(|_| MatchingError::InvalidMetadata)?;
-                    metadata
-                        .as_object_mut()
-                        .ok_or(MatchingError::InvalidMetadata)?
-                        .extend(
-                            upload_metadata
-                                .as_object()
-                                .ok_or(MatchingError::InvalidMetadata)?
-                                .clone(),
-                        );
-                    PreparedDocument::new(
-                        &extracted.text,
-                        metadata,
-                        if extracted.ocr {
-                            SourceProfile::OcrVerbatimV1
-                        } else {
-                            SourceProfile::NativeTextV1
-                        },
-                        None,
-                    )
+                    prepare_document(extracted, &upload_metadata, &signing_snapshot)
                 })
                 .await??,
         );
-        let snapshot: String = row.try_get("signature_version")?;
         if !compatible_version(&snapshot, prepared.signature_version()) {
             return Err(ProcessError::Invalid);
         }
-        let registered: bool = sqlx::query_scalar("SELECT EXISTS(SELECT FROM signature_versions actual JOIN signature_versions snapshot ON snapshot.version=$1 WHERE actual.version=$2 AND actual.configuration=snapshot.configuration)")
-            .bind(&snapshot).bind(prepared.signature_version()).fetch_one(&self.pool).await?;
-        if !registered {
+        let registrations: Option<(Value, Value)> = sqlx::query_as("SELECT snapshot.configuration, actual.configuration FROM signature_versions actual JOIN signature_versions snapshot ON snapshot.version=$1 WHERE actual.version=$2")
+            .bind(&snapshot).bind(prepared.signature_version()).fetch_optional(&self.pool).await?;
+        if !registrations.is_some_and(|(snapshot_config, actual_config)| {
+            compatible_registration(
+                &snapshot,
+                prepared.signature_version(),
+                &snapshot_config,
+                &actual_config,
+            )
+        }) {
             return Err(ProcessError::Invalid);
         }
-        let policy = policy(row.try_get("policy")?)?;
+        let policy = policy(&row.try_get("policy")?)?;
         metrics.complete();
         drop(metrics);
         self.stage(payload, attempt, "candidate_lookup").await?;
@@ -399,19 +433,12 @@ impl ProcessFile {
             Some(false) => return Err(ExtractionError::Timeout.into()),
             Some(true) => {}
         }
-        for found in matches {
-            sqlx::query("INSERT INTO match_results(client_id,file_id,document_id,score,text_similarity,metadata_similarity) VALUES($1,$2,$3,$4,$5,$6)")
-                .bind(&payload.client_id).bind(payload.file_id).bind(found.document_id).bind(found.score.score).bind(found.score.text_similarity).bind(found.score.metadata_similarity)
-                .execute(&mut *tx).await?;
-        }
+        crate::results::persist_matches(&mut tx, payload, &matches).await?;
         let document = if row.try_get::<String, _>("mode")? == "ingest" {
             Some(
-                CandidateRepository {
-                    connection: &mut tx,
-                    client_id: &payload.client_id,
-                }
-                .ingest(Uuid::new_v4(), &prepared, &file_type)
-                .await?,
+                prepared
+                    .ingest(&mut tx, &payload.client_id, Uuid::new_v4(), &file_type)
+                    .await?,
             )
         } else {
             None
@@ -423,7 +450,7 @@ impl ProcessFile {
         .bind(document)
         .execute(&mut *tx)
         .await?;
-        self.finish_batch(&mut tx, payload.batch_id).await?;
+        lifecycle::finish_batch(&mut tx, payload.batch_id, self.retention).await?;
         tx.commit().await?;
         metrics.complete();
         Ok(())
@@ -438,46 +465,70 @@ impl ProcessFile {
         let mut tx = self.pool.begin().await?;
         sqlx::query("UPDATE batch_files SET state='failed',stage=NULL,next_retry_at=NULL,error=$4 WHERE id=$1 AND client_id=$2 AND attempt=$3 AND state='running'")
             .bind(payload.file_id).bind(&payload.client_id).bind(attempt).bind(json!({"code":code,"message":code,"retryable":false})).execute(&mut *tx).await?;
-        self.finish_batch(&mut tx, payload.batch_id).await?;
+        lifecycle::finish_batch(&mut tx, payload.batch_id, self.retention).await?;
         tx.commit().await?;
         Ok(())
     }
+}
 
-    async fn finish_batch(
-        &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-        batch: Uuid,
-    ) -> Result<(), sqlx::Error> {
-        sqlx::query("SELECT id FROM batches WHERE id=$1 FOR UPDATE")
-            .bind(batch)
-            .execute(&mut **tx)
-            .await?;
-        sqlx::query("UPDATE batches SET state=CASE WHEN NOT EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state='failed') THEN 'completed' WHEN EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state='completed') THEN 'partially_failed' ELSE 'failed' END,completed_at=clock_timestamp(),expires_at=clock_timestamp()+make_interval(secs=>$2),tombstone_until=clock_timestamp()+make_interval(secs=>$3) WHERE id=$1 AND completed_at IS NULL AND NOT EXISTS(SELECT FROM batch_files WHERE batch_id=$1 AND state IN ('queued','running'))")
-            .bind(batch).bind(self.config.retention.as_secs() as f64).bind((self.config.retention+self.config.tombstone_retention).as_secs() as f64).execute(&mut **tx).await?;
-        Ok(())
-    }
+fn prepare_document(
+    extracted: crate::extraction::ExtractedDocument,
+    upload_metadata: &Value,
+    snapshot: &str,
+) -> Result<PreparedDocument, ProcessError> {
+    let version: SignatureVersion = snapshot.parse().map_err(|_| ProcessError::Invalid)?;
+    let mut metadata =
+        serde_json::to_value(extracted.metadata).map_err(|_| MatchingError::InvalidMetadata)?;
+    metadata
+        .as_object_mut()
+        .ok_or(MatchingError::InvalidMetadata)?
+        .extend(
+            upload_metadata
+                .as_object()
+                .ok_or(MatchingError::InvalidMetadata)?
+                .clone(),
+        );
+    PreparedDocument::new(
+        &extracted.text,
+        metadata,
+        if extracted.ocr {
+            SourceProfile::OcrVerbatimV1
+        } else {
+            SourceProfile::NativeTextV1
+        },
+        Some(version.k()),
+    )
+    .map_err(ProcessError::from)
+}
+
+fn compatible_registration(
+    snapshot: &str,
+    actual: &str,
+    snapshot_config: &Value,
+    actual_config: &Value,
+) -> bool {
+    let (Ok(snapshot), Ok(actual)) = (
+        snapshot.parse::<SignatureVersion>(),
+        actual.parse::<SignatureVersion>(),
+    ) else {
+        return false;
+    };
+    snapshot.same_algorithm(&actual)
+        && snapshot.configuration() == *snapshot_config
+        && actual.configuration() == *actual_config
 }
 
 fn compatible_version(snapshot: &str, actual: &str) -> bool {
-    let snapshot: Vec<_> = snapshot.split('/').collect();
-    let actual: Vec<_> = actual.split('/').collect();
-    snapshot.len() == 7
-        && actual.len() == 7
-        && snapshot
-            .iter()
-            .zip(&actual)
-            .enumerate()
-            .all(|(index, (a, b))| {
-                if index == 1 {
-                    matches!(*a, "native-text-v1" | "ocr-verbatim-v1")
-                        && matches!(*b, "native-text-v1" | "ocr-verbatim-v1")
-                } else {
-                    a == b
-                }
-            })
+    match (
+        snapshot.parse::<SignatureVersion>(),
+        actual.parse::<SignatureVersion>(),
+    ) {
+        (Ok(snapshot), Ok(actual)) => snapshot.same_algorithm(&actual),
+        _ => false,
+    }
 }
 
-fn policy(value: Value) -> Result<SimilarityPolicy, ProcessError> {
+fn policy(value: &Value) -> Result<SimilarityPolicy, ProcessError> {
     let threshold = value
         .get("threshold")
         .and_then(Value::as_f64)
@@ -529,6 +580,39 @@ impl TaskHandler for FileJobPayload {
 mod tests {
     use super::*;
     #[test]
+    fn preparation_uses_snapshot_shingle_length() {
+        let snapshot = "nfkc-v1/native-text-v1/word-4/short-equality-v1/xxh3-low32-le-v1/125/25x5";
+        let extracted = crate::extraction::ExtractedDocument {
+            file_type: "docx".into(),
+            text: "one two three four five".into(),
+            metadata: std::collections::BTreeMap::default(),
+            ocr: false,
+        };
+        let prepared = prepare_document(extracted, &json!({}), snapshot).unwrap();
+        assert_eq!(prepared.signature_version(), snapshot);
+    }
+
+    #[test]
+    fn source_specific_registrations_share_algorithm_parameters() {
+        let native = "nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5";
+        let ocr = native.replace("native-text-v1", "ocr-verbatim-v1");
+        let native_config = json!({"normalization":"nfkc-v1","source":"native-text-v1","k":3});
+        let ocr_config = json!({"normalization":"nfkc-v1","source":"ocr-verbatim-v1","k":3});
+        assert!(compatible_registration(
+            native,
+            &ocr,
+            &native_config,
+            &ocr_config
+        ));
+        assert!(!compatible_registration(
+            native,
+            &ocr,
+            &native_config,
+            &json!({"normalization":"nfkc-v1","source":"ocr-verbatim-v1","k":4})
+        ));
+    }
+
+    #[test]
     fn source_derivation_preserves_algorithm_parameters() {
         let native = "nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5";
         let ocr = native.replace("native-text-v1", "ocr-verbatim-v1");
@@ -545,11 +629,11 @@ mod tests {
 
     #[test]
     fn policy_requires_valid_immutable_snapshot() {
-        assert!(policy(json!({})).is_err());
-        assert!(policy(json!({"kind":"weighted","threshold":0.75})).is_err());
-        assert!(policy(json!({"kind":"text_only","threshold":2})).is_err());
+        assert!(policy(&json!({})).is_err());
+        assert!(policy(&json!({"kind":"weighted","threshold":0.75})).is_err());
+        assert!(policy(&json!({"kind":"text_only","threshold":2})).is_err());
         assert_eq!(
-            policy(json!({"kind":"weighted","threshold":0.75,"text_weight":0.8}))
+            policy(&json!({"kind":"weighted","threshold":0.75,"text_weight":0.8}))
                 .unwrap()
                 .text_weight(),
             Some(0.8)

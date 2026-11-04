@@ -1,6 +1,6 @@
 # Multipart submission
 
-The `whorl` binary serves `POST /v1/checks` and `POST /v1/ingests`. Both accept repeated `files` parts and return 202 only after the batch, ordered file records, and graphile_worker jobs commit together. Polling is the next phase; the returned status URL is reserved but not served yet.
+The `whorl` binary serves `POST /v1/checks` and `POST /v1/ingests`. Both accept repeated `files` parts and return 202 only after the batch, ordered file records, and graphile_worker jobs commit together. The returned status URL is served by `GET /v1/batches/{id}` with snapshot-consistent results and conditional polling; see the [API contract](api-contract.md).
 
 Run application and queue migrations first, register the extraction/signature versions as described in [worker setup](worker.md), and configure `capacity_limits` for `global` and each client as described in [admission](admission.md). Start the independent worker to process admitted files. The HTTP binary does not migrate the database.
 
@@ -19,7 +19,7 @@ The raw body cap is 105,906,176 bytes, including trailing data. Multipart bounda
 
 Request rejection rolls back admission and discards completed staged objects. Cancellation schedules cleanup of completed objects and releases unused capacity. Interrupted uploads, process death, or failed deletion retain journaled charges until storage reconciliation; keep the worker maintenance loop running and configure the S3 incomplete-multipart lifecycle rule. Cleanup checks for committed file references under the admission lock, protecting objects if a database commit outcome was ambiguous.
 
-Version one snapshots text-only scoring at 0.75, permits three worker attempts, uses one-hour processing deadlines, retains terminal results and tombstones for 24 hours each, and returns a two-second retry hint. Deployment calibration and broader configuration remain in phase 20.
+Version one snapshots text-only scoring at 0.75, permits three worker attempts, uses one-hour processing deadlines, retains terminal results and tombstones for 24 hours each, and returns a two-second retry hint. See [configuration and operations](configuration.md) for startup settings, telemetry, recovery, and deployment calibration.
 
 ## Verification
 

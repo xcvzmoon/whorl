@@ -18,6 +18,10 @@ fn text(input: &str) -> ShingleSet {
 }
 
 #[test]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn exact_threshold_is_exclusive() {
     let left = text("a b c d e");
     let right = text("a b c d e f");
@@ -131,6 +135,10 @@ fn metadata_empty_and_disabled_semantics() {
 }
 
 #[test]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn weighted_policy_has_no_text_gate_and_undefined_metadata_adds_zero() {
     let left = text("one");
     let right = text("two");
@@ -196,6 +204,10 @@ fn incompatible_profiles_fail_for_short_and_long_inputs() {
 }
 
 #[test]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn exact_scores_obey_set_and_edit_properties() {
     let engine = SimilarityEngine::new(SimilarityPolicy::default());
     for length in 3..40 {
@@ -220,7 +232,8 @@ fn exact_scores_obey_set_and_edit_properties() {
             let expected = if length - removed < 3 {
                 0.0
             } else {
-                (length - removed - 2) as f64 / (length - 2) as f64
+                f64::from(u32::try_from(length - removed - 2).unwrap())
+                    / f64::from(u32::try_from(length - 2).unwrap())
             };
             assert_eq!(forward, expected);
             assert_eq!(forward, reverse);
@@ -253,6 +266,10 @@ fn exact_scores_obey_set_and_edit_properties() {
 }
 
 #[test]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn metadata_uses_exact_jaccard() {
     let left = MetadataTokens::new(&json!({"tags": ["a", "b", "c"]}));
     let right = MetadataTokens::new(&json!({"tags": ["a", "b", "d"]}));
@@ -263,4 +280,26 @@ fn metadata_uses_exact_jaccard() {
     assert_eq!(score.metadata_similarity, Some(0.5));
     assert_eq!(score.score, 0.75);
     assert!(!score.qualifies);
+}
+
+#[test]
+#[allow(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
+fn repeated_verification_preserves_unicode_and_duplicate_shingle_scores() {
+    let query = text("Café bleu café bleu café vert café bleu");
+    let candidates = [
+        ("café bleu café bleu café vert café bleu", 1.0),
+        ("café bleu café", 0.2),
+        ("different words entirely", 0.0),
+        ("café", 0.0),
+    ];
+    let engine = SimilarityEngine::new(SimilarityPolicy::default());
+    for _ in 0..5 {
+        for (candidate, expected) in candidates {
+            let score = engine.verify(&query, &text(candidate), None).unwrap();
+            assert_eq!(score.text_similarity, expected);
+        }
+    }
 }
