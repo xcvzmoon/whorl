@@ -1,0 +1,349 @@
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.55s
+     Running tests/schema.rs (target/release/deps/schema-16bcee4030bfec4c)
+
+running 1 test
+test postgres_schema_and_reservation_races ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.34s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.17s
+     Running tests/candidates.rs (target/release/deps/candidates-ba9709bfe4327faa)
+
+running 1 test
+test postgres_candidate_matching_and_duplicate_races ... {"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+Limit  (cost=1083.37..1252.23 rows=32 width=37)
+  ->  Nested Loop  (cost=1083.37..1716.59 rows=120 width=37)
+        ->  Unique  (cost=1083.09..1083.69 rows=120 width=16)
+              ->  Sort  (cost=1083.09..1083.39 rows=120 width=16)
+                    Sort Key: s.document_id
+                    ->  Append  (cost=556.91..1078.94 rows=120 width=16)
+                          ->  Hash Join  (cost=556.91..904.33 rows=115 width=16)
+                                Hash Cond: (owner.id = s.document_id)
+                                ->  Seq Scan on documents owner  (cost=0.00..320.96 rows=10076 width=16)
+                                      Filter: (client_id = 'owner'::text)
+                                ->  Hash  (cost=555.47..555.47 rows=115 width=16)
+                                      ->  Bitmap Heap Scan on signatures s  (cost=225.54..555.47 rows=115 width=16)
+                                            Recheck Cond: (band_hashes && '{-2073162158,1480456891,1842174394,-1230579530,-1386014267,239170432,-108787231,-91859303,-488571122,-297299060,-296337853,-1196334152,712880714,-882688464,-2044142621,-1505985513,-1065043099,1074079543,649021685,691912108,-1984566755,948104557,369937067,799297050,471157879}'::integer[])
+                                            Filter: (version = 'nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5'::text)
+                                            ->  Bitmap Index Scan on signatures_bands  (cost=0.00..225.51 rows=115 width=0)
+                                                  Index Cond: (band_hashes && '{-2073162158,1480456891,1842174394,-1230579530,-1386014267,239170432,-108787231,-91859303,-488571122,-297299060,-296337853,-1196334152,712880714,-882688464,-2044142621,-1505985513,-1065043099,1074079543,649021685,691912108,-1984566755,948104557,369937067,799297050,471157879}'::integer[])
+                          ->  Nested Loop  (cost=115.10..174.01 rows=5 width=16)
+                                ->  Bitmap Heap Scan on documents m  (cost=114.81..132.49 rows=5 width=16)
+                                      Recheck Cond: (metadata_tokens && '{"/author=\"first\""}'::text[])
+                                      Filter: (client_id = 'owner'::text)
+                                      ->  Bitmap Index Scan on documents_metadata_tokens  (cost=0.00..114.81 rows=5 width=0)
+                                            Index Cond: (metadata_tokens && '{"/author=\"first\""}'::text[])
+                                ->  Index Only Scan using signatures_pkey on signatures versioned  (cost=0.29..8.30 rows=1 width=16)
+                                      Index Cond: ((document_id = m.id) AND (version = 'nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5'::text))
+        ->  Index Scan using documents_pkey on documents d  (cost=0.29..5.27 rows=1 width=37)
+              Index Cond: (id = s.document_id)
+              Filter: ((content_hash <> '\x0000000000000000000000000000000000000000000000000000000000000000'::bytea) AND (client_id = 'owner'::text))
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.97s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.19s
+     Running tests/worker.rs (target/release/deps/worker-d895aa118efdae66)
+
+running 1 test
+test durable_processing_and_recovery ... {"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.006148208,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001324416,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.00490025,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.006422667,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.005050625,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001574292,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003914666,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.004506292,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004234709,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.000994167,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004761834,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.007074625,"stage":"persisting"}
+{"completed":false,"event":"stage_duration","seconds":0.000758167,"stage":"extracting"}
+{"completed":false,"event":"stage_duration","seconds":0.000701667,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.002398708,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.196229083,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":2.009087001,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003750708,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.011208333,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.011864625,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.002794125,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.000875834,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004286,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.005302833,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.002377209,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.000866791,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.002848042,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.003666625,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.046921583,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":2.007875084,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.00245075,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.007767875,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.009885667,"stage":"persisting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":2.011580917,"stage":"extracting"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003489791,"stage":"signing"}
+{"capacity":1,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.008644584,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.011918459,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":true,"event":"stage_duration","seconds":0.305300666,"stage":"extracting"}
+{"completed":true,"event":"stage_duration","seconds":0.304770375,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.0016215,"stage":"signing"}
+{"completed":true,"event":"stage_duration","seconds":0.002047208,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004231,"stage":"matching"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003862125,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.005360375,"stage":"persisting"}
+{"completed":true,"event":"stage_duration","seconds":0.006921041,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.306229209,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001158916,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004835375,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.003367417,"stage":"persisting"}
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 9.76s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.26s
+     Running tests/storage.rs (target/release/deps/storage-c348ad8e9d050e1a)
+
+running 1 test
+test durable_uploads_and_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.22s
+     Running tests/admission.rs (target/release/deps/admission-6a01568efec4fbb5)
+
+running 1 test
+test races_isolation_expiry_and_idempotent_release ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.08s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.17s
+     Running tests/admission.rs (target/release/deps/admission-6a01568efec4fbb5)
+
+running 1 test
+test upload_transfer_reconciles_bytes_and_bounds_file_attempts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.16s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.15s
+     Running tests/enqueue.rs (target/release/deps/enqueue-3906b2ee78e29c2c)
+
+running 1 test
+test atomic_enqueue_and_concurrent_submissions ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.25s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.14s
+     Running tests/uploads.rs (target/release/deps/uploads-a9c1a13b1437314e)
+
+running 1 test
+test streaming_boundaries_and_atomic_admission ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 2.39s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.23s
+     Running tests/polling.rs (target/release/deps/polling-731c80630654ec96)
+
+running 1 test
+test persisted_states_revisions_streaming_and_expiration ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.23s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.22s
+     Running tests/maintenance.rs (target/release/deps/maintenance-b95995d696e04395)
+
+running 1 test
+test restartable_cleanup_and_version_isolation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.23s
+     Running tests/operations.rs (target/release/deps/operations-2e58225242283b28)
+
+running 1 test
+test partial_failure_and_cleanup_metrics ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.08s
+
+CREATE DATABASE
+    Finished `release` profile [optimized] target(s) in 0.19s
+     Running tests/end_to_end.rs (target/release/deps/end_to_end-4788738bd335bd4b)
+
+running 1 test
+test admission_storage_processing_and_polling ... {"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.011946125,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001741917,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.005730167,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.008210083,"stage":"persisting"}
+acceptance mode=ingests files=1 partial_failure=false admission_us=47350 poll_us=5811 total_us=107963
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.008649333,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.002271667,"stage":"signing"}
+{"completed":true,"event":"stage_duration","seconds":0.008084375,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.00196225,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.006454541,"stage":"matching"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004514292,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.011975125,"stage":"persisting"}
+{"completed":true,"event":"stage_duration","seconds":0.015319292,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":true,"event":"stage_duration","seconds":0.008573833,"stage":"extracting"}
+{"completed":true,"event":"stage_duration","seconds":0.007793417,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001077,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001653625,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004971959,"stage":"matching"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.00491575,"stage":"matching"}
+{"completed":false,"event":"stage_duration","seconds":1.016459418,"stage":"persisting"}
+{"completed":true,"event":"stage_duration","seconds":1.035361667,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.011595667,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001630584,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.006874375,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.009481208,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.006768084,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001040125,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003379,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.0060005,"stage":"persisting"}
+acceptance mode=ingests files=5 partial_failure=false admission_us=116967 poll_us=12700 total_us=1358349
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":true,"event":"stage_duration","seconds":0.008065791,"stage":"extracting"}
+{"completed":true,"event":"stage_duration","seconds":0.008790125,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001221542,"stage":"signing"}
+{"completed":true,"event":"stage_duration","seconds":0.001303792,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003742417,"stage":"matching"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.005554958,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.004093084,"stage":"persisting"}
+{"completed":true,"event":"stage_duration","seconds":0.004974959,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":true,"event":"stage_duration","seconds":0.006720208,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":true,"event":"stage_duration","seconds":0.001107292,"stage":"signing"}
+{"completed":true,"event":"stage_duration","seconds":0.006864917,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001044625,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.004261208,"stage":"matching"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003850667,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.003788625,"stage":"persisting"}
+{"completed":true,"event":"stage_duration","seconds":0.003864667,"stage":"persisting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.005425458,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.000897541,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003387292,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.003384417,"stage":"persisting"}
+acceptance mode=checks files=5 partial_failure=false admission_us=99003 poll_us=16048 total_us=217575
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":2}
+{"completed":false,"event":"stage_duration","seconds":0.004330042,"stage":"extracting"}
+{"completed":true,"event":"stage_duration","seconds":0.005638792,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.001038541,"stage":"signing"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.003375084,"stage":"matching"}
+{"completed":true,"event":"stage_duration","seconds":0.003481708,"stage":"persisting"}
+acceptance mode=checks files=2 partial_failure=true admission_us=48172 poll_us=4271 total_us=86143
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":true,"event":"stage_duration","seconds":0.006472959,"stage":"extracting"}
+{"capacity":2,"event":"cpu_admitted","occupied":1}
+{"completed":false,"event":"stage_duration","seconds":0.000091209,"stage":"signing"}
+acceptance mode=checks files=1 partial_failure=false admission_us=24780 poll_us=1936 total_us=52215
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 2.10s
+

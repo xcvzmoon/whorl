@@ -1,0 +1,14 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling whorl v0.0.0 (/Users/xcvzmoon/Repositories/whorl)
+    Finished `bench` profile [optimized] target(s) in 2.74s
+     Running benches/batches.rs (target/release/deps/batches-09ef03512dcb48ed)
+words=100 files=1 normalization_shingling_signing_us=74
+words=100 files=5 normalization_shingling_signing_us=324
+words=1000 files=1 normalization_shingling_signing_us=697
+words=1000 files=5 normalization_shingling_signing_us=3564
+words=10000 files=1 normalization_shingling_signing_us=8137
+words=10000 files=5 normalization_shingling_signing_us=42608
+words=100000 files=1 normalization_shingling_signing_us=83924
+words=100000 files=5 normalization_shingling_signing_us=429180

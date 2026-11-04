@@ -16,12 +16,32 @@ permissions:
   contents: read
 
 jobs:
-  checks:
-    name: Checks
+  minio:
+    name: Build integration storage
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    steps:
+      - name: Build pinned MinIO
+        run: |
+          GOBIN="$RUNNER_TEMP/minio-bin" go install github.com/minio/minio@9e49d5e7a648f00e26f2246f4dc28e6b07f8c84a
+          "$RUNNER_TEMP/minio-bin/minio" --version
+
+      - name: Upload integration storage binary
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: minio-linux-amd64
+          path: ${{ runner.temp }}/minio-bin/minio
+          retention-days: 1
+
+  checks:
+    name: Checks
+    needs: [minio]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
       PGPASSWORD: whorl-ci
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
     services:
       postgres:
         image: postgres:18.6@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81
@@ -78,24 +98,29 @@ jobs:
           cargo test --locked --all-targets --all-features
           cargo test --locked --doc --all-features
 
-      - name: Verify PostgreSQL schema and reservation races
-        env:
-          WHORL_SCHEMA_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/postgres
-        run: cargo test --locked --test schema -- --ignored
+      - name: Download integration storage binary
+        uses: actions/download-artifact@v8.0.2
+        with:
+          name: minio-linux-amd64
+          path: ${{ runner.temp }}/minio-bin
 
-      - name: Verify PostgreSQL candidate matching
+      - name: Start MinIO for integration tests
         env:
-          WHORL_CANDIDATES_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/whorl_candidates_test
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
         run: |
-          psql -X -w postgresql://postgres:whorl-ci@localhost:5432/postgres -c 'CREATE DATABASE whorl_candidates_test'
-          cargo test --locked --test candidates -- --ignored
+          chmod +x "$RUNNER_TEMP/minio-bin/minio"
+          "$RUNNER_TEMP/minio-bin/minio" server --address 127.0.0.1:9000 "$RUNNER_TEMP/minio-data" > "$RUNNER_TEMP/minio.log" 2>&1 &
+          curl --fail --retry 30 --retry-connrefused --retry-delay 1 http://127.0.0.1:9000/minio/health/ready
+          curl --fail --aws-sigv4 'aws:amz:us-east-1:s3' --user minioadmin:minioadmin -X PUT http://127.0.0.1:9000/uploads
 
-      - name: Verify durable worker processing and recovery
+      - name: Verify PostgreSQL, S3, worker, and HTTP acceptance
         env:
-          WHORL_WORKER_TEST_URL: postgresql://postgres:whorl-ci@localhost:5432/whorl_worker_test
-        run: |
-          psql -X -w postgresql://postgres:whorl-ci@localhost:5432/postgres -c 'CREATE DATABASE whorl_worker_test'
-          cargo test --locked --test worker -- --ignored --test-threads=1
+          WHORL_ACCEPTANCE_ADMIN_URL: postgresql://postgres:whorl-ci@localhost:5432/postgres
+          WHORL_STORAGE_S3_ENDPOINT: http://127.0.0.1:9000
+          AWS_ACCESS_KEY_ID: minioadmin
+          AWS_SECRET_ACCESS_KEY: minioadmin
+        run: bash scripts/acceptance.sh
 
       - name: Check documentation
         env:
@@ -111,12 +136,14 @@ jobs:
   ci:
     name: CI
     if: ${{ always() }}
-    needs: [checks]
+    needs: [minio, checks]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require every gate to pass
         env:
           CHECKS_RESULT: ${{ needs.checks.result }}
+          STORAGE_RESULT: ${{ needs.minio.result }}
         run: |
           test "$CHECKS_RESULT" = success
+          test "$STORAGE_RESULT" = success

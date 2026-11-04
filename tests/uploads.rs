@@ -29,7 +29,7 @@ async fn streaming_boundaries_and_atomic_admission() {
         .unwrap();
     sqlx::raw_sql("INSERT INTO signature_versions(version,configuration) VALUES ('test','{}'); INSERT INTO capacity_limits VALUES ('global',100,10737418240),('client:a',100,10737418240)").execute(&pool).await.unwrap();
     let s3 = AmazonS3Builder::new()
-        .with_endpoint("http://127.0.0.1:9000")
+        .with_endpoint(std::env::var("WHORL_STORAGE_S3_ENDPOINT").unwrap())
         .with_allow_http(true)
         .with_bucket_name("uploads")
         .with_region("us-east-1")

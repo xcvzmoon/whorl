@@ -1,0 +1,491 @@
+{"cleanup_backlog": 0, "event": "operational_snapshot", "failed_files": 0, "oldest_pending_seconds": 0, "pending_bytes": 0, "queued_files": 0, "retry_attempts": 0, "running_files": 0}
+{"completed": true, "event": "stage_duration", "seconds": 0.007829291, "stage": "cleanup"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.03813775, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003345917, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.009106833, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.011573625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.023103375, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.016669333, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001425792, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.002311208, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.007176583, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00587175, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006671834, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007274291, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.007634959, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001256083, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004912666, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.007551792, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001057875, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005595167, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00527325, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003467916, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.0071615, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001254291, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.003837292, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007503042, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001623875, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004136, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003858792, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.0074375, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.0102495, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00806225, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001896458, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001194125, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005237042, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.009182333, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006215917, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.0057765, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006618084, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005526792, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001122625, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001138208, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003766916, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00527375, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004140916, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006748875, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.00798125, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007578209, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00108375, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00167775, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.0036715, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003423542, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.0080935, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00707025, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005637334, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005490917, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001189375, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001085334, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003555625, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003671542, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003735834, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007611126, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005744583, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.000919625, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005263584, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001174666, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00394925, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003754083, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004002667, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003944541, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005604667, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.000932333, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005370917, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001101333, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003857458, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003595958, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003522291, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004120958, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00703175, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001418416, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.007036167, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005006583, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001560667, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005560875, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005181208, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003888042, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.007015, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006797209, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.002007458, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001749917, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006944167, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007495042, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.008028, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.012488666, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.009233042, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.007304333, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001276208, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001318875, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005219708, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005478958, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00505725, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005228625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005760625, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001037916, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003702416, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00407025, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006653417, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006327875, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001153167, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001979167, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004228209, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003961333, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003825125, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006660875, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006558166, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00582075, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001153459, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001416792, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003893875, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003860125, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004376875, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004683, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005309458, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001029583, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003216041, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003931333, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006271292, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006125, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001271417, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001025208, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003319084, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003973875, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003605833, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005616417, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.007344125, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006794083, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00197575, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.002017458, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005979083, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.006715083, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005363125, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.008975625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.007959792, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.002068709, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.009929334, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.008290042, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006666792, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006419167, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001220166, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00144225, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004725459, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004962542, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004415958, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006612708, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006985792, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006445333, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001297875, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001418542, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004225167, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004177458, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004290417, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004769625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006941875, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006403667, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001066541, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001090542, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003219208, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003231083, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003794209, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00372625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005993167, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005125667, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001113125, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001009958, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003521542, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003223416, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.008337959, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.010829875, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.0073635, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.007194667, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001710333, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001476, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005512125, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.006399084, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005880291, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006789791, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.006358875, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006378167, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001329625, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001223, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004485417, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00452475, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004257125, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.006323667, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.00646075, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.001215417, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00742375, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00131725, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004191708, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004062, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004452125, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005021916, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.006224, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.000863833, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.00500725, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001063458, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00315175, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003191167, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003441917, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003432459, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005969125, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.000896125, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005221167, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001183833, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003317417, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003066917, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003226667, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003537625, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.006930875, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.001337375, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.0060725, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001231458, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004485792, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004211292, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004556333, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004197292, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.008140875, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.007765292, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.002146834, "stage": "signing"}
+{"completed": true, "event": "stage_duration", "seconds": 0.001868875, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.004250541, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003925917, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003262, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005187, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 2}
+{"completed": true, "event": "stage_duration", "seconds": 0.005911416, "stage": "extracting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.005463834, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.001189875, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.0011175, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.003290333, "stage": "matching"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00547125, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004749875, "stage": "persisting"}
+{"completed": true, "event": "stage_duration", "seconds": 0.004256584, "stage": "persisting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.005024084, "stage": "extracting"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.000846584, "stage": "signing"}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"capacity": 2, "event": "cpu_admitted", "occupied": 1}
+{"completed": true, "event": "stage_duration", "seconds": 0.00265975, "stage": "matching"}
+{"completed": true, "event": "stage_duration", "seconds": 0.003183875, "stage": "persisting"}
+{"cleanup_backlog": 0, "event": "operational_snapshot", "failed_files": 0, "oldest_pending_seconds": 0, "pending_bytes": 2199111, "queued_files": 0, "retry_attempts": 0, "running_files": 0}
+{"completed": true, "event": "stage_duration", "seconds": 0.003697083, "stage": "cleanup"}

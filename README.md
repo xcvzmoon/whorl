@@ -1,16 +1,14 @@
 # Whorl
 
-Whorl is a planned asynchronous document similarity service built with Rust, Actix-web, and PostgreSQL. It will compare uploaded PDF, DOCX, PPTX, XLSX, and image text with stored documents using lexical Jaccard similarity over word shingles.
+Whorl is an asynchronous document similarity service built with Rust, Actix-web, PostgreSQL, and shared S3 storage. It compares uploaded PDF, DOCX, PPTX, XLSX, and image text using lexical Jaccard similarity over word shingles.
 
-The repository contains similarity primitives, PostgreSQL persistence, bounded CPU execution, shared S3 storage, and a [supervised extraction pipeline](docs/extraction.md). The independent [durable worker](docs/worker.md) processes stored files and commits their matches and ingests transactionally. The [HTTP binary](docs/uploads.md) accepts multipart checks and ingests; polling is the next implementation phase.
+The API admits multipart uploads and serves polling results. An independent durable worker extracts text, verifies version-compatible candidates, and commits results and canonical ingests transactionally. Maintenance handles expiry and reindexing. See [configuration and operations](docs/configuration.md) and [acceptance evidence](docs/benchmarks.md).
 
 ## Plan and API approval
 
 The [original specification](docs/original-specification.md) preserves the full initial prompt before the planning request. Later clarifications are recorded in the decisions and evidence gates.
 
-Start with the [phase overview](brain/plans/01-document-similarity/overview.md), [todos](brain/todos.md), [API contract](docs/api-contract.md), and [decisions and evidence gates](docs/decisions.md). Phase 1 is complete; the user approved the API contract and recommendations on November 3, 2026. Extraction and queue recommendations require measured spikes; no benchmark results or library choices are claimed yet.
-
-Work proceeds through contract approval, extraction corpus and spike, schema and similarity core, queue spike, bounded CPU execution and S3 storage, extraction adapters, queue workers, admission and HTTP, polling, maintenance, and acceptance testing. Each phase contains reviewable checkbox tasks and verification criteria.
+The [phase overview](brain/plans/01-document-similarity/overview.md) tracks implementation and acceptance. The [API contract](docs/api-contract.md) and [decisions](docs/decisions.md) record approved behavior. Phase 21 collects end-to-end and capacity evidence; customer workload scale remains unspecified.
 
 ## Intended behavior
 
@@ -21,7 +19,7 @@ Work proceeds through contract approval, extraction corpus and spike, schema and
 - Use k=3 word shingles, stable persisted hashes, 125 MinHash values, and 25 bands of five values. PostgreSQL GIN array overlap retrieves version-compatible candidates.
 - Short-circuit normalized-text duplicates through a unique content hash. Verify candidates before returning matches strictly above the configurable 0.75 threshold.
 - Store metadata as JSONB with a path-ops GIN index; index frequent filters as real columns. Return separate metadata Jaccard scores excluding volatile values. Default qualification uses text similarity.
-- Keep CPU work on a fixed, bounded pool. API and workers run as separate binaries; PostgreSQL-backed graphile_worker is provisional until its spike passes.
+- Keep CPU work on a fixed, bounded pool. API and workers run as separate binaries; PostgreSQL-backed graphile_worker delivers jobs at least once.
 
 LSH retrieval is probabilistic, as approved. Every retrieved candidate is verified exactly; MinHash estimates only order work. Band hash collisions add candidates for verification. See the approved decisions. Semantic embeddings, vector databases, frontend, SSE, and webhooks are outside version one.
 
@@ -53,7 +51,7 @@ The initial target is two CPU cores and 4 GiB RAM, with at most two CPU workers 
 | Request content bytes | 104,857,600 |
 | Multipart overhead allowance | 1,048,576 bytes; raw cap 105,906,176 |
 | Text threshold | Strictly greater than 0.75 |
-| Word shingle k | 3; short text uses normalized equality, OCR policy awaits spike |
+| Word shingle k | 3; short text uses normalized equality; OCR preserves verbatim text |
 | Signature layout | 125 values, 25 bands x 5 rows |
 | Metadata policy | Text-only qualification; separate metadata score |
 | Completed results and job retention | 24 hours, configurable |
@@ -61,11 +59,11 @@ The initial target is two CPU cores and 4 GiB RAM, with at most two CPU workers 
 | Queue/pool/storage/client quotas | Determine from measured job times and workload |
 | Extraction timeout and decoding/expansion limits | Determine in extraction spike, document before implementation |
 
-These are planned configuration values, not implemented environment variables. Every implemented value will have typed validation and a documented default. Configure the reverse proxy body cap above the application's raw multipart cap; streaming file-content counters remain authoritative.
+Environment variables and fixed limits are documented in the configuration guide. Configure the reverse proxy body cap above the application's raw multipart cap; streaming file-content counters remain authoritative.
 
 ## Operations to deliver
 
-A deployment migration step will own application and queue-library schema migrations, with documented privileges separate from runtime roles. Batch/file/results tables are the source of truth; library job rows are not. Retention and abandoned-work sweepers will delete expired results, jobs, objects, and capacity leases. Background re-indexing will populate a new signature version without mixing versions in comparisons.
+The deployment migration step owns application and queue-library schema migrations, with documented privileges separate from runtime roles. Batch/file/results tables are the source of truth; library job rows are not. Retention and abandoned-work sweepers delete expired results, jobs, objects, and capacity leases. Background re-indexing populates a new signature version without mixing versions in comparisons.
 
 Monitor queue depth, oldest pending age, pending stored bytes, CPU saturation, extraction/signing/lookup/verification durations, retries, and failures. Graceful SIGTERM handling and retry/reclaim behavior must be proven in queue tests. Authentication is upstream; trusted client identity is still required for access isolation and per-client admission.
 
@@ -75,4 +73,32 @@ CI and tag-release gates run formatting, Clippy, tests, warning-free rustdoc, re
 
 The setup action installs stable Rust and a pinned, checksum-verified prebuilt cargo-deny binary, with source-build fallback disabled. See the [Actions audit](docs/github-actions-audit.md) for measured setup costs. Audit tool upgrades are explicit; application dependencies will be reviewed and deliberately pinned at implementation time. The release workflow checks that a `v*` tag matches Cargo's package version before creating a GitHub release. The PR description check and templates are retained. Publishing and branch-protection configuration remain repository-owner actions; this change does not publish anything.
 
-Integration services and corpus benchmarks will be added as the corresponding code exists. Passing the current starter checks does not validate the proposed service.
+CI provisions PostgreSQL and builds the pinned MinIO source for integration tests. Acceptance measurements and their limits are recorded separately from CI checks.
+
+## Run and verify
+
+On Linux, install the [extraction runtime and assets](docs/extraction.md), start PostgreSQL and MinIO, and create the S3 bucket. Set `DATABASE_URL`, `WHORL_S3_ENDPOINT`, `WHORL_S3_BUCKET`, `WHORL_S3_REGION`, and AWS credentials as described in the configuration guide. Then:
+
+```sh
+cargo build --locked --release --bins
+./target/release/maintenance migrate
+./target/release/maintenance reindex native 3
+./target/release/maintenance reindex ocr 3
+export WHORL_SIGNATURE_VERSION='nfkc-v1/native-text-v1/word-3/short-equality-v1/xxh3-low32-le-v1/125/25x5'
+export WHORL_TRUSTED_PROXY_ONLY=true
+psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" -c "INSERT INTO capacity_limits VALUES ('global',100,1073741824),('client:acceptance',100,1073741824)"
+./target/release/worker
+```
+
+Run `./target/release/whorl` in another terminal with the same environment. The `acceptance` identity and example quotas are for isolated local verification. Production identity must come from the authenticated trusted proxy.
+
+```sh
+curl --fail http://127.0.0.1:8080/health/ready
+curl --fail -H 'X-Client-Id: acceptance' -F 'files=@spikes/extraction/fixtures/table.docx' http://127.0.0.1:8080/v1/ingests
+```
+
+Poll the returned `status_url` with the same identity. Schedule `maintenance sweep` every minute. Use the maintenance guide for version cutover and cleanup responsibilities.
+
+For disposable integration databases, set `WHORL_ACCEPTANCE_ADMIN_URL` and `WHORL_STORAGE_S3_ENDPOINT`, create the `uploads` bucket, and supply the local MinIO credentials. Run `bash scripts/acceptance.sh`. Each invocation creates fresh databases and retains them for inspection. Full acceptance requires Linux; macOS runs print an explicit extraction-test skip.
+
+Run `cargo bench --locked --bench signatures` and `cargo bench --locked --bench batches` for CPU microbenchmarks. Against a running API and worker, run `python3 scripts/load-acceptance.py --url http://127.0.0.1:8080 --file spikes/extraction/fixtures/table.docx --database-url "$DATABASE_URL" --container whorl-acceptance-runtime`. This sends checks under the `acceptance` identity; ingest the stated corpus first. Record the corpus, service limits, queue metrics, and aggregate memory alongside the resulting JSON.

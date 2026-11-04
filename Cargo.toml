@@ -41,3 +41,7 @@ harness = false
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+
+[[bench]]
+name = "batches"
+harness = false
