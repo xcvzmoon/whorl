@@ -1,6 +1,6 @@
 # API contract
 
-Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Multipart submission and polling are implemented.
+Status: approved by the user on November 3, 2026, together with the [contract decisions](decisions.md). Multipart submission and polling are implemented. Current HTTP settings fix text-only scoring at 0.75 and two-second retry hints. Processing derives k from the selected registered signature version; the initial setup uses k=3. See [configuration](configuration.md) and [maintenance](maintenance.md).
 
 ## Submission
 
@@ -11,7 +11,7 @@ Separate URLs make corpus writes explicit; both use one processing pipeline with
 The configured policy/version is snapshotted on each batch, so retries use the same rules.
 Version one has no request replay support. Each submission creates a new batch; clients must not automatically retry an ambiguous submission. Worker retries remain idempotent. Adding request replay requires a separate contract decision.
 
-Successful durable admission returns `202 Accepted`, `Location: /v1/batches/{id}`, and `Retry-After: 2` (configurable seconds):
+Successful durable admission returns `202 Accepted`, `Location: /v1/batches/{id}`, and `Retry-After: 2` (fixed by the current HTTP implementation):
 
 ```json
 {

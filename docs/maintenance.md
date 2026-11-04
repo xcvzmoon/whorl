@@ -48,7 +48,7 @@ created. A database backup alone cannot recover deleted S3 content.
 
 Run `maintenance reindex native 4` to build the supported four-word policy from
 stored canonical text, or `maintenance reindex ocr 4` for the OCR namespace.
-Choose an approved positive shingle length. Each call indexes at most 32 missing
+Choose a positive shingle length; the worker derives it from the batch snapshot. Each call indexes at most 32 missing
 documents, one at a time on a blocking CPU thread, fetching only one text at a
 time. Repeat until `processed=0`. The missing-signature query is the durable
 cursor: cancellation or restart skips committed documents. Conflicting concurrent
@@ -61,7 +61,7 @@ set. Short documents receive a row with NULL signature arrays and continue to
 use exact equality. This command supports the current normalizer/hash algorithm;
 a future algorithm requires an implementation before it can be selected.
 
-For cutover, pause new submissions and drain old-version ingest batches. Run the
+For a supported cutover, pause new submissions and drain old-version ingest batches. Run the
 final reindex passes for both source profiles. Check coverage for each target:
 
 ```sql
@@ -77,8 +77,7 @@ WHERE EXISTS (
 
 Require zero missing rows while ingest remains paused. Set
 `WHORL_SIGNATURE_VERSION` to the new native version on every API replica, restart
-them, and resume submissions. Workers derive the shingle length from the batch
-snapshot. Retain old rows while old-version checks remain; after all old batches
+them, and resume submissions. Workers derive the shingle length from the batch snapshot and validate each source-specific registration against its canonical recipe. Retain old rows while old-version checks remain; after all old batches
 expire, delete obsolete signatures and then their unreferenced version records
 under an explicit operator cleanup. Do not relabel existing signature arrays.
 
