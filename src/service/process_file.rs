@@ -3,7 +3,6 @@
 use super::lifecycle::{self, RetentionPolicy};
 use crate::{
     cpu_pool::{CpuError, CpuPool, WorkDeadline},
-    documents::CandidateRepository,
     extraction::{ExtractionError, Extractor},
     queue::FileJobPayload,
     service::matching::{Matcher, MatchingError, PreparedDocument},
@@ -444,12 +443,9 @@ impl ProcessFile {
         }
         let document = if row.try_get::<String, _>("mode")? == "ingest" {
             Some(
-                CandidateRepository {
-                    connection: &mut tx,
-                    client_id: &payload.client_id,
-                }
-                .ingest(Uuid::new_v4(), &prepared, &file_type)
-                .await?,
+                prepared
+                    .ingest(&mut tx, &payload.client_id, Uuid::new_v4(), &file_type)
+                    .await?,
             )
         } else {
             None

@@ -24,11 +24,6 @@ pub enum MatchingError {
     /// Metadata must be a JSON object (`invalid_metadata`).
     #[error("invalid_metadata: metadata must be an object")]
     InvalidMetadata,
-    /// The upload is missing, terminal, foreign, check-mode, or version-incompatible (`invalid_upload`).
-    #[error(
-        "invalid_upload: upload must be a pending ingest file owned by this client and version"
-    )]
-    InvalidUpload,
     /// Canonical text has no words (`no_extractable_text`).
     #[error(transparent)]
     EmptyText(#[from] crate::similarity::shingles::NoExtractableText),
@@ -145,61 +140,49 @@ impl PreparedDocument {
         &self.version
     }
 
-    /// Stores canonical content and completes its ingest upload atomically.
+    /// Stores canonical content and version membership in the caller's transaction.
+    ///
+    /// First-ingest metadata and text survive duplicate races. This method does
+    /// not change file or batch state; the durable worker owns those transitions.
     ///
     /// # Arguments
-    /// * `client` - Shared database pool; the transaction holds one connection.
-    /// * `client_id` - Authorized corpus owner, validated by the caller.
-    /// * `document_id` - Proposed identity; duplicates return the original identity.
-    /// * `file_id` - Existing queued or running file belonging to an ingest batch.
-    /// * `file_type` - One of the schema's supported file formats.
+    /// * `transaction` - Application transaction; the caller owns commit and rollback.
+    /// * `client_id` - Corpus owner authorized by the caller.
+    /// * `document_id` - Proposed identity; duplicate content reuses its existing identity.
+    /// * `file_type` - Content-detected format accepted by the document schema.
     ///
     /// # Returns
-    /// The canonical document UUID. First-ingest text, metadata, type and timestamps
-    /// survive duplicate races. Upload metadata and source provenance remain on
-    /// the file row. The signature version must already be registered.
+    /// The canonical identity, with this version's signature stored if absent.
+    /// The version must already be registered. Cancellation requires rollback;
+    /// an ambiguous commit requires rereading durable state before retrying.
     ///
     /// # Errors
-    /// Returns [`MatchingError::Database`] for connection, SQL or decoding failures,
-    /// or [`MatchingError::InvalidUpload`] (`invalid_upload`) for a missing,
-    /// terminal, foreign, check-mode or version-incompatible upload.
-    /// Cancellation rolls back the transaction unless its
-    /// commit has reached PostgreSQL; reread the file state before retrying.
+    /// Returns [`MatchingError::Database`] for connection, query, decoding, or
+    /// schema constraint failures. This method does not authenticate identities.
     ///
     /// # Examples
     /// ```no_run
-    /// # async fn example(client: &sqlx::PgPool, file: uuid::Uuid, proposed: uuid::Uuid) -> Result<(), whorl::service::matching::MatchingError> {
+    /// # async fn example(pool: &sqlx::PgPool) -> Result<(), Box<dyn std::error::Error>> {
     /// use whorl::{service::matching::PreparedDocument, similarity::shingles::SourceProfile};
     /// let input = PreparedDocument::new("one two three", serde_json::json!({}), SourceProfile::NativeTextV1, None)?;
-    /// let canonical = input.ingest(client, "authorized-client", proposed, file, "pdf").await?;
+    /// let mut transaction = pool.begin().await?;
+    /// let id = input.ingest(&mut transaction, "authorized-client", uuid::Uuid::new_v4(), "pdf").await?;
+    /// transaction.commit().await?;
     /// # Ok(()) }
     /// ```
     pub async fn ingest(
         &self,
-        client: &PgPool,
+        transaction: &mut sqlx::Transaction<'_, sqlx::Postgres>,
         client_id: &str,
         document_id: Uuid,
-        file_id: Uuid,
         file_type: &str,
     ) -> Result<Uuid, MatchingError> {
-        let mut transaction = client.begin().await?;
-        let file = sqlx::query_scalar::<_, Uuid>(
-            "SELECT f.id FROM batch_files f JOIN batches b ON b.id = f.batch_id AND b.client_id = f.client_id
-             WHERE f.id = $1 AND f.client_id = $2 AND b.mode = 'ingest'
-             AND b.signature_version = $3 AND f.state IN ('queued', 'running') FOR UPDATE OF f")
-            .bind(file_id).bind(client_id).bind(&self.version).fetch_optional(&mut *transaction).await?;
-        if file.is_none() {
-            return Err(MatchingError::InvalidUpload);
-        }
-        let mut repository = CandidateRepository {
-            connection: &mut transaction,
+        Ok(CandidateRepository {
+            connection: transaction,
             client_id,
-        };
-        let canonical = repository.ingest(document_id, self, file_type).await?;
-        sqlx::query("UPDATE batch_files SET document_id = $1, state = 'completed', stage = 'completed', next_retry_at = NULL WHERE id = $2 AND client_id = $3")
-            .bind(canonical).bind(file_id).bind(client_id).execute(&mut *transaction).await?;
-        transaction.commit().await?;
-        Ok(canonical)
+        }
+        .ingest(document_id, self, file_type)
+        .await?)
     }
 
     pub(crate) fn optional_bands(&self) -> Option<&Vec<i32>> {
