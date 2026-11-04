@@ -54,5 +54,9 @@ name = "verification"
 harness = false
 
 [[bench]]
+name = "persistence"
+harness = false
+
+[[bench]]
 name = "telemetry"
 harness = false

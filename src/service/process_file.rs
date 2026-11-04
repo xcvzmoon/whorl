@@ -424,11 +424,7 @@ impl ProcessFile {
             Some(false) => return Err(ExtractionError::Timeout.into()),
             Some(true) => {}
         }
-        for found in matches {
-            sqlx::query("INSERT INTO match_results(client_id,file_id,document_id,score,text_similarity,metadata_similarity) VALUES($1,$2,$3,$4,$5,$6)")
-                .bind(&payload.client_id).bind(payload.file_id).bind(found.document_id).bind(found.score.score).bind(found.score.text_similarity).bind(found.score.metadata_similarity)
-                .execute(&mut *tx).await?;
-        }
+        crate::results::persist_matches(&mut tx, payload, &matches).await?;
         let document = if row.try_get::<String, _>("mode")? == "ingest" {
             Some(
                 prepared
