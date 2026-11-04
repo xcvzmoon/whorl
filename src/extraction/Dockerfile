@@ -10,6 +10,7 @@ COPY benches ./benches
 RUN --mount=type=cache,target=/usr/local/cargo/registry cargo build --release --locked --bin whorl-extract -j2
 
 FROM build AS tests
+COPY migrations ./migrations
 COPY tests ./tests
 COPY spikes/extraction/manifest.json ./spikes/extraction/manifest.json
 COPY spikes/extraction/fixtures ./spikes/extraction/fixtures
@@ -33,3 +34,9 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends python3 time && rm -rf /var/lib/apt/lists/*
 USER 10001:10001
 ENTRYPOINT ["python3", "/verify-extraction.py"]
+
+FROM tests AS acceptance
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client && rm -rf /var/lib/apt/lists/*
+COPY scripts/acceptance.sh /build/scripts/acceptance.sh
+ENV WHORL_ACCEPTANCE_RELEASE=1
+RUN --mount=type=cache,target=/usr/local/cargo/registry cargo test --release --locked --all-targets --no-run -j2
