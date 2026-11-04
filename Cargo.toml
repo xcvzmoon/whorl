@@ -50,5 +50,9 @@ name = "batches"
 harness = false
 
 [[bench]]
+name = "verification"
+harness = false
+
+[[bench]]
 name = "telemetry"
 harness = false

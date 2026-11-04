@@ -208,7 +208,7 @@ pub struct MatchScore {
 
 /// CPU-only verifier holding an immutable batch policy snapshot.
 ///
-/// Every retrieved candidate must pass through this verifier. MinHash estimates
+/// Every retrieved candidate must pass through this verifier. `MinHash` estimates
 /// are deliberately absent from the interface: they may only order candidates.
 #[derive(Clone, Copy, Debug)]
 pub struct SimilarityEngine {
@@ -275,7 +275,7 @@ impl SimilarityEngine {
     ) -> Result<MatchScore, IncompatibleProfile> {
         let text_similarity = match query.short_text_similarity(candidate)? {
             Some(score) => score,
-            None => jaccard(&query.shingles(), &candidate.shingles()).unwrap_or(0.0),
+            None => query.jaccard(candidate),
         };
         let metadata_similarity = metadata.and_then(|(left, right)| jaccard(&left.0, &right.0));
         let score = match self.policy.text_weight {

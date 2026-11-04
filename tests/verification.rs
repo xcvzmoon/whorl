@@ -220,7 +220,8 @@ fn exact_scores_obey_set_and_edit_properties() {
             let expected = if length - removed < 3 {
                 0.0
             } else {
-                (length - removed - 2) as f64 / (length - 2) as f64
+                f64::from(u32::try_from(length - removed - 2).unwrap())
+                    / f64::from(u32::try_from(length - 2).unwrap())
             };
             assert_eq!(forward, expected);
             assert_eq!(forward, reverse);
@@ -263,4 +264,22 @@ fn metadata_uses_exact_jaccard() {
     assert_eq!(score.metadata_similarity, Some(0.5));
     assert_eq!(score.score, 0.75);
     assert!(!score.qualifies);
+}
+
+#[test]
+fn repeated_verification_preserves_unicode_and_duplicate_shingle_scores() {
+    let query = text("Café bleu café bleu café vert café bleu");
+    let candidates = [
+        ("café bleu café bleu café vert café bleu", 1.0),
+        ("café bleu café", 0.2),
+        ("different words entirely", 0.0),
+        ("café", 0.0),
+    ];
+    let engine = SimilarityEngine::new(SimilarityPolicy::default());
+    for _ in 0..5 {
+        for (candidate, expected) in candidates {
+            let score = engine.verify(&query, &text(candidate), None).unwrap();
+            assert_eq!(score.text_similarity, expected);
+        }
+    }
 }
