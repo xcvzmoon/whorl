@@ -46,8 +46,8 @@ async fn run(
         extractor,
         WorkerConfig {
             workers,
-            retention: Duration::from_secs(86400),
-            tombstone_retention: Duration::from_secs(86400),
+            retention: Duration::from_hours(24),
+            tombstone_retention: Duration::from_hours(24),
         },
     )?;
     let restart = pipeline.clone();

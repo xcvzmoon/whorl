@@ -85,6 +85,7 @@ impl SignatureVersion {
     /// let version = SignatureVersion::new(SourceProfile::NativeTextV1, std::num::NonZeroUsize::MIN);
     /// assert!(version.as_str().contains("word-1"));
     /// ```
+    #[must_use]
     pub fn new(source: SourceProfile, k: NonZeroUsize) -> Self {
         let source_key = match source {
             SourceProfile::NativeTextV1 => "native-text-v1",
@@ -109,6 +110,7 @@ impl SignatureVersion {
     /// assert_eq!(version.k().get(), 4);
     /// # Ok::<(), whorl::similarity::signature::InvalidSignatureVersion>(())
     /// ```
+    #[must_use]
     pub fn k(&self) -> NonZeroUsize {
         self.k
     }
@@ -123,6 +125,7 @@ impl SignatureVersion {
     /// let version = SignatureVersion::new(SourceProfile::OcrVerbatimV1, std::num::NonZeroUsize::MIN);
     /// assert_eq!(version.configuration()["source"], "ocr-verbatim-v1");
     /// ```
+    #[must_use]
     pub fn configuration(&self) -> Value {
         let source = match self.source {
             SourceProfile::NativeTextV1 => "native-text-v1",
@@ -150,6 +153,7 @@ impl SignatureVersion {
     /// assert!(signature.version().as_str().ends_with("xxh3-low32-le-v1/125/25x5"));
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn as_str(&self) -> &str {
         &self.key
     }
@@ -195,6 +199,11 @@ impl MinHashSignature {
     /// assert!(MinHashSignature::new(&input).is_none());
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
+    #[expect(
+        clippy::cast_possible_truncation,
+        reason = "The persisted hash revision intentionally retains the low 32 bits of XXH3"
+    )]
     pub fn new(input: &ShingleSet) -> Option<Self> {
         let shingles = input.shingles();
         if shingles.is_empty() {
@@ -228,6 +237,7 @@ impl MinHashSignature {
     /// assert_eq!(signature.version(), signature.clone().version());
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn version(&self) -> &SignatureVersion {
         &self.version
     }
@@ -247,6 +257,7 @@ impl MinHashSignature {
     /// assert_eq!(MinHashSignature::new(&input).unwrap().values().len(), 125);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn values(&self) -> &[u32; 125] {
         &self.values
     }
@@ -267,6 +278,11 @@ impl MinHashSignature {
     /// assert_eq!(MinHashSignature::new(&input).unwrap().bands().values().len(), 25);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
+    #[expect(
+        clippy::cast_possible_truncation,
+        reason = "There are exactly 25 bands and the persisted hash revision retains low 32 bits"
+    )]
     pub fn bands(&self) -> BandHashes {
         BandHashes(std::array::from_fn(|band| {
             let mut bytes = [0; 24];
@@ -295,6 +311,7 @@ impl BandHashes {
     /// assert_eq!(bands.values().len(), 25);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn values(&self) -> &[u32; 25] {
         &self.0
     }
@@ -369,6 +386,7 @@ impl SignatureIndex {
     /// assert!(SignatureIndex::new(&input).values.is_none());
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn new(input: &ShingleSet) -> Self {
         let signature = MinHashSignature::new(input);
         let signed = |values: &[u32]| {

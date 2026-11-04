@@ -84,6 +84,7 @@ impl UploadStore {
     /// let store = whorl::storage::UploadStore::new(pool, s3);
     /// # Ok(()) }
     /// ```
+    #[must_use]
     pub fn new(pool: PgPool, s3: AmazonS3) -> Self {
         let slots = (pool.options().get_max_connections() / 2).max(1) as usize;
         Self {
@@ -266,7 +267,7 @@ impl UploadStore {
                     break;
                 }
                 filled += count;
-                total += count as i64;
+                total += i64::try_from(count).map_err(|_| StorageError::Invalid)?;
                 if total > allowance {
                     return Err(StorageError::Invalid);
                 }

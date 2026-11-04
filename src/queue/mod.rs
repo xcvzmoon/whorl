@@ -38,6 +38,7 @@ impl FileFailure {
     /// assert!(!FileFailure::Extraction.retryable());
     /// assert!(FileFailure::Storage.retryable());
     /// ```
+    #[must_use]
     pub const fn retryable(self) -> bool {
         matches!(self, Self::Storage | Self::Database)
     }

@@ -171,7 +171,7 @@ impl AdmissionLease {
         }
         let id = Uuid::new_v4();
         sqlx::query("INSERT INTO capacity_reservations(id,client_id,jobs,bytes,lease_until) VALUES ($1,$2,$3,$4,clock_timestamp()+make_interval(secs => $5::double precision))")
-            .bind(id).bind(client).bind(i64::from(quota.files)).bind(quota.bytes as i64).bind(f64::from(quota.lease_seconds)).execute(&mut *tx).await?;
+            .bind(id).bind(client).bind(i64::from(quota.files)).bind(i64::try_from(quota.bytes).map_err(|_| AdmissionError::Invalid)?).bind(f64::from(quota.lease_seconds)).execute(&mut *tx).await?;
         tx.commit().await?;
         Ok(Self {
             id,

@@ -57,6 +57,7 @@ impl WorkDeadline {
     /// let deadline = whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now());
     /// assert!(deadline.is_expired());
     /// ```
+    #[must_use]
     pub fn new(deadline: Instant) -> Self {
         Self(deadline)
     }
@@ -70,6 +71,7 @@ impl WorkDeadline {
     /// let deadline = whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now());
     /// assert!(deadline.is_expired());
     /// ```
+    #[must_use]
     pub fn is_expired(self) -> bool {
         Instant::now() >= self.0
     }
@@ -96,6 +98,7 @@ impl WorkContext {
     /// pool.run(deadline, |context| { if context.should_stop() { return; } }).await?;
     /// # Ok(()) }
     /// ```
+    #[must_use]
     pub fn should_stop(&self) -> bool {
         self.deadline.is_expired()
             || self.cancelled.load(Ordering::Acquire)
@@ -305,6 +308,7 @@ impl CpuPool {
     /// assert!(!pool.has_failed());
     /// # Ok::<(), whorl::cpu_pool::CpuError>(())
     /// ```
+    #[must_use]
     pub fn has_failed(&self) -> bool {
         self.state.load(Ordering::Acquire) == POISONED
     }

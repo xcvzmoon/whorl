@@ -84,6 +84,10 @@ impl Extractor {
     /// assert!(!document.text.trim().is_empty());
     /// # Ok(()) }
     /// ```
+    #[expect(
+        clippy::too_many_lines,
+        reason = "Subprocess lifetime and bounded protocol handling share one cancellation scope"
+    )]
     pub async fn extract(&self, input: &[u8]) -> Result<ExtractedDocument, ExtractionError> {
         if input.is_empty() {
             return Err(ExtractionError::EmptyFile);

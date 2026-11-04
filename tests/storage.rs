@@ -1,3 +1,4 @@
+use object_store::multipart::MultipartStore;
 use object_store::{ObjectStoreExt, aws::AmazonS3Builder, path::Path};
 use sqlx::{PgPool, Row};
 use whorl::storage::{StorageError, UploadStore};
@@ -21,6 +22,10 @@ async fn counts(pool: &PgPool) -> (i64, i64) {
 
 #[tokio::test]
 #[ignore = "requires disposable PostgreSQL and local MinIO; see docs/storage.md"]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One fresh database and bucket scenario verifies journal recovery"
+)]
 async fn durable_uploads_and_recovery() {
     let pool = PgPool::connect(&std::env::var("WHORL_STORAGE_TEST_URL").unwrap())
         .await
@@ -97,7 +102,7 @@ async fn durable_uploads_and_recovery() {
             .await
             .unwrap()
             .size,
-        full.bytes as u64
+        u64::try_from(full.bytes).unwrap()
     );
     sqlx::query("UPDATE stored_uploads SET expires_at=clock_timestamp()-interval '1 second'")
         .execute(&pool)
@@ -182,7 +187,6 @@ async fn durable_uploads_and_recovery() {
     assert_eq!(counts(&pool).await, (1, 1));
     assert!(store.reconcile_one().await.unwrap());
     assert_eq!(counts(&pool).await, (0, 0));
-    use object_store::multipart::MultipartStore;
     assert!(
         other_instance
             .put_part(

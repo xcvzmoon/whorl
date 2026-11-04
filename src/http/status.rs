@@ -12,6 +12,10 @@ impl BatchRevision {
         format!("\"batch-{id}-r{}\"", self.0)
     }
 }
+#[expect(
+    clippy::struct_excessive_bools,
+    reason = "Cursor emission tracks independent JSON delimiter and terminal states"
+)]
 struct PollResponse {
     tx: Transaction<'static, Postgres>,
     files: std::collections::VecDeque<Value>,
@@ -22,6 +26,10 @@ struct PollResponse {
     finished: bool,
 }
 
+#[expect(
+    clippy::too_many_lines,
+    reason = "Snapshot transaction and streaming cursor share one response lifetime"
+)]
 pub(super) async fn status(
     req: HttpRequest,
     id: web::Path<Uuid>,

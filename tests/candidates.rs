@@ -81,6 +81,14 @@ fn rejects_empty_text_and_nonobject_metadata() {
 
 #[tokio::test]
 #[ignore = "requires a fresh disposable PostgreSQL database; see docs/persistence.md"]
+#[expect(
+    clippy::too_many_lines,
+    reason = "One disposable corpus scenario verifies retrieval and duplicate races"
+)]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact duplicate and disjoint scores are part of the retrieval contract"
+)]
 async fn postgres_candidate_matching_and_duplicate_races() {
     let pool = connect().await;
     let client = &pool;

@@ -1,6 +1,7 @@
 #[path = "../src/telemetry.rs"]
 mod telemetry;
 
+use object_store::ObjectStoreExt;
 use serde_json::json;
 use sqlx::Row;
 use std::process::Command;
@@ -74,7 +75,6 @@ async fn partial_failure_and_cleanup_metrics() {
         "us-east-1",
     )
     .unwrap();
-    use object_store::ObjectStoreExt;
     objects
         .put(
             &object_store::path::Path::from("uploads/orphan"),

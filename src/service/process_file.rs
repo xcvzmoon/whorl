@@ -1,11 +1,13 @@
 //! Durable per-file processing with transactional results and attempt fencing.
 
-use super::lifecycle::{self, RetentionPolicy};
 use crate::{
     cpu_pool::{CpuError, CpuPool, WorkDeadline},
     extraction::{ExtractionError, Extractor},
     queue::FileJobPayload,
-    service::matching::{Matcher, MatchingError, PreparedDocument},
+    service::{
+        lifecycle::{self, RetentionPolicy},
+        matching::{Matcher, MatchingError, PreparedDocument},
+    },
     similarity::{shingles::SourceProfile, signature::SignatureVersion, verify::SimilarityPolicy},
 };
 use graphile_worker::{IntoTaskHandlerResult, TaskHandler, WorkerContext};
@@ -149,6 +151,7 @@ impl ProcessFile {
     /// assert!(pipeline.concurrency() <= 2);
     /// # }
     /// ```
+    #[must_use]
     pub fn concurrency(&self) -> usize {
         self.config.workers.get()
     }
@@ -320,6 +323,10 @@ impl ProcessFile {
         Ok(())
     }
 
+    #[expect(
+        clippy::too_many_lines,
+        reason = "Stage sequencing and final transaction remain visible in one durable processing function"
+    )]
     async fn execute(
         &self,
         payload: &FileJobPayload,
@@ -339,13 +346,15 @@ impl ProcessFile {
         if !valid {
             return Err(ProcessError::Invalid);
         }
+        let expected_size = u64::try_from(expected).map_err(|_| ProcessError::Invalid)?;
+        let expected_length = usize::try_from(expected).map_err(|_| ProcessError::Invalid)?;
         let path = Path::from(key);
         let head = self.objects.head(&path).await?;
-        if head.size != expected as u64 {
+        if head.size != expected_size {
             return Err(ProcessError::Invalid);
         }
-        let bytes = self.objects.get_range(&path, 0..expected as u64).await?;
-        if bytes.len() != expected as usize {
+        let bytes = self.objects.get_range(&path, 0..expected_size).await?;
+        if bytes.len() != expected_length {
             return Err(ProcessError::Invalid);
         }
         let extractor = self.extractor.clone();
@@ -359,7 +368,7 @@ impl ProcessFile {
                     loop {
                         tokio::select! {
                             result = &mut extraction => return result,
-                            _ = tokio::time::sleep(Duration::from_millis(50)) => {
+                            () = tokio::time::sleep(Duration::from_millis(50)) => {
                                 if context.should_stop() { return Err(ExtractionError::Timeout); }
                             }
                         }
@@ -397,7 +406,7 @@ impl ProcessFile {
         }) {
             return Err(ProcessError::Invalid);
         }
-        let policy = policy(row.try_get("policy")?)?;
+        let policy = policy(&row.try_get("policy")?)?;
         metrics.complete();
         drop(metrics);
         self.stage(payload, attempt, "candidate_lookup").await?;
@@ -519,7 +528,7 @@ fn compatible_version(snapshot: &str, actual: &str) -> bool {
     }
 }
 
-fn policy(value: Value) -> Result<SimilarityPolicy, ProcessError> {
+fn policy(value: &Value) -> Result<SimilarityPolicy, ProcessError> {
     let threshold = value
         .get("threshold")
         .and_then(Value::as_f64)
@@ -620,11 +629,11 @@ mod tests {
 
     #[test]
     fn policy_requires_valid_immutable_snapshot() {
-        assert!(policy(json!({})).is_err());
-        assert!(policy(json!({"kind":"weighted","threshold":0.75})).is_err());
-        assert!(policy(json!({"kind":"text_only","threshold":2})).is_err());
+        assert!(policy(&json!({})).is_err());
+        assert!(policy(&json!({"kind":"weighted","threshold":0.75})).is_err());
+        assert!(policy(&json!({"kind":"text_only","threshold":2})).is_err());
         assert_eq!(
-            policy(json!({"kind":"weighted","threshold":0.75,"text_weight":0.8}))
+            policy(&json!({"kind":"weighted","threshold":0.75,"text_weight":0.8}))
                 .unwrap()
                 .text_weight(),
             Some(0.8)

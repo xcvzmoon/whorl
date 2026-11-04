@@ -91,7 +91,7 @@ impl Structure {
                 if self.count > 8192 {
                     return Err(actix_web::error::PayloadError::Overflow);
                 }
-                if self.tail == 0x0d0a0d0a {
+                if self.tail == 0x0d0a_0d0a {
                     self.headers = false;
                     self.count = 0;
                 }
@@ -207,6 +207,10 @@ async fn submit(
     result
 }
 
+#[expect(
+    clippy::too_many_lines,
+    reason = "Multipart limits and bounded draining share the same stream state"
+)]
 async fn receive(
     req: &HttpRequest,
     body: web::Payload,
@@ -295,8 +299,8 @@ async fn receive(
         let expiry = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .map_err(|_| ApiError::unavailable())?
-            .as_secs() as i64
-            + 3600;
+            .as_secs();
+        let expiry = i64::try_from(expiry).map_err(|_| ApiError::unavailable())? + 3600;
         let result = state
             .store
             .upload_admitted(

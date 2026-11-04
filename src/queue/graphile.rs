@@ -41,10 +41,11 @@ impl JobQueue {
     /// let queue = JobQueue::new(pool, std::num::NonZeroU16::MIN);
     /// # Ok(()) }
     /// ```
+    #[must_use]
     pub fn new(pool: PgPool, max_attempts: NonZeroU16) -> Self {
         Self {
             utils: WorkerUtils::new(pool, "whorl_queue"),
-            max_attempts: max_attempts.get().min(i16::MAX as u16) as i16,
+            max_attempts: i16::try_from(max_attempts.get()).unwrap_or(i16::MAX),
         }
     }
 

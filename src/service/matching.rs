@@ -30,7 +30,7 @@ pub enum MatchingError {
     /// Stored text has an incompatible comparison policy.
     #[error(transparent)]
     IncompatibleProfile(#[from] crate::similarity::shingles::IncompatibleProfile),
-    /// A SQLx connection, transaction, query or decoding operation failed.
+    /// A `SQLx` connection, transaction, query or decoding operation failed.
     #[error(transparent)]
     Database(#[from] sqlx::Error),
     /// The matcher already owns work; callers must retry through admission (`overloaded`).
@@ -78,7 +78,7 @@ impl PreparedDocument {
     /// * `k` - Word-shingle length; `None` selects three.
     ///
     /// # Returns
-    /// Owned canonical text, SHA-256 content identity, tokens and optional MinHash.
+    /// Owned canonical text, SHA-256 content identity, tokens and optional `MinHash`.
     ///
     /// # Errors
     /// Returns [`MatchingError::EmptyText`] (`no_extractable_text`) for empty
@@ -132,6 +132,7 @@ impl PreparedDocument {
     /// assert!(input.signature_version().ends_with("125/25x5"));
     /// # Ok::<(), whorl::service::matching::MatchingError>(())
     /// ```
+    #[must_use]
     pub fn signature_version(&self) -> &str {
         &self.version
     }
@@ -224,6 +225,7 @@ impl Matcher {
     /// let matcher = whorl::service::matching::Matcher::new(pool);
     /// # }
     /// ```
+    #[must_use]
     pub fn new(pool: Arc<CpuPool>) -> Self {
         Self {
             pool,
@@ -246,7 +248,7 @@ impl Matcher {
     /// Corpus documents, signatures and upload provenance are never modified.
     ///
     /// # Errors
-    /// Returns [`MatchingError::Database`] for SQLx failures,
+    /// Returns [`MatchingError::Database`] for `SQLx` failures,
     /// [`MatchingError::Overloaded`] (`overloaded`) when admission is occupied,
     /// [`MatchingError::Cpu`] for pool overload, expiration, shutdown, panic or delivery failure,
     /// [`MatchingError::EmptyText`] (`no_extractable_text`) for invalid stored text,

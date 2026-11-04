@@ -23,7 +23,7 @@ async fn rejects_untrusted_identity_and_invalid_budgets_without_database() {
         AdmissionLease::reserve(&pool, " ", true, quota(1, 1)).await,
         Err(AdmissionError::Identity)
     ));
-    for budget in [quota(0, 1), quota(1, 0), quota(1, 104857601)] {
+    for budget in [quota(0, 1), quota(1, 0), quota(1, 104_857_601)] {
         assert!(matches!(
             AdmissionLease::reserve(&pool, "a", true, budget).await,
             Err(AdmissionError::Invalid)

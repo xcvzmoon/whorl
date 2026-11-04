@@ -18,6 +18,10 @@ fn text(input: &str) -> ShingleSet {
 }
 
 #[test]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn exact_threshold_is_exclusive() {
     let left = text("a b c d e");
     let right = text("a b c d e f");
@@ -131,6 +135,10 @@ fn metadata_empty_and_disabled_semantics() {
 }
 
 #[test]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn weighted_policy_has_no_text_gate_and_undefined_metadata_adds_zero() {
     let left = text("one");
     let right = text("two");
@@ -196,6 +204,10 @@ fn incompatible_profiles_fail_for_short_and_long_inputs() {
 }
 
 #[test]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn exact_scores_obey_set_and_edit_properties() {
     let engine = SimilarityEngine::new(SimilarityPolicy::default());
     for length in 3..40 {
@@ -254,6 +266,10 @@ fn exact_scores_obey_set_and_edit_properties() {
 }
 
 #[test]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn metadata_uses_exact_jaccard() {
     let left = MetadataTokens::new(&json!({"tags": ["a", "b", "c"]}));
     let right = MetadataTokens::new(&json!({"tags": ["a", "b", "d"]}));
@@ -267,6 +283,10 @@ fn metadata_uses_exact_jaccard() {
 }
 
 #[test]
+#[expect(
+    clippy::float_cmp,
+    reason = "Exact regression values pin similarity scores and threshold semantics"
+)]
 fn repeated_verification_preserves_unicode_and_duplicate_shingle_scores() {
     let query = text("Café bleu café bleu café vert café bleu");
     let candidates = [

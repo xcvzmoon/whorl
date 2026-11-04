@@ -129,6 +129,7 @@ impl ShingleSet {
     /// assert_eq!(input.shingles().into_iter().collect::<Vec<_>>(), ["a a a"]);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn shingles(&self) -> BTreeSet<&str> {
         self.slices().collect()
     }
@@ -140,6 +141,10 @@ impl ShingleSet {
     }
 
     /// Scores prepared ranges after the caller checks source policy and short text.
+    #[expect(
+        clippy::cast_precision_loss,
+        reason = "Set cardinalities become floating-point ratios for similarity scores"
+    )]
     pub(crate) fn jaccard(&self, other: &Self) -> f64 {
         let mut left = self.slices().peekable();
         let mut right = other.slices().peekable();
@@ -188,6 +193,7 @@ impl ShingleSet {
     /// assert_eq!(input.version_key(), "nfkc-v1/ocr-verbatim-v1/word-3/short-equality-v1");
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
+    #[must_use]
     pub fn version_key(&self) -> String {
         let normalization = match self.normalization {
             NormalizationVersion::V1 => "nfkc-v1",

@@ -73,6 +73,7 @@ impl SimilarityPolicy {
     /// # use whorl::similarity::verify::SimilarityPolicy;
     /// assert_eq!(SimilarityPolicy::default().threshold(), 0.75);
     /// ```
+    #[must_use]
     pub fn threshold(self) -> f64 {
         self.threshold
     }
@@ -89,6 +90,7 @@ impl SimilarityPolicy {
     /// # use whorl::similarity::verify::SimilarityPolicy;
     /// assert_eq!(SimilarityPolicy::default().text_weight(), None);
     /// ```
+    #[must_use]
     pub fn text_weight(self) -> Option<f64> {
         self.text_weight
     }
@@ -139,6 +141,7 @@ impl MetadataTokens {
     /// let tokens = MetadataTokens::new(&json!({"author": "Ada", "size": 42}));
     /// assert_eq!(tokens.iter().collect::<Vec<_>>(), ["/author=\"Ada\""]);
     /// ```
+    #[must_use]
     pub fn new(metadata: &Value) -> Self {
         let mut tokens = BTreeSet::new();
         let mut pending = vec![(String::new(), metadata)];
@@ -232,6 +235,7 @@ impl SimilarityEngine {
     /// use whorl::similarity::verify::{SimilarityEngine, SimilarityPolicy};
     /// let engine = SimilarityEngine::new(SimilarityPolicy::default());
     /// ```
+    #[must_use]
     pub fn new(policy: SimilarityPolicy) -> Self {
         Self { policy }
     }
@@ -293,6 +297,10 @@ impl SimilarityEngine {
     }
 }
 
+#[expect(
+    clippy::cast_precision_loss,
+    reason = "Set cardinalities use floating-point division to report bounded similarity scores"
+)]
 fn jaccard<T: Ord>(left: &BTreeSet<T>, right: &BTreeSet<T>) -> Option<f64> {
     let intersection = left.intersection(right).count();
     let union = left.len() + right.len() - intersection;
