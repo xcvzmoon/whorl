@@ -27,6 +27,7 @@ The integration test requires a fresh PostgreSQL database and local MinIO at `12
 
 ```sh
 WHORL_UPLOAD_TEST_URL=postgres://postgres@localhost/whorl_upload_test \
+WHORL_STORAGE_S3_ENDPOINT=http://127.0.0.1:9000 \
   cargo test --locked --test uploads -- --ignored
 ```
 
