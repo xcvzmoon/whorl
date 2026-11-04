@@ -8,6 +8,7 @@ use uuid::Uuid;
 ///
 /// Deploy library migrations separately under their owner role. Callers own
 /// transaction commit and rollback. Workers must fence repeated execution.
+/// Debug output shows the delivery budget without database connection settings.
 pub struct JobQueue {
     utils: WorkerUtils,
     max_attempts: i16,

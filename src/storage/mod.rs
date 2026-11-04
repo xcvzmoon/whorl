@@ -51,6 +51,7 @@ pub struct StoredObjectRef {
 /// Callers must enforce request deadlines and invoke reconciliation regularly.
 /// Completed objects retain their reservation until deletion; admission must
 /// attach the key to a same-client `batch_files` row before its lease expires.
+/// Debug output excludes database and object-store connection settings.
 #[derive(Clone)]
 pub struct UploadStore {
     pool: PgPool,

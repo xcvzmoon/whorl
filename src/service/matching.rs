@@ -44,7 +44,8 @@ pub enum MatchingError {
 /// Owned canonical input and its versioned retrieval indexes.
 ///
 /// Construct on a CPU worker. Metadata is uploaded metadata; duplicate matching
-/// always scores against the stored first-ingest metadata.
+/// always scores against the stored first-ingest metadata. Debug output includes
+/// only the comparison version and source profile, excluding document content.
 pub struct PreparedDocument {
     pub(crate) text: String,
     pub(crate) hash: [u8; 32],

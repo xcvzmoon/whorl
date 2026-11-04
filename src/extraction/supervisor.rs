@@ -8,6 +8,7 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 /// `prlimit` bounds CPU seconds, address space, output files and core dumps.
 /// Deployment must additionally enforce the approved aggregate cgroup limits
 /// (two CPUs, 4 GiB RAM, no swap) and a 128 MiB temporary filesystem.
+/// Debug output omits the trusted executable path.
 pub struct Extractor {
     worker: PathBuf,
     limits: ExtractionLimits,
