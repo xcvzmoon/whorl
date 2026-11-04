@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 use crate::service::matching::PreparedDocument;
 
-pub(crate) const PAGE_SQL: &str = include_str!("candidates.sql");
+pub(crate) const PAGE_SQL: &str = include_str!("../../database/queries/candidates.sql");
 
 pub(crate) struct Candidate {
     pub id: Uuid,

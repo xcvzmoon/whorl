@@ -62,7 +62,7 @@ async fn persisted_states_revisions_streaming_and_expiration() {
     let pool = PgPool::connect(&std::env::var("WHORL_POLL_TEST_URL").unwrap())
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(&pool)
         .await
         .unwrap();

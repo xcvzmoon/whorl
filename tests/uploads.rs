@@ -18,8 +18,8 @@ async fn streaming_boundaries_and_atomic_admission() {
         .await
         .unwrap();
     for sql in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(sql).execute(&pool).await.unwrap();
     }

@@ -24,7 +24,7 @@ Build from the repository root after verifying the assets:
 
 ```sh
 python3 spikes/extraction/fetch_assets.py
-docker build --target runtime -f src/extraction/Dockerfile -t whorl-extraction:phase13 .
+docker build --target runtime -f docker/extraction.Dockerfile -t whorl-extraction:phase13 .
 ```
 
 The image runs the private extraction protocol, not an HTTP service. Service packaging and job wiring remain later phases. Ocrs model attribution and distribution obligations are recorded in the [asset audit](../spikes/extraction/audit/README.md) and [license evidence](../spikes/extraction/licenses/). Preserve those notices when distributing the models. `nom-exif` 3.8.0 replaces kamadak-exif after a maintenance evaluation; the [dependency snapshot](extraction-dependencies.json) records its MIT license, MSRV and release evidence. rten remains pinned to the spike-tested version compatible with Ocrs; zip remains pinned to the tested adapter version.
@@ -36,13 +36,13 @@ Host checks cover all Office adapters, relationship ordering, text-run joining, 
 Run the Linux supervisor tests with:
 
 ```sh
-docker build --target tests -f src/extraction/Dockerfile -t whorl-extraction-tests:phase13 .
+docker build --target tests -f docker/extraction.Dockerfile -t whorl-extraction-tests:phase13 .
 ```
 
 To reproduce the bounded native corpus run:
 
 ```sh
-docker build --target verification -f src/extraction/Dockerfile -t whorl-extraction-verification:phase13 .
+docker build --target verification -f docker/extraction.Dockerfile -t whorl-extraction-verification:phase13 .
 docker run --rm --init --network none --cpus 2 --memory 4g --memory-swap 4g \
   --read-only --cap-drop ALL --security-opt no-new-privileges \
   --tmpfs /tmp:rw,noexec,nosuid,size=128m \

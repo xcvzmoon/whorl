@@ -12,8 +12,8 @@ async fn restartable_cleanup_and_version_isolation() {
         .await
         .unwrap();
     for migration in [
-        include_str!("../migrations/0001_application.sql"),
-        include_str!("../migrations/0002_uploads.sql"),
+        include_str!("../database/migrations/0001_application.sql"),
+        include_str!("../database/migrations/0002_uploads.sql"),
     ] {
         sqlx::raw_sql(migration).execute(&pool).await.unwrap();
     }

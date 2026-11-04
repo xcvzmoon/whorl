@@ -68,7 +68,7 @@ fn rejects_empty_text_and_nonobject_metadata() {
 async fn postgres_candidate_matching_and_duplicate_races() {
     let pool = connect().await;
     let client = &pool;
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(client)
         .await
         .unwrap();
@@ -316,7 +316,7 @@ async fn postgres_candidate_matching_and_duplicate_races() {
     let tokens = vec!["/author=\"first\""];
     let statement = concat!(
         "EXPLAIN ",
-        include_str!("../src/persistence/candidates.sql")
+        include_str!("../database/queries/candidates.sql")
     );
     let plan = sqlx::query(statement)
         .bind("owner")

@@ -9,7 +9,7 @@ Run the static gates in the README, generate and verify the extraction corpus, a
 For a Linux acceptance environment on ARM64:
 
 ```sh
-docker build --target acceptance -f src/extraction/Dockerfile -t whorl-acceptance .
+docker build --target acceptance -f docker/extraction.Dockerfile -t whorl-acceptance .
 docker run --name whorl-acceptance-integration --cpus 2 --memory 4g --memory-swap 4g \
   -e WHORL_ACCEPTANCE_ADMIN_URL -e WHORL_STORAGE_S3_ENDPOINT \
   -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY \

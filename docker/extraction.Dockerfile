@@ -5,12 +5,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends cmake liblepton
 COPY spikes/extraction/assets/tesseract.tar.gz /build/tesseract.tar.gz
 RUN tar -xzf tesseract.tar.gz && cmake -S tesseract-5.5.4 -B tesseract-build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TRAINING_TOOLS=OFF -DBUILD_TESTS=OFF -DDISABLE_CURL=ON -DDISABLE_ARCHIVE=ON && cmake --build tesseract-build -j2 && cmake --install tesseract-build
 COPY Cargo.toml Cargo.lock ./
+COPY database ./database
 COPY src ./src
 COPY benches ./benches
 RUN --mount=type=cache,target=/usr/local/cargo/registry cargo build --release --locked --bin whorl-extract -j2
 
 FROM build AS tests
-COPY migrations ./migrations
 COPY tests ./tests
 COPY spikes/extraction/manifest.json ./spikes/extraction/manifest.json
 COPY spikes/extraction/fixtures ./spikes/extraction/fixtures

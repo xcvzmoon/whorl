@@ -37,8 +37,14 @@ async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                 .execute(&mut *tx)
                 .await?;
             for (version, migration) in [
-                (1i32, include_str!("../../migrations/0001_application.sql")),
-                (2, include_str!("../../migrations/0002_uploads.sql")),
+                (
+                    1i32,
+                    include_str!("../../database/migrations/0001_application.sql"),
+                ),
+                (
+                    2,
+                    include_str!("../../database/migrations/0002_uploads.sql"),
+                ),
             ] {
                 let applied: bool = sqlx::query_scalar(
                     "SELECT EXISTS(SELECT FROM whorl_migrations WHERE version=$1)",

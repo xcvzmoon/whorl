@@ -37,11 +37,11 @@ async fn races_isolation_expiry_and_idempotent_release() {
     let pool = PgPool::connect(&std::env::var("WHORL_ADMISSION_TEST_URL").unwrap())
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(&pool)
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0002_uploads.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0002_uploads.sql"))
         .execute(&pool)
         .await
         .unwrap();
@@ -110,11 +110,11 @@ async fn upload_transfer_reconciles_bytes_and_bounds_file_attempts() {
     let pool = PgPool::connect(&std::env::var("WHORL_ADMISSION_UPLOAD_TEST_URL").unwrap())
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0001_application.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0001_application.sql"))
         .execute(&pool)
         .await
         .unwrap();
-    sqlx::raw_sql(include_str!("../migrations/0002_uploads.sql"))
+    sqlx::raw_sql(include_str!("../database/migrations/0002_uploads.sql"))
         .execute(&pool)
         .await
         .unwrap();

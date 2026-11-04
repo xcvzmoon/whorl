@@ -19,17 +19,17 @@ fn persisted_golden_vectors() {
         (
             "  CAFÉ! Ｆｉｌｅ one two three four café file ",
             3,
-            include_str!("vectors/native-k3.txt"),
+            include_str!("fixtures/vectors/native-k3.txt"),
         ),
         (
             "café file one two three four café file",
             1,
-            include_str!("vectors/native-k1.txt"),
+            include_str!("fixtures/vectors/native-k1.txt"),
         ),
         (
             "one two three",
             3,
-            include_str!("vectors/single-shingle.txt"),
+            include_str!("fixtures/vectors/single-shingle.txt"),
         ),
     ] {
         let signature = sign(text, k);

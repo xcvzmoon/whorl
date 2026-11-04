@@ -1,6 +1,6 @@
 # Shared upload storage
 
-Phase 12 implements `UploadStore` over an existing PostgreSQL pool and a shared MinIO bucket. It does not deploy storage or add HTTP routes. Apply `migrations/0001_application.sql` followed by `migrations/0002_uploads.sql` through the migration owner.
+Phase 12 implements `UploadStore` over an existing PostgreSQL pool and a shared MinIO bucket. It does not deploy storage or add HTTP routes. Apply `database/migrations/0001_application.sql` followed by `database/migrations/0002_uploads.sql` through the migration owner.
 
 ## Client selection
 

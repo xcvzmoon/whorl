@@ -1,6 +1,6 @@
 # Application persistence
 
-Phase 4 defines the schema in `migrations/0001_application.sql`. Apply it once to a fresh database with `psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" -f migrations/0001_application.sql`. The migration is transactional and separate from any future queue library migrations. Application deployment and its migration runner come in later phases.
+Phase 4 defines the schema in `database/migrations/0001_application.sql`. Apply it once to a fresh database with `psql -X -v ON_ERROR_STOP=1 "$DATABASE_URL" -f database/migrations/0001_application.sql`. The migration is transactional and separate from any future queue library migrations. Application deployment and its migration runner come in later phases.
 
 Tested with PostgreSQL 18.6, Docker image `postgres:18.6@sha256:3a4264520e121176619f54ff867d12774bc81e95e7b84db58d63bccdb6144b81`. PostgreSQL 18 is the latest stable major in the [official version policy](https://www.postgresql.org/support/versioning/) checked November 3, 2026. No Rust dependencies were added.
 
