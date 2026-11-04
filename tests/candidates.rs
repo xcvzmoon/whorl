@@ -85,7 +85,7 @@ fn rejects_empty_text_and_nonobject_metadata() {
     clippy::too_many_lines,
     reason = "One disposable corpus scenario verifies retrieval and duplicate races"
 )]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact duplicate and disjoint scores are part of the retrieval contract"
 )]

@@ -18,7 +18,7 @@ fn text(input: &str) -> ShingleSet {
 }
 
 #[test]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact regression values pin similarity scores and threshold semantics"
 )]
@@ -135,7 +135,7 @@ fn metadata_empty_and_disabled_semantics() {
 }
 
 #[test]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact regression values pin similarity scores and threshold semantics"
 )]
@@ -204,7 +204,7 @@ fn incompatible_profiles_fail_for_short_and_long_inputs() {
 }
 
 #[test]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact regression values pin similarity scores and threshold semantics"
 )]
@@ -266,7 +266,7 @@ fn exact_scores_obey_set_and_edit_properties() {
 }
 
 #[test]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact regression values pin similarity scores and threshold semantics"
 )]
@@ -283,7 +283,7 @@ fn metadata_uses_exact_jaccard() {
 }
 
 #[test]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Exact regression values pin similarity scores and threshold semantics"
 )]

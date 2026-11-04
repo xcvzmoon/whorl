@@ -45,7 +45,7 @@ async fn count(pool: &PgPool, file: Uuid) -> i64 {
     reason = "One disposable schema verifies multi-chunk commit and rollback outcomes together"
 )]
 #[ignore = "requires fresh WHORL_MATCH_PERSISTENCE_TEST_URL PostgreSQL database"]
-#[expect(
+#[allow(
     clippy::float_cmp,
     reason = "Persisted f64 scores must round-trip without changing their exact value"
 )]
