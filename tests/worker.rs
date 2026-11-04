@@ -671,3 +671,89 @@ async fn handler_concurrency_is_bounded(pool: &PgPool) {
     assert_eq!(maximum, 2);
     pipeline.shutdown().await;
 }
+
+#[derive(serde::Serialize, serde::Deserialize)]
+struct PanicJob;
+
+impl graphile_worker::TaskHandler for PanicJob {
+    const IDENTIFIER: &'static str = "audit_panic_job";
+    async fn run(
+        self,
+        ctx: graphile_worker::WorkerContext,
+    ) -> impl graphile_worker::IntoTaskHandlerResult {
+        let cpu = ctx
+            .get_ext::<Arc<whorl::cpu_pool::CpuPool>>()
+            .ok_or("missing CPU pool")?;
+        cpu.run::<()>(
+            whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now() + Duration::from_secs(10)),
+            |_| panic!("controlled worker panic"),
+        )
+        .await
+        .map_err(|error| error.to_string())
+    }
+}
+
+#[tokio::test]
+#[ignore = "requires fresh PostgreSQL database in WHORL_WORKER_PANIC_TEST_URL"]
+async fn cpu_panic_stops_queue_and_preserves_retry() {
+    let pool = PgPool::connect(&std::env::var("WHORL_WORKER_PANIC_TEST_URL").unwrap())
+        .await
+        .unwrap();
+    graphile_worker::WorkerUtils::new(pool.clone(), "whorl_queue")
+        .migrate()
+        .await
+        .unwrap();
+    let cpu = Arc::new(
+        whorl::cpu_pool::CpuPool::new(NonZeroUsize::MIN, Duration::ZERO, Duration::from_secs(1))
+            .unwrap(),
+    );
+    let failed = Arc::clone(&cpu);
+    let worker = graphile_worker::WorkerOptions::default()
+        .pg_pool(pool.clone())
+        .schema("whorl_queue")
+        .concurrency(1)
+        .poll_interval(Duration::from_millis(20))
+        .listen_os_shutdown_signals(false)
+        .shutdown_signal(async move {
+            failed.failed().await;
+        })
+        .add_extension(Arc::clone(&cpu))
+        .define_job::<PanicJob>()
+        .init()
+        .await
+        .unwrap();
+    let job = graphile_worker::WorkerUtils::new(pool.clone(), "whorl_queue")
+        .add_raw_job(
+            "audit_panic_job",
+            PanicJob,
+            graphile_worker::JobSpec {
+                max_attempts: Some(3),
+                ..graphile_worker::JobSpec::default()
+            },
+        )
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(10), worker.run())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(cpu.has_failed());
+    assert!(matches!(
+        cpu.run(
+            whorl::cpu_pool::WorkDeadline::new(std::time::Instant::now() + Duration::from_secs(1)),
+            |_| 42
+        )
+        .await,
+        Err(whorl::cpu_pool::CpuError::Panicked)
+    ));
+    let row = sqlx::query(
+        "SELECT attempts,locked_at IS NULL AS released FROM whorl_queue._private_jobs WHERE id=$1",
+    )
+    .bind(*job.id())
+    .fetch_one(&pool)
+    .await
+    .unwrap();
+    assert_eq!(row.get::<i16, _>("attempts"), 1);
+    assert!(row.get::<bool, _>("released"));
+    cpu.shutdown().await;
+}

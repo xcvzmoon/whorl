@@ -164,6 +164,36 @@ impl ProcessFile {
         self.cpu.shutdown().await;
     }
 
+    /// Waits for a CPU panic that requires stopping and restarting this worker.
+    /// # Returns
+    /// Nothing once the CPU pool is poisoned. The queue host must stop admission,
+    /// drain unrelated handlers, call [`Self::shutdown`], and exit with failure.
+    /// Cancelling the wait does not clear the failure.
+    /// # Examples
+    /// ```no_run
+    /// # async fn example(pipeline: &whorl::service::process_file::ProcessFile) {
+    /// pipeline.failed().await;
+    /// pipeline.shutdown().await;
+    /// # }
+    /// ```
+    pub async fn failed(&self) {
+        self.cpu.failed().await;
+    }
+
+    /// Reports whether this pipeline requires a process restart after a CPU panic.
+    /// # Returns
+    /// `true` when the shared CPU pool is poisoned; normal file failures return `false`.
+    /// # Examples
+    /// ```no_run
+    /// # fn example(pipeline: &whorl::service::process_file::ProcessFile) {
+    /// assert!(!pipeline.has_failed());
+    /// # }
+    /// ```
+    #[must_use]
+    pub fn has_failed(&self) -> bool {
+        self.cpu.has_failed()
+    }
+
     /// Processes one durable identity and commits results before acknowledgment.
     ///
     /// # Arguments
@@ -237,6 +267,10 @@ impl ProcessFile {
         match result {
             Ok(()) => {}
             Err(error) => {
+                if self.cpu.has_failed() {
+                    guard.rollback().await?;
+                    return Err(error);
+                }
                 let permanent = matches!(
                     error,
                     ProcessError::Invalid

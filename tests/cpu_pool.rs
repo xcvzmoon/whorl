@@ -1,5 +1,4 @@
 use std::{
-    future::Future,
     num::NonZeroUsize,
     pin::Pin,
     sync::{
@@ -130,12 +129,8 @@ async fn shutdown_skips_waiting_jobs_and_can_be_resumed() {
 }
 
 #[tokio::test]
-async fn panic_and_expired_results_release_slots() {
+async fn expired_results_release_slots() {
     let pool = pool(0);
-    assert!(matches!(
-        pool.run(deadline(), |_| panic!("test panic")).await,
-        Err(CpuError::Panicked)
-    ));
     let expired = WorkDeadline::new(Instant::now());
     assert!(matches!(
         pool.run(expired, |_| panic!("expired job ran")).await,
@@ -176,7 +171,7 @@ async fn shared_pool_caps_pipeline_concurrency() {
                 active.fetch_sub(1, Ordering::SeqCst);
             })
             .await
-            .unwrap()
+            .unwrap();
         }));
     }
     for job in jobs {
@@ -205,4 +200,22 @@ fn validates_worker_and_timing_limits() {
         CpuPool::new(one, Duration::MAX, Duration::from_nanos(1)),
         Err(CpuError::InvalidConfiguration)
     ));
+}
+
+#[tokio::test]
+async fn panic_stops_later_admission() {
+    let pool = pool(0);
+    assert!(matches!(
+        pool.run(deadline(), |_| panic!("test panic")).await,
+        Err(CpuError::Panicked)
+    ));
+    assert!(matches!(
+        pool.run(deadline(), |_| 42).await,
+        Err(CpuError::Panicked | CpuError::Shutdown)
+    ));
+    tokio::time::timeout(Duration::from_secs(1), pool.failed())
+        .await
+        .unwrap();
+    assert!(pool.has_failed());
+    pool.shutdown().await;
 }

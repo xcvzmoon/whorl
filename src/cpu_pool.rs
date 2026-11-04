@@ -5,11 +5,15 @@ use std::{
     panic::{AssertUnwindSafe, catch_unwind},
     sync::{
         Arc,
-        atomic::{AtomicBool, Ordering},
+        atomic::{AtomicBool, AtomicU8, Ordering},
     },
     time::{Duration, Instant},
 };
-use tokio::sync::{Semaphore, oneshot};
+use tokio::sync::{Semaphore, oneshot, watch};
+
+const RUNNING: u8 = 0;
+const STOPPING: u8 = 1;
+const POISONED: u8 = 2;
 
 /// Admission and execution failures for CPU work.
 #[derive(Debug, thiserror::Error)]
@@ -78,7 +82,7 @@ impl WorkDeadline {
 pub struct WorkContext {
     deadline: WorkDeadline,
     cancelled: Arc<AtomicBool>,
-    shutdown: Arc<AtomicBool>,
+    state: Arc<AtomicU8>,
 }
 
 impl WorkContext {
@@ -95,7 +99,7 @@ impl WorkContext {
     pub fn should_stop(&self) -> bool {
         self.deadline.is_expired()
             || self.cancelled.load(Ordering::Acquire)
-            || self.shutdown.load(Ordering::Acquire)
+            || self.state.load(Ordering::Acquire) != RUNNING
     }
 }
 
@@ -115,7 +119,18 @@ pub struct CpuPool {
     pool: rayon::ThreadPool,
     slots: Arc<Semaphore>,
     capacity: u32,
-    shutdown: Arc<AtomicBool>,
+    state: Arc<AtomicU8>,
+    panicked: watch::Sender<bool>,
+}
+
+impl std::fmt::Debug for CpuPool {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CpuPool")
+            .field("capacity", &self.capacity)
+            .field("shutdown", &(self.state.load(Ordering::Acquire) != RUNNING))
+            .field("panicked", &self.has_failed())
+            .finish_non_exhaustive()
+    }
 }
 
 impl CpuPool {
@@ -166,7 +181,8 @@ impl CpuPool {
                 .build()?,
             slots: Arc::new(Semaphore::new(capacity as usize)),
             capacity,
-            shutdown: Arc::new(AtomicBool::new(false)),
+            state: Arc::new(AtomicU8::new(RUNNING)),
+            panicked: watch::channel(false).0,
         })
     }
 
@@ -182,7 +198,9 @@ impl CpuPool {
     /// [`CpuError::Overloaded`] when full, [`CpuError::Shutdown`] after shutdown,
     /// [`CpuError::Expired`] before starting or delivering expired work,
     /// [`CpuError::Panicked`] for a caught work panic, or [`CpuError::Delivery`]
-    /// if delivery fails. Panics configured to abort cannot be caught.
+    /// if delivery fails. A caught panic permanently stops admission and signals
+    /// [`Self::failed`]; the host must stop the process after draining unrelated
+    /// work. Panics configured to abort cannot be caught.
     /// # Examples
     /// ```no_run
     /// # async fn example(pool: &whorl::cpu_pool::CpuPool, deadline: whorl::cpu_pool::WorkDeadline) -> Result<(), whorl::cpu_pool::CpuError> {
@@ -194,7 +212,10 @@ impl CpuPool {
         deadline: WorkDeadline,
         work: impl FnOnce(WorkContext) -> T + Send + 'static,
     ) -> Result<T, CpuError> {
-        if self.shutdown.load(Ordering::Acquire) {
+        if self.has_failed() {
+            return Err(CpuError::Panicked);
+        }
+        if self.state.load(Ordering::Acquire) != RUNNING {
             return Err(CpuError::Shutdown);
         }
         if deadline.is_expired() {
@@ -214,7 +235,7 @@ impl CpuPool {
             capacity = self.capacity,
             "CPU work admitted"
         );
-        if self.shutdown.load(Ordering::Acquire) {
+        if self.state.load(Ordering::Acquire) != RUNNING {
             return Err(CpuError::Shutdown);
         }
         let cancelled = Arc::new(AtomicBool::new(false));
@@ -222,35 +243,70 @@ impl CpuPool {
         let context = WorkContext {
             deadline,
             cancelled,
-            shutdown: self.shutdown.clone(),
+            state: Arc::clone(&self.state),
         };
         let (send, receive) = oneshot::channel();
+        let panicked = self.panicked.clone();
+        let state = Arc::clone(&self.state);
         self.pool.spawn(move || {
             if send.is_closed() {
                 drop(work);
                 return;
             }
-            let result = if context.shutdown.load(Ordering::Acquire) {
+            let result = if context.state.load(Ordering::Acquire) != RUNNING {
                 drop(work);
                 Err(CpuError::Shutdown)
             } else if deadline.is_expired() {
                 drop(work);
                 Err(CpuError::Expired)
             } else {
-                catch_unwind(AssertUnwindSafe(|| work(context)))
-                    .map_err(|_| CpuError::Panicked)
-                    .and_then(|value| {
-                        if deadline.is_expired() {
-                            Err(CpuError::Expired)
-                        } else {
-                            Ok(value)
-                        }
-                    })
+                match catch_unwind(AssertUnwindSafe(|| work(context))) {
+                    Ok(value) if !deadline.is_expired() => Ok(value),
+                    Ok(_) => Err(CpuError::Expired),
+                    Err(_) => {
+                        state.store(POISONED, Ordering::Release);
+                        panicked.send_replace(true);
+                        Err(CpuError::Panicked)
+                    }
+                }
             };
             drop(permit);
             let _ = send.send(result);
         });
         receive.await.map_err(|_| CpuError::Delivery)?
+    }
+
+    /// Waits until a submitted operation panics and permanently stops admission.
+    ///
+    /// # Returns
+    /// Nothing after the first caught panic, including one before this call.
+    /// The host must stop queue admission, drain unrelated work, and exit with
+    /// failure so process supervision can restart it. Cancellation only stops
+    /// waiting; it does not reset the failure or reopen admission.
+    /// # Examples
+    /// ```no_run
+    /// # async fn example(pool: &whorl::cpu_pool::CpuPool) {
+    /// pool.failed().await;
+    /// pool.shutdown().await;
+    /// # }
+    /// ```
+    pub async fn failed(&self) {
+        let mut receiver = self.panicked.subscribe();
+        let _ = receiver.wait_for(|failed| *failed).await;
+    }
+
+    /// Reports whether CPU work has panicked.
+    /// # Returns
+    /// `true` after the first caught panic; failure is permanent for this pool.
+    /// # Examples
+    /// ```
+    /// # use std::{num::NonZeroUsize, time::Duration};
+    /// let pool = whorl::cpu_pool::CpuPool::new(NonZeroUsize::MIN, Duration::ZERO, Duration::from_secs(1))?;
+    /// assert!(!pool.has_failed());
+    /// # Ok::<(), whorl::cpu_pool::CpuError>(())
+    /// ```
+    pub fn has_failed(&self) -> bool {
+        self.state.load(Ordering::Acquire) == POISONED
     }
 
     /// Stops admission, skips waiting work, and drains submitted operations.
@@ -267,7 +323,33 @@ impl CpuPool {
     /// # }
     /// ```
     pub async fn shutdown(&self) {
-        self.shutdown.store(true, Ordering::Release);
+        let _ = self
+            .state
+            .compare_exchange(RUNNING, STOPPING, Ordering::AcqRel, Ordering::Acquire);
         let _drained = self.slots.acquire_many(self.capacity).await;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn poison_is_visible_before_notification_and_survives_shutdown() {
+        let pool = CpuPool::new(NonZeroUsize::MIN, Duration::ZERO, Duration::from_secs(1)).unwrap();
+        pool.state.store(POISONED, Ordering::Release);
+        assert!(pool.has_failed());
+        assert!(matches!(
+            pool.run(
+                WorkDeadline::new(Instant::now() + Duration::from_secs(1)),
+                |_| 42
+            )
+            .await,
+            Err(CpuError::Panicked)
+        ));
+        pool.shutdown().await;
+        assert!(pool.has_failed());
+        pool.panicked.send_replace(true);
+        pool.failed().await;
     }
 }

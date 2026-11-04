@@ -50,6 +50,7 @@ async fn run(
             tombstone_retention: Duration::from_secs(86400),
         },
     )?;
+    let restart = pipeline.clone();
     let worker = WorkerOptions::default()
         .pg_pool(pool.clone())
         .schema("whorl_queue")
@@ -59,6 +60,9 @@ async fn run(
         .sweep_threshold(Duration::from_secs(300))
         .recovery_delay(Duration::from_secs(30))
         .shutdown_grace_period(Duration::from_secs(5))
+        .shutdown_signal(async move {
+            restart.failed().await;
+        })
         .add_extension(pipeline.clone())
         .define_job::<FileJobPayload>()
         .init()
@@ -84,6 +88,9 @@ async fn run(
         } => unreachable!(),
     };
     pipeline.shutdown().await;
+    if pipeline.has_failed() {
+        return Err("CPU work panicked; worker restart required".into());
+    }
     result?;
     Ok(())
 }
