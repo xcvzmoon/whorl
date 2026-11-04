@@ -125,3 +125,13 @@ I moved the production extraction Dockerfile into `docker/`, grouped application
 ## Keeping test execution local
 
 I removed test and documentation-example execution from CI and tagged releases, along with corpus preparation and the PostgreSQL/MinIO setup used only by those checks. I kept formatting, all-target Clippy, warning-free documentation builds, dependency audits, release compilation, and release-version validation in automation. I retained the local commands and integration runner so I can verify behavior against disposable databases and storage before publishing changes.
+
+## Applying the Rust guideline review
+
+I reproduced the CPU pool's acceptance of new work after a panic, then replaced that policy with permanent poisoning and a queue shutdown signal. A concurrency review caught a gap between the first stop flag and notification; I replaced both interpretations with one authoritative pool state. I verified that normal shutdown cannot clear a panic and that the queue stops while releasing the affected job for retry.
+
+I moved diagnostics to filtered structured events and a bounded off-thread writer. I tested blocked and failed sinks, filtering, and shutdown while a sink was stalled. I added redacted debugging implementations, canonical version formatting, module usage examples, shared lock constants, and an explicit lint policy with documented exceptions.
+
+I measured the repeated query-shingle construction and per-result database writes before changing them. I retained sorted unique ranges into canonical text for reuse during exact comparison, then inserted match results in bounded groups of 512 inside the existing final transaction. Golden vectors and exact-score checks preserved matching behavior, while multi-chunk database checks verified client scope, null metadata, precommit visibility, and rollback. The [audit resolution record](audits/2026-11-04-microsoft-rust-guidelines-resolutions.md) records implementation and verification details.
+
+I finished with 66 passing macOS tests and 66 compiling documentation examples. On Linux, I ran 70 release tests and all 16 PostgreSQL/MinIO integration checks under a two-CPU, 4 GiB limit, including real extraction and the complete HTTP processing path. Strict Clippy passed on both platforms. I checked formatting, warning-free rustdoc, dependency auditing, all 201 local documentation links, and the wording of this account, then stopped the temporary verification services. I kept test execution local.

@@ -31,6 +31,7 @@ Whorl accepts document batches, extracts their text in isolated workers, and com
 
 - [Development and testing](development.md): commands, integration prerequisites, suite map, CI, and contribution expectations.
 - [Engineering principles](engineering.md): resource constraints and change discipline.
+- [Microsoft Rust Guidelines audit](audits/2026-11-04-microsoft-rust-guidelines.md) and [implementation resolutions](audits/2026-11-04-microsoft-rust-guidelines-resolutions.md): findings, corrections, measurements, and verification.
 - [Benchmarks and acceptance](benchmarks.md): measured workloads, reproduction, raw evidence, and capacity limits.
 - [Extraction research](extraction-spike.md) and [queue research](queue-spike.md): evidence behind implementation choices.
 - [Actions audit](github-actions-audit.md): historical CI cost and setup measurements.
