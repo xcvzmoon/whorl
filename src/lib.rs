@@ -16,3 +16,5 @@ pub mod queue;
 mod telemetry;
 
 pub mod locks;
+
+pub mod logging;

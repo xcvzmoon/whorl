@@ -14,6 +14,7 @@ use whorl::{
 
 fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     ServiceConfig::load_local()?;
+    let _logging = whorl::logging::init()?;
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()?

@@ -10,12 +10,13 @@ use whorl::{
     storage::{UploadStore, s3},
 };
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     ServiceConfig::load_local()?;
+    let _logging = whorl::logging::init()?;
     actix_web::rt::System::new().block_on(run())
 }
 
-async fn run() -> Result<(), Box<dyn std::error::Error>> {
+async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     if std::env::var("WHORL_TRUSTED_PROXY_ONLY").as_deref() != Ok("true") {
         return Err(
             "configure the authenticated proxy and set WHORL_TRUSTED_PROXY_ONLY=true".into(),

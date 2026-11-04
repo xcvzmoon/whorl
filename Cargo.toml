@@ -6,6 +6,9 @@ publish = false
 
 [dependencies]
 dotenvy = "=0.15.7"
+tracing = "=0.1.44"
+tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "env-filter"] }
+tracing-appender = "=0.2.5"
 graphile_worker = "=0.14.1"
 calamine = "=0.38.0"
 image = { version = "=0.25.10", default-features = false, features = ["png", "jpeg"] }
@@ -44,4 +47,8 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
 
 [[bench]]
 name = "batches"
+harness = false
+
+[[bench]]
+name = "telemetry"
 harness = false

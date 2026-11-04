@@ -30,14 +30,12 @@ impl StageMetrics {
 
 impl Drop for StageMetrics {
     fn drop(&mut self) {
-        eprintln!(
-            "{}",
-            serde_json::json!({
-                "event": "stage_duration",
-                "stage": self.stage,
-                "seconds": self.started.elapsed().as_secs_f64(),
-                "completed": self.completed,
-            })
+        tracing::info!(
+            event = "stage_duration",
+            stage = self.stage,
+            seconds = self.started.elapsed().as_secs_f64(),
+            completed = self.completed,
+            "Stage finished"
         );
     }
 }

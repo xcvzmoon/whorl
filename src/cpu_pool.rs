@@ -200,16 +200,19 @@ impl CpuPool {
         if deadline.is_expired() {
             return Err(CpuError::Expired);
         }
-        let permit = self.slots.clone().try_acquire_owned().map_err(|_| {
-            eprintln!(
-                "{}",
-                serde_json::json!({"event":"cpu_overloaded","capacity":self.capacity})
+        let permit = Arc::clone(&self.slots).try_acquire_owned().map_err(|_| {
+            tracing::warn!(
+                event = "cpu_overloaded",
+                capacity = self.capacity,
+                "CPU admission is full"
             );
             CpuError::Overloaded
         })?;
-        eprintln!(
-            "{}",
-            serde_json::json!({"event":"cpu_admitted","occupied":self.capacity as usize-self.slots.available_permits(),"capacity":self.capacity})
+        tracing::debug!(
+            event = "cpu_admitted",
+            occupied = self.capacity as usize - self.slots.available_permits(),
+            capacity = self.capacity,
+            "CPU work admitted"
         );
         if self.shutdown.load(Ordering::Acquire) {
             return Err(CpuError::Shutdown);
