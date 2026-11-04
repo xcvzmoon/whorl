@@ -1,10 +1,10 @@
-use std::{fmt::Debug, time::Duration};
+use std::{fmt::Debug, num::NonZeroUsize, time::Duration};
 use whorl::{
     cpu_pool::{CpuPool, WorkContext},
     extraction::{ExtractionLimits, Extractor},
     queue::JobQueue,
     service::matching::{Matcher, PreparedDocument},
-    similarity::shingles::SourceProfile,
+    similarity::{shingles::SourceProfile, signature::SignatureVersion},
     storage::UploadStore,
 };
 
@@ -70,4 +70,12 @@ async fn handles_do_not_debug_database_or_storage_credentials() {
     )
     .unwrap();
     assert!(!format!("{extractor:?}").contains("extraction-path-marker"));
+}
+
+#[test]
+fn signature_display_is_the_canonical_persistence_key() {
+    for source in [SourceProfile::NativeTextV1, SourceProfile::OcrVerbatimV1] {
+        let version = SignatureVersion::new(source, NonZeroUsize::new(4).unwrap());
+        assert_eq!(version.to_string(), version.as_str());
+    }
 }
